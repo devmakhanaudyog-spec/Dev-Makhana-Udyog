@@ -1,0 +1,142 @@
+[
+  {
+    "id": "7-suta",
+    "name": "7 Suta Makhana (Hand Picked)",
+    "price": 899,
+    "originalPrice": 1299,
+    "discount": 30,
+    "grade": "Super Premium 16mm+",
+    "popRate": "99%+",
+    "moisture": "< 2.5%",
+    "packaging": "200g / 1kg / 6kg / 7kg / 10kg",
+    "use": "Flagship retail, gifting, export showcase",
+    "moq": "50 kg",
+    "description": "Largest pearls with exceptional crunch and color uniformity; ideal for luxury packs and hero SKUs.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg"
+    ]
+  },
+  {
+    "id": "6-suta",
+    "name": "6 Suta Makhana",
+    "price": 749,
+    "originalPrice": 999,
+    "discount": 25,
+    "grade": "Premium 14-16mm",
+    "popRate": "98-99%",
+    "moisture": "< 3%",
+    "packaging": "200g / 1kg / 6kg / 7kg / 10kg",
+    "use": "Premium retail pouches and flavored roasting",
+    "moq": "50 kg",
+    "description": "Evenly graded premium pearls suited for top-shelf retail and consistent roasting output.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg"
+    ]
+  },
+  {
+    "id": "5-suta",
+    "name": "5 Suta Makhana",
+    "price": 599,
+    "originalPrice": 849,
+    "discount": 29,
+    "grade": "Standard 12-14mm",
+    "popRate": "97-98%",
+    "moisture": "< 3%",
+    "packaging": "200g / 1kg / 6kg / 7kg / 10kg",
+    "use": "Mainline retail, large-batch roasting",
+    "moq": "100 kg",
+    "description": "Balanced size and yield for mainstream flavored lines and reliable roasting throughput.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp"
+    ]
+  },
+  {
+    "id": "4-suta",
+    "name": "4 Suta Makhana",
+    "price": 449,
+    "originalPrice": 699,
+    "discount": 36,
+    "grade": "Value 10-12mm",
+    "popRate": "96-97%",
+    "moisture": "< 3%",
+    "packaging": "1kg / 6kg / 7kg / 10kg",
+    "use": "Value retail, blending, processing",
+    "moq": "200 kg",
+    "description": "Cost-efficient lots for value SKUs, blending, and processed applications while maintaining clean color.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg"
+    ]
+  },
+  {
+    "id": "raw-makhana",
+    "name": "Raw Makhana (Phool)",
+    "price": 349,
+    "originalPrice": 499,
+    "discount": 30,
+    "grade": "Mixed size, cleaned",
+    "popRate": "96-98%",
+    "moisture": "< 3%",
+    "packaging": "6kg / 7kg / 10kg",
+    "use": "Further grading, custom processing",
+    "moq": "300 kg",
+    "description": "Cleaned raw fox nuts ready for custom grading, roasting, or private-label processing lines.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg"
+    ]
+  },
+  {
+    "id": "roasted-makhana",
+    "name": "Roasted Makhana",
+    "price": 299,
+    "originalPrice": 449,
+    "discount": 33,
+    "grade": "Ready-to-eat",
+    "popRate": "Roasted finished",
+    "moisture": "Shelf-stable",
+    "packaging": "200g / 1kg",
+    "use": "Snacking, white-label retail",
+    "moq": "100 kg",
+    "description": "Lightly roasted, clean-label bases ready for flavoring or direct retail with nitrogen flushing.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242710/products/zyc6ysqfsknimwwly9sv.jpg"
+    ]
+  },
+  {
+    "id": "flavored-makhana",
+    "name": "Flavored Makhana",
+    "price": 399,
+    "originalPrice": 599,
+    "discount": 33,
+    "grade": "Seasoned, RTE",
+    "popRate": "Roasted finished",
+    "moisture": "Shelf-stable",
+    "packaging": "200g / 1kg",
+    "use": "Private label, D2C, modern trade",
+    "moq": "100 kg",
+    "description": "Seasoned makhana bases (savory/sweet) ready for private label or modern trade distribution.",
+    "image": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg",
+    "images": [
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769242708/products/rtrnbzqs942qpk1bndb8.jpg",
+      "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg"
+    ]
+  }
+]

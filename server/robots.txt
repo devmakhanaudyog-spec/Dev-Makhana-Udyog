@@ -1,0 +1,6 @@
+# Backend API Server robots.txt
+# Discourage indexing of API endpoints
+User-agent: *
+Disallow: /api/
+
+# Main sitemap is on frontend

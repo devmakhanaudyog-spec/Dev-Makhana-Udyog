@@ -1,0 +1,25 @@
+# www.robotstxt.org/
+# Allow all crawlers to index the site
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.makhaantraafoods.com/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Block admin and private areas only
+Disallow: /admin/
+Disallow: /checkout/
+
+# Allow important pages and API endpoints
+Allow: /products
+Allow: /about
+Allow: /contact
+Allow: /blog
+Allow: /makhana-sample
+Allow: /order-bulk
+Allow: /api/products
+Allow: /api/settings
+

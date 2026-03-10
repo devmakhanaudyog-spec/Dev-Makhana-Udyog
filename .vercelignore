@@ -1,0 +1,10 @@
+server/
+docs/
+api/
+build/
+node_modules/
+*.bat
+*.sh
+BACKEND_TEST_SCRIPT.*
+setup-tests.*
+QUICK_START.sh
