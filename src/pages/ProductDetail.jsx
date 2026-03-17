@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Helmet } from 'react-helmet-async';
-import { makhanaProducts } from "../data/makhana";
 import { API_BASE_URL } from "../config";
 import { Shield, Truck, Sparkles, ClipboardList, Star, ShoppingCart, Heart, Minus, Plus, Gift } from "lucide-react";
 import { useCart } from '../context/CartContext';
@@ -14,8 +13,6 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
   // Use same ID logic as cart to ensure isInCart works correctly
   const productKey = product ? (product._id || product.id) : null;
   const imageList = useMemo(() => {
@@ -97,8 +94,6 @@ export default function ProductDetail() {
     let isMounted = true;
     const controller = new AbortController();
 
-    const fallbackProduct = makhanaProducts.find((p) => p.id === id) || makhanaProducts[0];
-
     const hydrate = (p) => ({
       ...p,
       productId: p.productId || p.id,
@@ -107,8 +102,7 @@ export default function ProductDetail() {
 
     const loadProduct = async () => {
       try {
-        setLoading(true);
-        setError("");
+        setProduct(null);
 
         // Try listing endpoint for productId match
         const res = await fetch(`${API_BASE_URL}/api/products?limit=200`, { signal: controller.signal });
@@ -144,18 +138,14 @@ export default function ProductDetail() {
           }
         }
 
-        // Static fallback to keep page usable
+        // Keep product null when live product is unavailable
         if (isMounted) {
-          setError("Live product not available. Showing static data.");
-          setProduct(hydrate(fallbackProduct));
+          setProduct(null);
         }
       } catch (err) {
         if (!isMounted || err.name === "AbortError") return;
         console.error("Product fetch failed", err);
-        setError("Live product not available. Showing static data.");
-        setProduct(hydrate(fallbackProduct));
-      } finally {
-        if (isMounted) setLoading(false);
+        setProduct(null);
       }
     };
 
@@ -242,18 +232,35 @@ export default function ProductDetail() {
   const increaseQty = () => setQuantity(prev => Math.min(prev + 1, 10));
   const decreaseQty = () => setQuantity(prev => Math.max(prev - 1, 1));
 
-  if (loading && !product) {
-    return (
-      <div className="bg-brand-soft min-h-screen flex items-center justify-center text-slate-700">
-        Loading product...
-      </div>
-    );
-  }
-
   if (!product) {
     return (
-      <div className="bg-brand-soft min-h-screen flex items-center justify-center text-slate-700">
-        Product not found.
+      <div className="bg-brand-soft min-h-screen">
+        <section className="bg-white shadow-brand border-b border-green-50">
+          <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8 items-start animate-pulse">
+            <div className="space-y-4">
+              <div className="h-6 w-40 bg-green-100 rounded-lg" />
+              <div className="h-10 w-3/4 bg-slate-200 rounded-lg" />
+              <div className="h-4 w-full bg-slate-200 rounded" />
+              <div className="h-4 w-5/6 bg-slate-200 rounded" />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="h-16 bg-green-50 rounded-lg" />
+                <div className="h-16 bg-green-50 rounded-lg" />
+                <div className="h-16 bg-green-50 rounded-lg" />
+                <div className="h-16 bg-green-50 rounded-lg" />
+              </div>
+              <div className="h-40 bg-green-50 rounded-xl border border-green-100" />
+            </div>
+            <div className="space-y-4">
+              <div className="w-full h-80 rounded-2xl bg-green-50" />
+              <div className="flex gap-3">
+                <div className="w-20 h-20 rounded-xl bg-green-50" />
+                <div className="w-20 h-20 rounded-xl bg-green-50" />
+                <div className="w-20 h-20 rounded-xl bg-green-50" />
+              </div>
+              <div className="h-40 bg-green-50 rounded-2xl" />
+            </div>
+          </div>
+        </section>
       </div>
     );
   }
@@ -430,7 +437,6 @@ export default function ProductDetail() {
               <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Sample</Link>
               <Link to="/order-bulk" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Bulk Order</Link>
               <Link to="/products" className="text-brand font-semibold underline self-center">← Back to Products</Link>
-              {error && <span className="text-xs text-amber-600">{error}</span>}
             </div>
           </div>
           <div className="space-y-4">
