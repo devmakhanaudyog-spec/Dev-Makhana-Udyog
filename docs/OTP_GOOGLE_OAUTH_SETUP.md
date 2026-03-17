@@ -1,11 +1,11 @@
-# 🎯 OTP Email Verification & Google OAuth Setup Guide
+# Ã°Å¸Å½Â¯ OTP Email Verification & Google OAuth Setup Guide
 
 ## Overview
 This guide explains how to set up and use the new OTP-based email verification and Google OAuth login features.
 
 ---
 
-## 📋 What's New
+## Ã°Å¸â€œâ€¹ What's New
 
 ### 1. **Email Verification with OTP**
 - Users must verify their email via OTP when signing up
@@ -22,7 +22,7 @@ This guide explains how to set up and use the new OTP-based email verification a
 
 ---
 
-## 🔧 Backend Setup
+## Ã°Å¸â€Â§ Backend Setup
 
 ### Step 1: Install Dependencies
 ```bash
@@ -51,13 +51,13 @@ MAX_OTP_ATTEMPTS=5
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASSWORD=your-16-digit-app-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 ```
 
 ### Step 3: Get Google OAuth Credentials
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com)
-2. Create a new project: **Makhaantraa Foods**
+2. Create a new project: **Dev Makhana Udyog**
 3. Enable **Google+ API**
 4. Create OAuth 2.0 credentials (Web Application)
 5. Add Authorized redirect URIs:
@@ -88,7 +88,7 @@ db.users.updateMany(
 
 ---
 
-## 🚀 Frontend Setup
+## Ã°Å¸Å¡â‚¬ Frontend Setup
 
 ### Step 1: Install Dependencies
 ```bash
@@ -114,40 +114,40 @@ REACT_APP_API_URL=http://localhost:5000
 ### Step 3: Verify Components are Integrated
 
 Check that these files exist:
-- ✅ `src/components/OTPVerificationModal.jsx` - OTP input modal
-- ✅ `src/pages/Login.jsx` - Updated with Google login button
-- ✅ `.env.local` - Environment variables
+- Ã¢Å“â€¦ `src/components/OTPVerificationModal.jsx` - OTP input modal
+- Ã¢Å“â€¦ `src/pages/Login.jsx` - Updated with Google login button
+- Ã¢Å“â€¦ `.env.local` - Environment variables
 
 ---
 
-## 📊 How It Works
+## Ã°Å¸â€œÅ  How It Works
 
 ### Signup Flow (with Email Verification)
 
 ```
 User visits /login
-    ↓
+    Ã¢â€ â€œ
 Clicks "Sign Up"
-    ↓
+    Ã¢â€ â€œ
 Fills form (Name, Email, Password, Phone)
-    ↓
+    Ã¢â€ â€œ
 POST /api/auth/register
-    ↓
+    Ã¢â€ â€œ
 Backend creates user (emailVerified: false)
 Generates 6-digit OTP
 Sends OTP email
-    ↓
+    Ã¢â€ â€œ
 Frontend shows OTP Modal
-    ↓
+    Ã¢â€ â€œ
 User enters OTP
-    ↓
+    Ã¢â€ â€œ
 POST /api/auth/verify-otp
-    ↓
+    Ã¢â€ â€œ
 If correct: Mark email as verified
 Returns JWT token
 Backend: emailVerified = true
-    ↓
-User logged in ✓
+    Ã¢â€ â€œ
+User logged in Ã¢Å“â€œ
 Redirect to /profile
 ```
 
@@ -155,31 +155,31 @@ Redirect to /profile
 
 ```
 User clicks "Sign in with Google"
-    ↓
+    Ã¢â€ â€œ
 Google popup opens
-    ↓
+    Ã¢â€ â€œ
 User authenticates
-    ↓
+    Ã¢â€ â€œ
 Frontend receives Google token
-    ↓
+    Ã¢â€ â€œ
 POST /api/auth/google-login
-    ↓
+    Ã¢â€ â€œ
 Backend verifies token
-    ↓
+    Ã¢â€ â€œ
 User exists?
-  YES → Update Google info (if needed)
-  NO  → Create new user
-    ↓
+  YES Ã¢â€ â€™ Update Google info (if needed)
+  NO  Ã¢â€ â€™ Create new user
+    Ã¢â€ â€œ
 Mark email as verified
 Return JWT token
-    ↓
-User logged in ✓
+    Ã¢â€ â€œ
+User logged in Ã¢Å“â€œ
 Redirect to /profile
 ```
 
 ---
 
-## 🧪 Testing
+## Ã°Å¸Â§Âª Testing
 
 ### Test 1: Signup with OTP
 ```
@@ -195,11 +195,11 @@ Redirect to /profile
 ```
 
 **Expected Results:**
-- ✅ Email confirmation modal appears
-- ✅ OTP sent to registered email
-- ✅ Can enter OTP
-- ✅ User verified after correct OTP
-- ✅ Logged in and redirected
+- Ã¢Å“â€¦ Email confirmation modal appears
+- Ã¢Å“â€¦ OTP sent to registered email
+- Ã¢Å“â€¦ Can enter OTP
+- Ã¢Å“â€¦ User verified after correct OTP
+- Ã¢Å“â€¦ Logged in and redirected
 
 ### Test 2: Resend OTP
 ```
@@ -211,10 +211,10 @@ Redirect to /profile
 ```
 
 **Expected Results:**
-- ✅ Can't resend within 1 minute
-- ✅ Can resend after 1 minute
-- ✅ New OTP received
-- ✅ Timer resets
+- Ã¢Å“â€¦ Can't resend within 1 minute
+- Ã¢Å“â€¦ Can resend after 1 minute
+- Ã¢Å“â€¦ New OTP received
+- Ã¢Å“â€¦ Timer resets
 
 ### Test 3: OTP Validation
 ```
@@ -225,9 +225,9 @@ Redirect to /profile
 ```
 
 **Expected Results:**
-- ✅ Invalid OTP shows error
-- ✅ Max 5 attempts enforced
-- ✅ Must resend to get new OTP
+- Ã¢Å“â€¦ Invalid OTP shows error
+- Ã¢Å“â€¦ Max 5 attempts enforced
+- Ã¢Å“â€¦ Must resend to get new OTP
 
 ### Test 4: Google Login (New User)
 ```
@@ -238,10 +238,10 @@ Redirect to /profile
 ```
 
 **Expected Results:**
-- ✅ New user created automatically
-- ✅ User logged in
-- ✅ Redirected to /profile
-- ✅ Name and email populated from Google
+- Ã¢Å“â€¦ New user created automatically
+- Ã¢Å“â€¦ User logged in
+- Ã¢Å“â€¦ Redirected to /profile
+- Ã¢Å“â€¦ Name and email populated from Google
 
 ### Test 5: Google Login (Existing User)
 ```
@@ -253,14 +253,14 @@ Redirect to /profile
 ```
 
 **Expected Results:**
-- ✅ Links Google account to existing user
-- ✅ User logged in
-- ✅ Email verified if not already
-- ✅ No duplicate user created
+- Ã¢Å“â€¦ Links Google account to existing user
+- Ã¢Å“â€¦ User logged in
+- Ã¢Å“â€¦ Email verified if not already
+- Ã¢Å“â€¦ No duplicate user created
 
 ### Test 6: Email Verification (Traditional Login)
 ```
-Current flow: Sign up → OTP verification → Login
+Current flow: Sign up Ã¢â€ â€™ OTP verification Ã¢â€ â€™ Login
 
 Traditional flow still works:
 1. Login with verified email and password
@@ -269,7 +269,7 @@ Traditional flow still works:
 
 ---
 
-## 📧 Email Configuration
+## Ã°Å¸â€œÂ§ Email Configuration
 
 ### Method 1: Gmail (Recommended for Development)
 
@@ -294,12 +294,12 @@ SMTP_PORT=587
 SMTP_SECURE=false
 EMAIL_USER=noreply@yourdomain.com
 EMAIL_PASSWORD=your-smtp-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 ```
 
 ---
 
-## 🔒 Security Features
+## Ã°Å¸â€â€™ Security Features
 
 | Feature | Implementation |
 |---------|-----------------|
@@ -313,7 +313,7 @@ EMAIL_FROM_NAME=Makhaantraa Foods
 
 ---
 
-## 🎨 UI Components
+## Ã°Å¸Å½Â¨ UI Components
 
 ### OTP Verification Modal
 - Clean, centered modal design
@@ -331,7 +331,7 @@ EMAIL_FROM_NAME=Makhaantraa Foods
 
 ---
 
-## 📝 Database Schema Changes
+## Ã°Å¸â€œÂ Database Schema Changes
 
 ### User Model Updates
 
@@ -358,17 +358,17 @@ Add these fields:
 
 | Endpoint | Method | Auth | Purpose |
 |----------|--------|------|---------|
-| `/api/auth/register` | POST | ❌ | Sign up (sends OTP) |
-| `/api/auth/verify-otp` | POST | ❌ | Verify OTP & complete signup |
-| `/api/auth/resend-otp` | POST | ❌ | Request new OTP |
-| `/api/auth/login` | POST | ❌ | Login with email/password |
-| `/api/auth/google-login` | POST | ❌ | Google OAuth login |
-| `/api/auth/me` | GET | ✅ | Get logged-in user |
-| `/api/auth/profile` | GET/PUT | ✅ | Get/update profile |
+| `/api/auth/register` | POST | Ã¢ÂÅ’ | Sign up (sends OTP) |
+| `/api/auth/verify-otp` | POST | Ã¢ÂÅ’ | Verify OTP & complete signup |
+| `/api/auth/resend-otp` | POST | Ã¢ÂÅ’ | Request new OTP |
+| `/api/auth/login` | POST | Ã¢ÂÅ’ | Login with email/password |
+| `/api/auth/google-login` | POST | Ã¢ÂÅ’ | Google OAuth login |
+| `/api/auth/me` | GET | Ã¢Å“â€¦ | Get logged-in user |
+| `/api/auth/profile` | GET/PUT | Ã¢Å“â€¦ | Get/update profile |
 
 ---
 
-## 🐛 Troubleshooting
+## Ã°Å¸Ââ€º Troubleshooting
 
 ### Issue: "OTP not received"
 - Check spam folder
@@ -393,12 +393,12 @@ Add these fields:
 
 ---
 
-## 🚀 Deployment
+## Ã°Å¸Å¡â‚¬ Deployment
 
 ### Environment Variables Checklist
 
 **Server (.env):**
-- [ ] MONGO_URI
+- [ ] MONGODB_URI
 - [ ] JWT_SECRET (change in production!)
 - [ ] GOOGLE_CLIENT_ID
 - [ ] GOOGLE_CLIENT_SECRET
@@ -422,26 +422,26 @@ Add these fields:
 
 ---
 
-## 📚 File Structure
+## Ã°Å¸â€œÅ¡ File Structure
 
 ```
 Backend Changes:
-├── server/models/User.js          ✅ Updated (OTP fields)
-├── server/routes/auth.js          ✅ Updated (new endpoints)
-├── server/middleware/auth.js      ✅ Unchanged
-├── server/utils/otpService.js     ✅ Created
-└── server/utils/emailService.js   ✅ Updated
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ server/models/User.js          Ã¢Å“â€¦ Updated (OTP fields)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ server/routes/auth.js          Ã¢Å“â€¦ Updated (new endpoints)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ server/middleware/auth.js      Ã¢Å“â€¦ Unchanged
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ server/utils/otpService.js     Ã¢Å“â€¦ Created
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ server/utils/emailService.js   Ã¢Å“â€¦ Updated
 
 Frontend Changes:
-├── src/pages/Login.jsx            ✅ Updated (Google, OTP)
-├── src/components/OTPVerificationModal.jsx ✅ Created
-├── src/context/AuthContext.jsx    ✅ Unchanged
-└── .env.local                     ✅ Created
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/pages/Login.jsx            Ã¢Å“â€¦ Updated (Google, OTP)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/components/OTPVerificationModal.jsx Ã¢Å“â€¦ Created
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/context/AuthContext.jsx    Ã¢Å“â€¦ Unchanged
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ .env.local                     Ã¢Å“â€¦ Created
 ```
 
 ---
 
-## ✅ Implementation Checklist
+## Ã¢Å“â€¦ Implementation Checklist
 
 - [x] User model updated with OTP fields
 - [x] OTP service utility created
@@ -458,7 +458,7 @@ Frontend Changes:
 
 ---
 
-## 🎉 Next Steps
+## Ã°Å¸Å½â€° Next Steps
 
 1. **Add your Google Client ID** to `.env.local`
 2. **Test signup flow** locally
@@ -468,7 +468,7 @@ Frontend Changes:
 
 ---
 
-## 📞 Support
+## Ã°Å¸â€œÅ¾ Support
 
 For issues or questions:
 - Check troubleshooting section above
@@ -478,4 +478,4 @@ For issues or questions:
 
 ---
 
-**Status: ✅ Ready for Testing**
+**Status: Ã¢Å“â€¦ Ready for Testing**

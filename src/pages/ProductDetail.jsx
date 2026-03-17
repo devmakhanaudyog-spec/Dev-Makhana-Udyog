@@ -263,16 +263,16 @@ export default function ProductDetail() {
     <>
       {/* SEO Meta Tags and Structured Data */}
       <Helmet>
-        <title>{product.name} | Buy Premium Makhana | Makhaantraa Foods</title>
-        <meta name="description" content={`${product.description} Order ${product.name} at ₹${product.price}. ${product.grade} grade, ${product.popRate} pop rate. GI-certified Mithila makhana.`} />
+        <title>{product.name} | Buy Premium Makhana | Dev Makhana Udyog</title>
+        <meta name="description" content={`${product.description} Order ${product.name} at â‚¹${product.price}. ${product.grade} grade, ${product.popRate} pop rate. GI-certified Mithila makhana.`} />
         <meta name="keywords" content={`${product.name}, buy makhana, ${product.grade}, makhana price, ${product.category}, fox nuts, lotus seeds`} />
-        <link rel="canonical" href={`https://www.makhaantraafoods.com/product/${productKey}`} />
+        <link rel="canonical" href={`https://www.Dev Makhana Udyog.com/product/${productKey}`} />
         
         {/* Open Graph */}
-        <meta property="og:title" content={`${product.name} | Makhaantraa Foods`} />
+        <meta property="og:title" content={`${product.name} | Dev Makhana Udyog`} />
         <meta property="og:description" content={product.description} />
         <meta property="og:type" content="product" />
-        <meta property="og:url" content={`https://www.makhaantraafoods.com/product/${productKey}`} />
+        <meta property="og:url" content={`https://www.Dev Makhana Udyog.com/product/${productKey}`} />
         <meta property="og:image" content={activeImage || product.mainImage || product.image} />
         <meta property="product:price:amount" content={product.price} />
         <meta property="product:price:currency" content="INR" />
@@ -285,9 +285,9 @@ export default function ProductDetail() {
         {/* Breadcrumb Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify(generateBreadcrumbSchema([
-            { name: "Home", url: "https://www.makhaantraafoods.com" },
-            { name: "Products", url: "https://www.makhaantraafoods.com/products" },
-            { name: product.name, url: `https://www.makhaantraafoods.com/product/${productKey}` }
+            { name: "Home", url: "https://www.Dev Makhana Udyog.com" },
+            { name: "Products", url: "https://www.Dev Makhana Udyog.com/products" },
+            { name: product.name, url: `https://www.Dev Makhana Udyog.com/product/${productKey}` }
           ]))}
         </script>
       </Helmet>
@@ -311,16 +311,16 @@ export default function ProductDetail() {
             {/* Price and Cart Section */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-4xl font-bold text-brand">₹{Math.round((product.price || 999) * packSize * quantity)}</span>
+                <span className="text-4xl font-bold text-brand">â‚¹{Math.round((product.price || 999) * packSize * quantity)}</span>
                 {product.originalPrice && (
-                  <span className="text-xl text-gray-400 line-through">₹{Math.round(product.originalPrice * packSize * quantity)}</span>
+                  <span className="text-xl text-gray-400 line-through">â‚¹{Math.round(product.originalPrice * packSize * quantity)}</span>
                 )}
                 {product.discount && (
                   <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full font-semibold">
                     {product.discount}% OFF
                   </span>
                 )}
-                <span className="text-xs text-gray-500 ml-2">({packSize}kg × {quantity})</span>
+                <span className="text-xs text-gray-500 ml-2">({packSize}kg Ã— {quantity})</span>
               </div>
 
               <div className="flex items-center gap-3 text-sm text-slate-700 mb-4">
@@ -429,7 +429,7 @@ export default function ProductDetail() {
             <div className="flex gap-3 pt-4 flex-wrap">
               <Link to="/makhana-sample" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Get Sample</Link>
               <Link to="/order-bulk" className="btn-brand-ghost px-5 py-3 rounded-lg font-semibold">Bulk Order</Link>
-              <Link to="/products" className="text-brand font-semibold underline self-center">← Back to Products</Link>
+              <Link to="/products" className="text-brand font-semibold underline self-center">← Back to Products</Link>
               {error && <span className="text-xs text-amber-600">{error}</span>}
             </div>
           </div>
@@ -489,10 +489,10 @@ export default function ProductDetail() {
           <h3 className="text-2xl font-bold text-brand mb-2">Compliance & logistics</h3>
           <p className="text-slate-600 text-sm mb-4">Quality certifications and delivery information</p>
           <ul className="space-y-3 text-slate-700 text-sm">
-            <li className="flex gap-2"><span className="text-brand font-bold">•</span> <span><strong>FSSAI Certified</strong> - Compliant with Indian food safety standards and GI-tagged Mithila origin.</span></li>
-            <li className="flex gap-2"><span className="text-brand font-bold">•</span> <span><strong>COA Available</strong> - Lot-wise Certificate of Analysis with moisture and pop-rate data.</span></li>
-            <li className="flex gap-2"><span className="text-brand font-bold">•</span> <span><strong>Nitrogen-Flushed Packs</strong> - Preserves freshness; palletized export available on request.</span></li>
-            <li className="flex gap-2"><span className="text-brand font-bold">•</span> <span><strong>Fast Dispatch</strong> - Sample dispatch within 24-48 hours; bulk orders shipped with tracking.</span></li>
+            <li className="flex gap-2"><span className="text-brand font-bold">‍¢</span> <span><strong>FSSAI Certified</strong> - Compliant with Indian food safety standards and GI-tagged Mithila origin.</span></li>
+            <li className="flex gap-2"><span className="text-brand font-bold">‍¢</span> <span><strong>COA Available</strong> - Lot-wise Certificate of Analysis with moisture and pop-rate data.</span></li>
+            <li className="flex gap-2"><span className="text-brand font-bold">‍¢</span> <span><strong>Nitrogen-Flushed Packs</strong> - Preserves freshness; palletized export available on request.</span></li>
+            <li className="flex gap-2"><span className="text-brand font-bold">‍¢</span> <span><strong>Fast Dispatch</strong> - Sample dispatch within 24-48 hours; bulk orders shipped with tracking.</span></li>
           </ul>
         </div>
       </section>
@@ -627,7 +627,7 @@ export default function ProductDetail() {
                     <div className="text-[11px] text-slate-600">{[fb.district, fb.state].filter(Boolean).join(', ')}</div>
                   )}
                   <p className="text-slate-700 text-sm leading-relaxed">
-                    “{fb.comment}”
+                    ‍œ{fb.comment}‍
                   </p>
                   <div className="text-[11px] text-slate-500">{fb.createdAt ? new Date(fb.createdAt).toLocaleDateString() : ''}</div>
                 </div>

@@ -14,12 +14,12 @@ const app = express();
 const isDev = process.env.NODE_ENV !== 'production';
 const getEnv = (key) => (process.env[key] || '').trim();
 
-const MONGODB_URI = getEnv('MONGODB_URI') || getEnv('MONGO_URI');
+const MONGODB_URI = getEnv('MONGODB_URI');
 const CLIENT_URL = getEnv('CLIENT_URL') || getEnv('FRONTEND_URL');
 
 const requiredEnv = [
   ['JWT_SECRET', getEnv('JWT_SECRET')],
-  ['MONGODB_URI (or legacy MONGO_URI)', MONGODB_URI],
+  ['MONGODB_URI', MONGODB_URI],
   ['CLIENT_URL (or FRONTEND_URL)', CLIENT_URL]
 ];
 const missingRequiredEnv = requiredEnv

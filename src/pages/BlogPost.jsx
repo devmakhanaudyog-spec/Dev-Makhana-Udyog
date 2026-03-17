@@ -22,7 +22,7 @@ export default function BlogPost() {
   const extraImages = allExtraImages.filter(img => !post.image || !img.src.endsWith(post.image.replace(/^.*\/product_image\//, "/product_image/")));
 
   // Author/date/reading time (date from post)
-  const author = "Makhaantraa Team";
+  const author = "Dev Makhana Udyog Team";
   let date = "";
   let readingTime = "5 min read";
   if (post.date) {
@@ -46,7 +46,7 @@ export default function BlogPost() {
     let altBg = false;
     for (let i = 0; i < body.length; i++) {
       let highlighted = body[i]
-        .replace(/\b(GI[- ]?tag(?:ged)?|Mithila|Makhaantraafoods|clean-label|superfood|moisture|pop[- ]?rate|premium|authentic|nutritional|export|retail|tradition|quality|Bihar|India|global|certificates?|analysis|testing|packaging|crunch|flavor|vegan|gluten[- ]?free|minerals|allergens|plant[- ]?based|shelf life|traceability|consistency|hand[- ]?harvested|sun[- ]?dried|roasted|nitrogen flushing|high[- ]?barrier|food[- ]?grade|logistics|value|story|brand|partner|supply chain|modern|natural|processing|transparency|innovation|market|nutrition|health|wellness|snack|snacking|retailers?|exporters?|chefs?|foodservice|buyers?|consumers?|business|partners?|documentation|confidence|conclusion|FAQ)\b/gi, '<span class="text-brand font-semibold">$1</span>');
+        .replace(/\b(GI[- ]?tag(?:ged)?|Mithila|Dev Makhana Udyog|clean-label|superfood|moisture|pop[- ]?rate|premium|authentic|nutritional|export|retail|tradition|quality|Bihar|India|global|certificates?|analysis|testing|packaging|crunch|flavor|vegan|gluten[- ]?free|minerals|allergens|plant[- ]?based|shelf life|traceability|consistency|hand[- ]?harvested|sun[- ]?dried|roasted|nitrogen flushing|high[- ]?barrier|food[- ]?grade|logistics|value|story|brand|partner|supply chain|modern|natural|processing|transparency|innovation|market|nutrition|health|wellness|snack|snacking|retailers?|exporters?|chefs?|foodservice|buyers?|consumers?|business|partners?|documentation|confidence|conclusion|FAQ)\b/gi, '<span class="text-brand font-semibold">$1</span>');
       // Section heading detection (simulate h2)
       if (/^(What|Why|How|Conclusion|The Magic|Taking|Packaging|A Neutral|By blending|From a trade|We strengthen|This tradition|For our partners|For retailers|For chefs|Precision Testing|Climate Control|The 'Pop' Test|Trade Support)/i.test(body[i])) {
         rows.push(
@@ -148,8 +148,8 @@ export default function BlogPost() {
         <p className="text-lg text-brand mb-2">{post.excerpt}</p>
         <div className="flex items-center gap-4 text-xs text-slate-400 mb-8">
           <span>By {author}</span>
-          <span>• {date}</span>
-          <span>• {readingTime}</span>
+          <span>‍¢ {date}</span>
+          <span>‍¢ {readingTime}</span>
         </div>
         {/* Social share button with Web Share API and fallback */}
         <div className="flex gap-3 mb-8">

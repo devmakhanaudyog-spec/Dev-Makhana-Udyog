@@ -1,4 +1,4 @@
-# ✅ DEPLOYMENT CHECKLIST
+# âœ… DEPLOYMENT CHECKLIST
 
 ## Pre-Deployment Verification
 
@@ -66,7 +66,7 @@
 ```env
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb://localhost:27017/dev-mkahna-udyog
+MONGODB_URI=${MONGODB_URI}
 JWT_SECRET=dev-secret-key-change-in-production
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=admin123
@@ -76,7 +76,7 @@ ADMIN_PASSWORD=admin123
 ```env
 PORT=5000
 NODE_ENV=production
-MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/ecommerce
+MONGODB_URI=${MONGODB_URI}
 JWT_SECRET=your-very-long-production-secret-key-min-32-chars
 ADMIN_EMAIL=your-admin-email@domain.com
 ADMIN_PASSWORD=your-secure-password-min-12-chars
@@ -85,7 +85,7 @@ HTTPS=true
 
 ### Verification
 - [ ] JWT_SECRET is unique and long (min 32 chars)
-- [ ] MONGO_URI uses production database
+- [ ] MONGODB_URI uses production database
 - [ ] NODE_ENV set to production
 - [ ] Admin credentials updated
 - [ ] No debug flags enabled
@@ -168,7 +168,7 @@ docker build -t ecommerce:latest .
 # Run container
 docker run -d \
   -p 5000:5000 \
-  -e MONGO_URI="mongodb://..." \
+  -e MONGODB_URI="mongodb://..." \
   -e JWT_SECRET="..." \
   ecommerce:latest
 
@@ -234,9 +234,9 @@ docker logs ecommerce
 - [ ] Admin middleware checks role
 
 ### Integration Tests
-- [ ] Signup → Login → Checkout flow
-- [ ] Cart → Order flow
-- [ ] Order → Tracking flow
+- [ ] Signup â†’ Login â†’ Checkout flow
+- [ ] Cart â†’ Order flow
+- [ ] Order â†’ Tracking flow
 - [ ] Payment processing
 - [ ] Coupon application
 
@@ -451,14 +451,14 @@ docker run -d --name ecommerce ecommerce:previous-version
 Once all checks pass:
 
 ```
-✅ Code deployed to production
-✅ Database verified and optimized
-✅ Monitoring active
-✅ Backups configured
-✅ Team briefed
-✅ Launch successful
+âœ… Code deployed to production
+âœ… Database verified and optimized
+âœ… Monitoring active
+âœ… Backups configured
+âœ… Team briefed
+âœ… Launch successful
 
-🎉 LIVE IN PRODUCTION 🎉
+ðŸŽ‰ LIVE IN PRODUCTION ðŸŽ‰
 ```
 
 ---
@@ -485,5 +485,5 @@ Once all checks pass:
 
 ---
 
-**Your ecommerce platform is ready for production deployment!** 🚀
+**Your ecommerce platform is ready for production deployment!** ðŸš€
 

@@ -45,7 +45,7 @@ copy server/.env.example server/.env
 
 Required values in `server/.env`:
 
-- `MONGODB_URI` (or legacy `MONGO_URI`)
+- `MONGODB_URI`
 - `JWT_SECRET`
 - `CLIENT_URL` (or `FRONTEND_URL`)
 

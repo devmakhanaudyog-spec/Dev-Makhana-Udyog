@@ -10,9 +10,9 @@ const makhanaDataPath = path.join(__dirname, './makhanaProducts.json');
 const makhanaProducts = JSON.parse(fs.readFileSync(makhanaDataPath, 'utf-8'));
 
 async function addMakhanaProducts() {
-  const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const mongoUri = process.env.MONGODB_URI;
   if (!mongoUri) {
-    throw new Error('Missing required environment variable: MONGODB_URI (or legacy MONGO_URI)');
+    throw new Error('Missing required environment variable: MONGODB_URI');
   }
   await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
   for (const p of makhanaProducts) {

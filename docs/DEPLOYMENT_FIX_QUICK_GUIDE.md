@@ -1,4 +1,4 @@
-# 🚀 Deployment Fix - Render Environment Variables
+# Ã°Å¸Å¡â‚¬ Deployment Fix - Render Environment Variables
 
 ## Issue
 Deployment failed because `ADMIN_PASSWORD` environment variable was missing on Render.
@@ -10,11 +10,11 @@ Error: Missing required env vars in production: ADMIN_PASSWORD
 
 ---
 
-## ✅ What Was Fixed
+## Ã¢Å“â€¦ What Was Fixed
 
 ### 1. **Server Configuration** (`server/server.js`)
 - Made `ADMIN_PASSWORD` and `ADMIN_EMAIL` optional in production
-- Now only requires `JWT_SECRET` and `MONGO_URI` (critical variables)
+- Now only requires `JWT_SECRET` and `MONGODB_URI` (critical variables)
 - Logs warning if admin credentials not configured, but continues startup
 
 ### 2. **Google OAuth** (`server/routes/auth.js`)
@@ -29,11 +29,11 @@ Error: Missing required env vars in production: ADMIN_PASSWORD
 
 ---
 
-## 📋 Required Environment Variables for Render
+## Ã°Å¸â€œâ€¹ Required Environment Variables for Render
 
 ### **CRITICAL** (Must have):
 ```env
-MONGO_URI=your-mongodb-connection-string
+MONGODB_URI=your-mongodb-connection-string
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
 NODE_ENV=production
 PORT=5000
@@ -51,11 +51,11 @@ EMAIL_PASSWORD=your-16-digit-app-password
 
 ---
 
-## 🔧 How to Set Environment Variables on Render
+## Ã°Å¸â€Â§ How to Set Environment Variables on Render
 
 ### Step 1: Go to Render Dashboard
 1. Log in to https://dashboard.render.com
-2. Select your service: **Makhaantraa Foods Backend**
+2. Select your service: **Dev Makhana Udyog Backend**
 3. Click **Settings**
 
 ### Step 2: Environment Variables
@@ -64,7 +64,7 @@ EMAIL_PASSWORD=your-16-digit-app-password
 
 **Minimum to add:**
 ```
-MONGO_URI=<your-mongodb-uri>
+MONGODB_URI=<your-mongodb-uri>
 JWT_SECRET=<your-jwt-secret>
 NODE_ENV=production
 PORT=5000
@@ -72,7 +72,7 @@ PORT=5000
 
 **Optional (for full features):**
 ```
-ADMIN_EMAIL=admin@makhaantraa.com
+ADMIN_EMAIL=admin@devmakhanaudyog.com
 ADMIN_PASSWORD=<secure-password>
 GOOGLE_CLIENT_ID=<your-google-client-id>
 GOOGLE_CLIENT_SECRET=<your-google-secret>
@@ -83,40 +83,40 @@ EMAIL_PASSWORD=<16-digit-app-password>
 ### Step 3: Save and Redeploy
 1. Click **Save** (or auto-saves)
 2. Render will automatically redeploy
-3. Check deployment logs: Should say "🎉 Build successful"
+3. Check deployment logs: Should say "Ã°Å¸Å½â€° Build successful"
 
 ---
 
-## 📊 Startup Behavior
+## Ã°Å¸â€œÅ  Startup Behavior
 
-### With All Variables Configured ✅
+### With All Variables Configured Ã¢Å“â€¦
 ```
-✅ Server running on port 5000
-✅ Database connected
-✅ Email service ready
-✅ Google OAuth configured
-✅ Admin login available
-```
-
-### With Only Critical Variables ⚠️
-```
-✅ Server running on port 5000
-✅ Database connected
-⚠️  Email service not configured (OTP emails won't work)
-⚠️  Google OAuth not configured (Google login disabled)
-⚠️  Admin login not configured (use Google OAuth instead)
+Ã¢Å“â€¦ Server running on port 5000
+Ã¢Å“â€¦ Database connected
+Ã¢Å“â€¦ Email service ready
+Ã¢Å“â€¦ Google OAuth configured
+Ã¢Å“â€¦ Admin login available
 ```
 
-### Missing Critical Variables ❌
+### With Only Critical Variables Ã¢Å¡Â Ã¯Â¸Â
 ```
-❌ Server crashes with error
-❌ MONGO_URI or JWT_SECRET missing
-❌ Must set these before deployment works
+Ã¢Å“â€¦ Server running on port 5000
+Ã¢Å“â€¦ Database connected
+Ã¢Å¡Â Ã¯Â¸Â  Email service not configured (OTP emails won't work)
+Ã¢Å¡Â Ã¯Â¸Â  Google OAuth not configured (Google login disabled)
+Ã¢Å¡Â Ã¯Â¸Â  Admin login not configured (use Google OAuth instead)
+```
+
+### Missing Critical Variables Ã¢ÂÅ’
+```
+Ã¢ÂÅ’ Server crashes with error
+Ã¢ÂÅ’ MONGODB_URI or JWT_SECRET missing
+Ã¢ÂÅ’ Must set these before deployment works
 ```
 
 ---
 
-## 🧪 Test Deployment
+## Ã°Å¸Â§Âª Test Deployment
 
 After setting variables and deploying:
 
@@ -148,23 +148,23 @@ curl -X POST https://your-render-domain/api/auth/login \
 
 ---
 
-## 🔐 Security Tips
+## Ã°Å¸â€Â Security Tips
 
 **For Production:**
-1. ✅ Use strong `JWT_SECRET` (32+ characters)
-2. ✅ Use strong `ADMIN_PASSWORD` (12+ characters)
-3. ✅ Never commit `.env` file to git
-4. ✅ Use Render's encrypted environment variables
-5. ✅ Rotate secrets periodically
-6. ✅ Use Gmail app password, not regular password
+1. Ã¢Å“â€¦ Use strong `JWT_SECRET` (32+ characters)
+2. Ã¢Å“â€¦ Use strong `ADMIN_PASSWORD` (12+ characters)
+3. Ã¢Å“â€¦ Never commit `.env` file to git
+4. Ã¢Å“â€¦ Use Render's encrypted environment variables
+5. Ã¢Å“â€¦ Rotate secrets periodically
+6. Ã¢Å“â€¦ Use Gmail app password, not regular password
 
 ---
 
-## ❌ What If Still Failing?
+## Ã¢ÂÅ’ What If Still Failing?
 
 ### Check 1: Verify Variables Are Set
 Go to Render > Settings > Environment
-- Confirm all required variables show as blurred dots (✓ set)
+- Confirm all required variables show as blurred dots (Ã¢Å“â€œ set)
 - Click on variable to see it was actually saved
 
 ### Check 2: Check Deployment Logs
@@ -179,7 +179,7 @@ Go to Render > Settings > Environment
 - Backend dependencies might not be installed
 
 **Issue:** `ECONNREFUSED` for MongoDB
-- **Solution:** Check `MONGO_URI` is correct
+- **Solution:** Check `MONGODB_URI` is correct
 - Verify IP whitelist on MongoDB Atlas
 
 **Issue:** Email not sending
@@ -188,12 +188,12 @@ Go to Render > Settings > Environment
 
 ---
 
-## 📝 Quick Checklist Before Deployment
+## Ã°Å¸â€œÂ Quick Checklist Before Deployment
 
 - [ ] All files committed to git
 - [ ] `server/.env` NOT committed (it's in .gitignore)
 - [ ] Render environment variables set:
-  - [ ] `MONGO_URI`
+  - [ ] `MONGODB_URI`
   - [ ] `JWT_SECRET`
   - [ ] `NODE_ENV=production`
   - [ ] `PORT=5000`
@@ -207,11 +207,11 @@ Go to Render > Settings > Environment
 
 ---
 
-## 🚀 Next Steps
+## Ã°Å¸Å¡â‚¬ Next Steps
 
 1. **Set these on Render:**
    ```
-   MONGO_URI=
+   MONGODB_URI=
    JWT_SECRET=
    NODE_ENV=production
    PORT=5000
@@ -219,7 +219,7 @@ Go to Render > Settings > Environment
 
 2. **Wait for auto-redeploy** (2-3 minutes)
 
-3. **Check logs** - Should say ✅ Build successful
+3. **Check logs** - Should say Ã¢Å“â€¦ Build successful
 
 4. **Test endpoint:**
    ```bash
@@ -228,18 +228,18 @@ Go to Render > Settings > Environment
 
 ---
 
-## 📞 Troubleshooting
+## Ã°Å¸â€œÅ¾ Troubleshooting
 
 Still having issues? Check:
 
-1. ✅ All 4 critical variables set
-2. ✅ Variables saved (reload page to confirm)
-3. ✅ Service re-deployed after adding variables
-4. ✅ Check deployment logs for actual error messages
-5. ✅ No typos in variable names or values
+1. Ã¢Å“â€¦ All 4 critical variables set
+2. Ã¢Å“â€¦ Variables saved (reload page to confirm)
+3. Ã¢Å“â€¦ Service re-deployed after adding variables
+4. Ã¢Å“â€¦ Check deployment logs for actual error messages
+5. Ã¢Å“â€¦ No typos in variable names or values
 
 ---
 
-**Status: ✅ FIXED & READY TO DEPLOY**
+**Status: Ã¢Å“â€¦ FIXED & READY TO DEPLOY**
 
 Your server will now start successfully even if optional features (admin login, Google OAuth, email) aren't fully configured.

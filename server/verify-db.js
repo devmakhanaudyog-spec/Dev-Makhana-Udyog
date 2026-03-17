@@ -7,9 +7,9 @@ const verifyDatabase = async () => {
     console.log('═'.repeat(50));
 
     // Connect
-    const mongoUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
-      throw new Error('Missing required environment variable: MONGODB_URI (or legacy MONGO_URI)');
+      throw new Error('Missing required environment variable: MONGODB_URI');
     }
     await mongoose.connect(mongoUri);
     console.log('✅ Connected to MongoDB Atlas');

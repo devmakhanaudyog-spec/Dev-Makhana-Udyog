@@ -1,28 +1,28 @@
-# 🚀 Deployment Guide - Makhaantraa Foods E-Commerce
+# Ã°Å¸Å¡â‚¬ Deployment Guide - Dev Makhana Udyog E-Commerce
 
-## ✅ Pre-Deployment Checklist
+## Ã¢Å“â€¦ Pre-Deployment Checklist
 
 Your code is **production-ready** with:
-- ✅ Deployment configs added (vercel.json, render.yaml)
-- ✅ Environment variables properly configured
-- ✅ Security measures in place (.gitignore)
-- ✅ Error handling implemented
-- ✅ Rate limiting enabled
-- ✅ MongoDB Atlas ready
-- ✅ Payment gateways configured
+- Ã¢Å“â€¦ Deployment configs added (vercel.json, render.yaml)
+- Ã¢Å“â€¦ Environment variables properly configured
+- Ã¢Å“â€¦ Security measures in place (.gitignore)
+- Ã¢Å“â€¦ Error handling implemented
+- Ã¢Å“â€¦ Rate limiting enabled
+- Ã¢Å“â€¦ MongoDB Atlas ready
+- Ã¢Å“â€¦ Payment gateways configured
 
 ---
 
-## 🎯 Deployment Architecture
+## Ã°Å¸Å½Â¯ Deployment Architecture
 
 ```
-Frontend (Vercel)  →  Backend (Render)  →  MongoDB Atlas
+Frontend (Vercel)  Ã¢â€ â€™  Backend (Render)  Ã¢â€ â€™  MongoDB Atlas
      React              Node.js/Express      Database
 ```
 
 ---
 
-## 📦 PART 1: Deploy Backend to Render
+## Ã°Å¸â€œÂ¦ PART 1: Deploy Backend to Render
 
 ### Step 1: Create Render Account
 1. Go to https://render.com
@@ -30,12 +30,12 @@ Frontend (Vercel)  →  Backend (Render)  →  MongoDB Atlas
 3. Authorize Render to access your repositories
 
 ### Step 2: Create New Web Service
-1. Click **"New +"** → **"Web Service"**
-2. Connect your GitHub repository: `Makhaantraa-Foods`
+1. Click **"New +"** Ã¢â€ â€™ **"Web Service"**
+2. Connect your GitHub repository: `dev-makhana-udyog`
 3. Configure the service:
 
 ```
-Name: makhaantraa-foods-api
+Name: dev-makhana-udyog-api
 Region: Oregon (US West) or closest to your users
 Branch: main
 Root Directory: ecommerce/server
@@ -56,7 +56,7 @@ PORT=10000
 CLIENT_URL=https://your-app.vercel.app
 
 # MongoDB (IMPORTANT: Use your actual credentials)
-MONGO_URI=mongodb+srv://your_username:your_password@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://your_username:your_password@cluster0.mongodb.net/ecommerce?retryWrites=true&w=majority
 
 # JWT
 JWT_SECRET=your_super_secret_jwt_key_at_least_32_characters_long
@@ -89,7 +89,7 @@ EMAIL_PASSWORD=your-app-password
    - Clone your repository
    - Install dependencies
    - Start your server
-   - Assign a URL like: `https://makhaantraa-foods-api.onrender.com`
+   - Assign a URL like: `https://dev-makhana-udyog-api.onrender.com`
 
 ### Step 5: Verify Backend Deployment
 Test your API:
@@ -102,7 +102,7 @@ curl https://your-render-url.onrender.com/api/products
 
 ---
 
-## 🌐 PART 2: Deploy Frontend to Vercel
+## Ã°Å¸Å’Â PART 2: Deploy Frontend to Vercel
 
 ### Step 1: Create Vercel Account
 1. Go to https://vercel.com
@@ -110,8 +110,8 @@ curl https://your-render-url.onrender.com/api/products
 3. Authorize Vercel to access repositories
 
 ### Step 2: Import Project
-1. Click **"Add New..."** → **"Project"**
-2. Import `Makhaantraa-Foods` repository
+1. Click **"Add New..."** Ã¢â€ â€™ **"Project"**
+2. Import `dev-makhana-udyog` repository
 3. Configure project:
 
 ```
@@ -131,7 +131,7 @@ Click **"Environment Variables"** and add:
 REACT_APP_API_URL=https://your-render-url.onrender.com
 
 # Site Config
-REACT_APP_SITE_NAME=Makhaantraa Foods
+REACT_APP_SITE_NAME=Dev Makhana Udyog
 REACT_APP_ENV=production
 
 # Stripe (Publishable key only - safe for frontend)
@@ -153,27 +153,27 @@ REACT_APP_CLOUDINARY_CLOUD_NAME=your_cloud_name
 3. Wait 2-5 minutes for deployment
 
 ### Step 5: Update Backend CORS
-Go back to Render → Environment Variables → Update:
+Go back to Render Ã¢â€ â€™ Environment Variables Ã¢â€ â€™ Update:
 ```
 CLIENT_URL=https://your-app.vercel.app
 ```
-Then click **"Manual Deploy"** → **"Deploy latest commit"**
+Then click **"Manual Deploy"** Ã¢â€ â€™ **"Deploy latest commit"**
 
 ---
 
-## 🔄 Update Backend with Frontend URL
+## Ã°Å¸â€â€ž Update Backend with Frontend URL
 
 After Vercel gives you a URL, update Render:
 
 1. Go to Render dashboard
 2. Select your web service
-3. Environment → Edit `CLIENT_URL`
+3. Environment Ã¢â€ â€™ Edit `CLIENT_URL`
 4. Change to: `https://your-actual-vercel-url.vercel.app`
 5. Save changes (auto-redeploys)
 
 ---
 
-## 🔐 IMPORTANT: Production Security Steps
+## Ã°Å¸â€Â IMPORTANT: Production Security Steps
 
 ### 1. Use Live Payment Keys (When Ready for Production)
 ```bash
@@ -189,12 +189,12 @@ RAZORPAY_KEY_ID=rzp_live_xxxxx  # Not rzp_test_
 3. Select events:
    - `payment_intent.succeeded`
    - `payment_intent.payment_failed`
-4. Copy signing secret → Update `STRIPE_WEBHOOK_SECRET` in Render
+4. Copy signing secret Ã¢â€ â€™ Update `STRIPE_WEBHOOK_SECRET` in Render
 
 ### 3. Secure MongoDB
-1. Go to MongoDB Atlas → Network Access
+1. Go to MongoDB Atlas Ã¢â€ â€™ Network Access
 2. Add Render's IP address (or use `0.0.0.0/0` for any IP - less secure)
-3. Database Access → Ensure strong password
+3. Database Access Ã¢â€ â€™ Ensure strong password
 
 ### 4. Generate Strong JWT Secret
 ```bash
@@ -205,7 +205,7 @@ Use this as your JWT_SECRET
 
 ---
 
-## 📊 Post-Deployment Checklist
+## Ã°Å¸â€œÅ  Post-Deployment Checklist
 
 ### Backend (Render)
 - [ ] Server starts without errors (check Logs tab)
@@ -216,7 +216,7 @@ Use this as your JWT_SECRET
 
 ### Frontend (Vercel)
 - [ ] Website loads successfully
-- [ ] No console errors (F12 → Console)
+- [ ] No console errors (F12 Ã¢â€ â€™ Console)
 - [ ] Products display correctly
 - [ ] Can add items to cart
 - [ ] Login/signup works
@@ -235,7 +235,7 @@ Use this as your JWT_SECRET
 
 ---
 
-## 🐛 Common Issues & Solutions
+## Ã°Å¸Ââ€º Common Issues & Solutions
 
 ### Issue 1: Backend "Application Failed to Respond"
 **Solution:**
@@ -273,7 +273,7 @@ Use this as your JWT_SECRET
 
 ---
 
-## 🔄 How to Update After Deployment
+## Ã°Å¸â€â€ž How to Update After Deployment
 
 ### Update Backend:
 1. Make changes locally
@@ -292,7 +292,7 @@ Use this as your JWT_SECRET
 
 ---
 
-## 📈 Monitoring & Maintenance
+## Ã°Å¸â€œË† Monitoring & Maintenance
 
 ### Render Dashboard
 - **Logs:** View real-time server logs
@@ -311,12 +311,12 @@ Use this as your JWT_SECRET
 
 ---
 
-## 💰 Cost Breakdown
+## Ã°Å¸â€™Â° Cost Breakdown
 
 ### Free Tier (Perfect for Testing)
-- **Render Free:** ✅ Backend hosting (spins down after inactivity)
-- **Vercel Free:** ✅ Frontend hosting (100GB bandwidth/month)
-- **MongoDB Atlas Free:** ✅ 512MB storage
+- **Render Free:** Ã¢Å“â€¦ Backend hosting (spins down after inactivity)
+- **Vercel Free:** Ã¢Å“â€¦ Frontend hosting (100GB bandwidth/month)
+- **MongoDB Atlas Free:** Ã¢Å“â€¦ 512MB storage
 - **Total:** $0/month
 
 ### Production Tier (Recommended)
@@ -327,17 +327,17 @@ Use this as your JWT_SECRET
 
 ---
 
-## 🎯 Quick Deploy Summary
+## Ã°Å¸Å½Â¯ Quick Deploy Summary
 
 ```bash
 # 1. Backend (Render)
-- New Web Service → Connect GitHub
+- New Web Service Ã¢â€ â€™ Connect GitHub
 - Root: ecommerce/server
 - Add all environment variables
 - Deploy
 
 # 2. Frontend (Vercel)
-- Import Project → Connect GitHub
+- Import Project Ã¢â€ â€™ Connect GitHub
 - Root: ecommerce
 - Add environment variables (including Render URL)
 - Deploy
@@ -351,7 +351,7 @@ Use this as your JWT_SECRET
 
 ---
 
-## 🆘 Need Help?
+## Ã°Å¸â€ Ëœ Need Help?
 
 ### Resources:
 - **Render Docs:** https://render.com/docs
@@ -367,20 +367,20 @@ Use this as your JWT_SECRET
 
 ---
 
-## ✅ Success Indicators
+## Ã¢Å“â€¦ Success Indicators
 
 Your deployment is successful when:
-- ✅ Vercel shows "Building" → "Ready"
-- ✅ Render shows "Live" status
-- ✅ Website loads without errors
-- ✅ Can create account and login
-- ✅ Products display correctly
-- ✅ Payment test succeeds
-- ✅ Orders saved in database
+- Ã¢Å“â€¦ Vercel shows "Building" Ã¢â€ â€™ "Ready"
+- Ã¢Å“â€¦ Render shows "Live" status
+- Ã¢Å“â€¦ Website loads without errors
+- Ã¢Å“â€¦ Can create account and login
+- Ã¢Å“â€¦ Products display correctly
+- Ã¢Å“â€¦ Payment test succeeds
+- Ã¢Å“â€¦ Orders saved in database
 
 ---
 
-**🎉 Your e-commerce platform is now live and ready for customers!**
+**Ã°Å¸Å½â€° Your e-commerce platform is now live and ready for customers!**
 
 **Live URLs:**
 - Frontend: `https://your-app.vercel.app`
@@ -390,4 +390,4 @@ Your deployment is successful when:
 **Default Admin Login:**
 - Email: admin@example.com
 - Password: admin123
-- ⚠️ **Change this immediately after first login!**
+- Ã¢Å¡Â Ã¯Â¸Â **Change this immediately after first login!**

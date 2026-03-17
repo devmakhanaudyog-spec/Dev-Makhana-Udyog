@@ -117,11 +117,11 @@ Only populate necessary fields:
 
 ### Scaling Steps (When Reaching 1000+ Users)
 
-#### Phase 1: Database Optimization (Done ✅)
-- ✅ Add indexes
-- ✅ Connection pooling
-- ✅ Lean queries
-- ✅ Rate limiting
+#### Phase 1: Database Optimization (Done âœ…)
+- âœ… Add indexes
+- âœ… Connection pooling
+- âœ… Lean queries
+- âœ… Rate limiting
 
 #### Phase 2: Caching Layer (Recommended)
 ```javascript
@@ -181,7 +181,7 @@ console.log(`Query time: ${end - start}ms`); // Should be < 200ms
 
 ```env
 # Database
-MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/ecommerce
+MONGODB_URI=${MONGODB_URI}
 
 # Server
 NODE_ENV=production

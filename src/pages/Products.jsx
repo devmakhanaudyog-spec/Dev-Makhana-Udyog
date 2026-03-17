@@ -125,15 +125,15 @@ export default function Products() {
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>Buy Premium Makhana Products | GI-Certified Fox Nuts | Makhaantraa Foods</title>
+        <title>Buy Premium Makhana Products | GI-Certified Fox Nuts | Dev Makhana Udyog</title>
         <meta name="description" content="Shop authentic GI-certified makhana products from Mithila, Bihar. 7 Suta, 6 Suta, roasted & flavored varieties. Lab-tested, <3% moisture, 98%+ pop rate. Order now!" />
         <meta name="keywords" content="buy makhana, premium makhana, fox nuts online, lotus seeds, 7 suta makhana, roasted makhana, flavored makhana, GI certified makhana, makhana price, wholesale makhana" />
-        <link rel="canonical" href="https://www.makhaantraafoods.com/products" />
+        <link rel="canonical" href="https://www.Dev Makhana Udyog.com/products" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Buy Premium Makhana Products | GI-Certified Fox Nuts" />
         <meta property="og:description" content="Shop authentic GI-certified makhana from Mithila, Bihar. Multiple varieties available." />
-        <meta property="og:url" content="https://www.makhaantraafoods.com/products" />
+        <meta property="og:url" content="https://www.Dev Makhana Udyog.com/products" />
         <meta property="og:type" content="website" />
       </Helmet>
 
@@ -215,8 +215,8 @@ export default function Products() {
               <h3 className="text-2xl font-bold text-slate-900">{p.name}</h3>
               <p className="text-slate-700 text-sm leading-relaxed">{p.description}</p>
               <div className="flex items-baseline gap-2 text-slate-900">
-                <span className="text-xl font-bold text-brand">₹{p.price ?? "-"}</span>
-                {p.originalPrice ? <span className="text-sm text-gray-400 line-through">₹{p.originalPrice}</span> : null}
+                <span className="text-xl font-bold text-brand">â‚¹{p.price ?? "-"}</span>
+                {p.originalPrice ? <span className="text-sm text-gray-400 line-through">â‚¹{p.originalPrice}</span> : null}
                 {p.discount ? <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-semibold">{p.discount}% OFF</span> : null}
               </div>
               {/* Removed pop rate, moisture, packaging, use case for product cards as requested */}

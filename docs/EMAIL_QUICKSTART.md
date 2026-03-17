@@ -1,6 +1,6 @@
 # Password Reset Email - Quick Setup
 
-## ✅ What's Been Implemented
+## âœ… What's Been Implemented
 
 1. **Email Service** - Complete nodemailer integration at `server/utils/emailService.js`
 2. **Password Reset Emails** - Professional HTML email templates with 1-hour expiry
@@ -8,11 +8,11 @@
 4. **Development Mode** - Works with or without email configuration
 5. **Admin Password Change** - In Settings tab with secure validation
 
-## 🚀 Quick Start - Gmail Setup (5 minutes)
+## ðŸš€ Quick Start - Gmail Setup (5 minutes)
 
 ### Step 1: Get Gmail App Password
 1. Go to https://myaccount.google.com/apppasswords
-2. Select **Mail** → **Other** → Name it "Makhaantraa App"
+2. Select **Mail** â†’ **Other** â†’ Name it "Dev Makhana Udyog App"
 3. Click **Generate** and copy the 16-digit code
 
 ### Step 2: Configure Server Environment
@@ -22,7 +22,7 @@ Edit `ecommerce/server/.env` and add:
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASSWORD=abcd efgh ijkl mnop
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 FRONTEND_URL=http://localhost:3000
 ```
 
@@ -34,28 +34,28 @@ cd ecommerce
 npm run dev
 ```
 
-You should see: `✅ Email service is ready to send messages`
+You should see: `âœ… Email service is ready to send messages`
 
 ### Step 4: Test It!
 1. Go to http://localhost:3000/forgot-password
 2. Enter a registered email address
 3. Check your inbox for the reset email
 
-## 📧 Email Features
+## ðŸ“§ Email Features
 
 ### Password Reset Email Includes:
-- ✉️ Professional HTML design with your branding
-- 🔒 Secure reset link valid for 1 hour
-- ⚠️ Security warnings and best practices
-- 📱 Mobile-responsive design
-- 🌐 Works on all email clients
+- âœ‰ï¸ Professional HTML design with your branding
+- ðŸ”’ Secure reset link valid for 1 hour
+- âš ï¸ Security warnings and best practices
+- ðŸ“± Mobile-responsive design
+- ðŸŒ Works on all email clients
 
 ### Additional Features Available:
 - Welcome emails for new users
 - Order confirmation emails
 - Custom notification system
 
-## 🔧 Configuration Options
+## ðŸ”§ Configuration Options
 
 ### For Development (Gmail):
 ```env
@@ -73,7 +73,7 @@ EMAIL_USER=apikey
 EMAIL_PASSWORD=your-api-key
 ```
 
-## 🧪 Testing Without Email
+## ðŸ§ª Testing Without Email
 
 If you don't want to configure email right now:
 
@@ -82,7 +82,7 @@ If you don't want to configure email right now:
 3. Use the token to manually construct the reset URL
 4. Perfect for development/testing
 
-## 📖 Full Documentation
+## ðŸ“– Full Documentation
 
 See `docs/EMAIL_SETUP_GUIDE.md` for:
 - Detailed setup instructions
@@ -91,7 +91,7 @@ See `docs/EMAIL_SETUP_GUIDE.md` for:
 - Security best practices
 - Email service recommendations
 
-## ⚠️ Important Notes
+## âš ï¸ Important Notes
 
 1. **Gmail App Password Required** - Regular Gmail password won't work
 2. **2FA Must Be Enabled** - Gmail requires 2-factor authentication for App Passwords
@@ -99,7 +99,7 @@ See `docs/EMAIL_SETUP_GUIDE.md` for:
 4. **Check Spam Folder** - First few emails might land in spam
 5. **Development Only** - Gmail has daily limits (500 emails/day)
 
-## 🎯 Production Recommendations
+## ðŸŽ¯ Production Recommendations
 
 For production use, consider these professional email services:
 
@@ -110,7 +110,7 @@ For production use, consider these professional email services:
 | **Mailgun** | 5,000/month | Developers |
 | **Postmark** | 100/month | Deliverability |
 
-## 🔍 Troubleshooting
+## ðŸ” Troubleshooting
 
 ### "Invalid login" Error
 - Make sure 2FA is enabled on your Google account
@@ -127,15 +127,15 @@ For production use, consider these professional email services:
 - For production, use a professional email service
 - Set up SPF/DKIM records for your domain
 
-## ✅ Success Indicators
+## âœ… Success Indicators
 
 When everything is working:
-- ✅ Server logs show: "Email service is ready to send messages"
-- ✅ Forgot password returns success without showing token
-- ✅ Emails arrive in inbox within seconds
-- ✅ Reset links work correctly
+- âœ… Server logs show: "Email service is ready to send messages"
+- âœ… Forgot password returns success without showing token
+- âœ… Emails arrive in inbox within seconds
+- âœ… Reset links work correctly
 
-## 🆘 Need Help?
+## ðŸ†˜ Need Help?
 
 1. Check `docs/EMAIL_SETUP_GUIDE.md` for detailed troubleshooting
 2. Verify your Gmail App Password is correct
@@ -144,4 +144,4 @@ When everything is working:
 
 ---
 
-**Ready to test?** Visit http://localhost:3000/forgot-password and try it out! 🚀
+**Ready to test?** Visit http://localhost:3000/forgot-password and try it out! ðŸš€

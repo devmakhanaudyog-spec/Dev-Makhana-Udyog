@@ -55,8 +55,8 @@ const blogPosts = [
   {
     id: 5,
     title: "Why the GI Tag on Mithila Makhana is More Than Just a Label",
-    excerpt: "Discover why the GI tag is more than a label—it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
-    author: "Makhaantraafoods Team",
+    excerpt: "Discover why the GI tag is more than a label‍”it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
+    author: "Dev Makhana Udyog Team",
     date: "2026-01-10",
     category: "Education",
     slug: "why-gi-mithila-makhana",
@@ -66,7 +66,7 @@ const blogPosts = [
   },
   {
     id: 6,
-    title: "Makhana: The Clean-Label Super Snack – A Personal Promise",
+    title: "Makhana: The Clean-Label Super Snack ‍“ A Personal Promise",
     excerpt: "Discover the plant-based powerhouse that's high in protein, low GI, and ready to take on any flavor you can imagine.",
     author: "Dev Makhana Udyog Team",
     date: "2026-01-20",
@@ -105,13 +105,13 @@ export default function BlogIndex() {
           name="keywords" 
           content="makhana blog, fox nuts blog, makhana recipes, makhana benefits, healthy eating blog, nutrition articles" 
         />
-        <link rel="canonical" href="https://www.makhaantraafoods.com/blog" />
+        <link rel="canonical" href="https://www.Dev Makhana Udyog.com/blog" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Makhana Blog - Health Tips & Recipes" />
         <meta property="og:description" content="Expert articles on makhana benefits, recipes, and nutrition" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.makhaantraafoods.com/blog" />
+        <meta property="og:url" content="https://www.Dev Makhana Udyog.com/blog" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />

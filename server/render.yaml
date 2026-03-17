@@ -1,7 +1,7 @@
 services:
   - type: web
     name: dev-mkahna-udyog-api
-    env: node
+    runtime: node
     buildCommand: npm install
     startCommand: npm start
     envVars:

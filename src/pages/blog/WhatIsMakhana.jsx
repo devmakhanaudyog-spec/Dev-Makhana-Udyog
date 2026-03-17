@@ -211,7 +211,7 @@ const WhatIsMakhanaArticle = () => (
     </ul>
 
     <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 mt-8">
-      <h3 className="text-xl font-bold text-yellow-900 mb-3">⚠️ Any Side Effects?</h3>
+      <h3 className="text-xl font-bold text-yellow-900 mb-3">âš ï¸ Any Side Effects?</h3>
       <p className="text-gray-700 leading-relaxed">
         Makhana is generally very safe. However, consume in moderation (20-30g per day). Excessive consumption may cause:
       </p>
@@ -225,7 +225,7 @@ const WhatIsMakhanaArticle = () => (
     <div className="bg-green-50 border-l-4 border-green-500 p-6 mt-8">
       <h3 className="text-xl font-bold text-green-900 mb-3">Where to Buy Authentic Makhana?</h3>
       <p className="text-gray-700 leading-relaxed">
-        Look for GI-certified Mithila makhana with lab-tested quality certifications. At Makhaantraa Foods, we offer:
+        Look for GI-certified Mithila makhana with lab-tested quality certifications. At Dev Makhana Udyog, we offer:
       </p>
       <ul className="list-disc list-inside space-y-1 text-gray-700 mt-2">
         <li>✅ <strong>GI-Tagged:</strong> Authentic Mithila makhana</li>

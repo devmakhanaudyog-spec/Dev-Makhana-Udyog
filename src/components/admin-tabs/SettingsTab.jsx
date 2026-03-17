@@ -20,9 +20,9 @@ export default function SettingsTab({ settings, updateSettings }) {
   });
 
   const [formData, setFormData] = useState({
-    companyName: 'Makhaantraa Foods',
+    companyName: 'Dev Makhana Udyog',
     heroImage: settings?.heroImage || '',
-    companyEmail: settings?.companyEmail || 'info@makhaantraa.com',
+    companyEmail: settings?.companyEmail || 'info@devmakhanaudyog.com',
     companyPhone: settings?.companyPhone || '+91-XXXXXXXXXX',
     whatsappNumber: settings?.whatsappNumber || '+91-XXXXXXXXXX',
     businessAddress: '123 Business St, City, State, PIN',
@@ -41,7 +41,7 @@ export default function SettingsTab({ settings, updateSettings }) {
   React.useEffect(() => {
     setFormData((prev) => ({
       ...prev,
-      companyEmail: settings?.companyEmail || 'info@makhaantraa.com',
+      companyEmail: settings?.companyEmail || 'info@devmakhanaudyog.com',
       companyPhone: settings?.companyPhone || '+91-XXXXXXXXXX',
       whatsappNumber: settings?.whatsappNumber || '+91-XXXXXXXXXX',
       maintenanceMode: settings?.maintenanceMode || false,

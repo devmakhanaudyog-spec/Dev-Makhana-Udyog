@@ -11,7 +11,7 @@ import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
  *   title="Health Benefits of Makhana for Weight Loss"
  *   excerpt="Discover how makhana can help you lose weight naturally..."
  *   content={<YourContentComponent />}
- *   author="Makhaantraa Team"
+ *   author="Dev Makhana Udyog Team"
  *   date="2026-02-08"
  *   category="Health & Nutrition"
  *   tags={["makhana benefits", "weight loss", "healthy snacking"]}
@@ -23,7 +23,7 @@ const BlogPostTemplate = ({
   title,
   excerpt,
   content,
-  author = "Makhaantraa Team",
+  author = "Dev Makhana Udyog Team",
   date,
   category = "Makhana",
   tags = [],
@@ -47,7 +47,7 @@ const BlogPostTemplate = ({
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Makhaantraa Foods",
+      "name": "Dev Makhana Udyog",
       "logo": {
         "@type": "ImageObject",
         "url": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg"
@@ -57,7 +57,7 @@ const BlogPostTemplate = ({
     "dateModified": date,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://www.makhaantraafoods.com/blog/${slug}`
+      "@id": `https://www.Dev Makhana Udyog.com/blog/${slug}`
     }
   };
 
@@ -70,19 +70,19 @@ const BlogPostTemplate = ({
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.makhaantraafoods.com"
+        "item": "https://www.Dev Makhana Udyog.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://www.makhaantraafoods.com/blog"
+        "item": "https://www.Dev Makhana Udyog.com/blog"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": title,
-        "item": `https://www.makhaantraafoods.com/blog/${slug}`
+        "item": `https://www.Dev Makhana Udyog.com/blog/${slug}`
       }
     ]
   };
@@ -91,16 +91,16 @@ const BlogPostTemplate = ({
     <>
       {/* SEO Meta Tags */}
       <Helmet>
-        <title>{title} | Makhaantraa Foods Blog</title>
+        <title>{title} | Dev Makhana Udyog Blog</title>
         <meta name="description" content={excerpt} />
         <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={`https://www.makhaantraafoods.com/blog/${slug}`} />
+        <link rel="canonical" href={`https://www.Dev Makhana Udyog.com/blog/${slug}`} />
         
         {/* Open Graph */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://www.makhaantraafoods.com/blog/${slug}`} />
+        <meta property="og:url" content={`https://www.Dev Makhana Udyog.com/blog/${slug}`} />
         {featuredImage && <meta property="og:image" content={featuredImage} />}
         <meta property="article:published_time" content={date} />
         <meta property="article:author" content={author} />

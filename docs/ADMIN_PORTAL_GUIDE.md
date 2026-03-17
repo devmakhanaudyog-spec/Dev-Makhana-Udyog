@@ -1,12 +1,12 @@
-# 🏢 Admin Portal - Complete Documentation
+# ðŸ¢ Admin Portal - Complete Documentation
 
 ## Overview
 
-The **Makhaantraa Foods Admin Portal** is a professional, industry-ready dashboard for managing all aspects of the e-commerce platform. It features a modern UI/UX with comprehensive management tools for orders, products, users, and more.
+The **Dev Makhana Udyog Admin Portal** is a professional, industry-ready dashboard for managing all aspects of the e-commerce platform. It features a modern UI/UX with comprehensive management tools for orders, products, users, and more.
 
 ---
 
-## 🚀 Quick Start
+## ðŸš€ Quick Start
 
 ### Accessing Admin Portal
 
@@ -15,11 +15,11 @@ The **Makhaantraa Foods Admin Portal** is a professional, industry-ready dashboa
 3. **Default Credentials**:
    - **Email**: `admin@example.com`
    - **Password**: `admin12345`
-   - ⚠️ **IMPORTANT**: Change these credentials after first login for security
+   - âš ï¸ **IMPORTANT**: Change these credentials after first login for security
 
 ---
 
-## 📊 Dashboard Features
+## ðŸ“Š Dashboard Features
 
 ### 1. **Header & Navigation**
 - **Professional Header**: Dark gradient header with admin portal branding
@@ -50,7 +50,7 @@ Displays key metrics:
 
 ---
 
-## 📋 Management Modules
+## ðŸ“‹ Management Modules
 
 ### **Orders Management**
 - View all customer orders
@@ -60,11 +60,11 @@ Displays key metrics:
 - Delete orders if needed
 
 **Statuses Available**:
-- 🟡 Pending - Order received, awaiting processing
-- 🟠 Processing - Being prepared for shipment
-- 🔵 Shipped - On the way to customer
-- 🟢 Delivered - Successfully delivered
-- ❌ Cancelled - Order cancelled
+- ðŸŸ¡ Pending - Order received, awaiting processing
+- ðŸŸ  Processing - Being prepared for shipment
+- ðŸ”µ Shipped - On the way to customer
+- ðŸŸ¢ Delivered - Successfully delivered
+- âŒ Cancelled - Order cancelled
 
 ### **Bulk Orders**
 - Manage wholesale/bulk inquiries
@@ -154,7 +154,7 @@ Comprehensive admin settings including:
 
 ---
 
-## 🔒 Security Features
+## ðŸ”’ Security Features
 
 ### Authentication
 - JWT token-based authentication
@@ -169,23 +169,23 @@ Comprehensive admin settings including:
 - Secure credential handling
 
 ### Best Practices
-- ✅ Never hardcode credentials
-- ✅ Use environment variables for sensitive data
-- ✅ Change default password immediately
-- ✅ Enable HTTPS in production
-- ✅ Regular security audits
+- âœ… Never hardcode credentials
+- âœ… Use environment variables for sensitive data
+- âœ… Change default password immediately
+- âœ… Enable HTTPS in production
+- âœ… Regular security audits
 
 ---
 
-## 🎨 User Interface Design
+## ðŸŽ¨ User Interface Design
 
 ### Modern Design Elements
 - **Gradient Headers**: Professional gradient backgrounds
 - **Color Coding**: Status-based color indicators
-  - 🟢 Green: Success/Active/Approved
-  - 🔵 Blue: Information/Processing
-  - 🟡 Yellow: Warning/Pending
-  - 🔴 Red: Error/Cancelled/Critical
+  - ðŸŸ¢ Green: Success/Active/Approved
+  - ðŸ”µ Blue: Information/Processing
+  - ðŸŸ¡ Yellow: Warning/Pending
+  - ðŸ”´ Red: Error/Cancelled/Critical
 - **Responsive Cards**: Clean, organized information display
 - **Interactive Tables**: Sort, filter, and manage data
 - **Modal Dialogs**: Non-intrusive editing and confirmation
@@ -200,7 +200,7 @@ Comprehensive admin settings including:
 
 ---
 
-## ⌨️ Keyboard Shortcuts (Future)
+## âŒ¨ï¸ Keyboard Shortcuts (Future)
 
 Coming soon: Keyboard shortcuts for power users
 - `Ctrl+K`: Quick search
@@ -211,7 +211,7 @@ Coming soon: Keyboard shortcuts for power users
 
 ---
 
-## 📱 Responsive Design
+## ðŸ“± Responsive Design
 
 The admin portal is fully responsive:
 - **Desktop**: Full sidebar with all features
@@ -220,7 +220,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 🔄 Data Synchronization
+## ðŸ”„ Data Synchronization
 
 ### Real-time Updates
 - Dashboard data refreshes automatically
@@ -236,7 +236,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 📈 Performance Optimization
+## ðŸ“ˆ Performance Optimization
 
 - Lazy loading of components
 - Optimized API calls
@@ -246,7 +246,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 🚨 Common Issues & Solutions
+## ðŸš¨ Common Issues & Solutions
 
 ### Issue: Can't Access Admin Dashboard
 **Solution**: Ensure you have admin role and valid token
@@ -262,7 +262,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 🔗 Useful Links
+## ðŸ”— Useful Links
 
 - **Admin Login**: `/admin-login`
 - **Admin Dashboard**: `/admin/dashboard`
@@ -271,7 +271,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 📝 Future Enhancements
+## ðŸ“ Future Enhancements
 
 - [ ] Advanced analytics with charts
 - [ ] Bulk operations (select multiple items)
@@ -286,7 +286,7 @@ The admin portal is fully responsive:
 
 ---
 
-## 💡 Tips & Best Practices
+## ðŸ’¡ Tips & Best Practices
 
 1. **Regular Backups**: Backup database regularly
 2. **Monitor Orders**: Check new orders frequently
@@ -299,10 +299,10 @@ The admin portal is fully responsive:
 
 ---
 
-## 📞 Support
+## ðŸ“ž Support
 
 For support or issues:
-- Contact: admin@makhaantraa.com
+- Contact: admin@devmakhanaudyog.com
 - Report bugs through admin panel
 - Check documentation first
 
@@ -310,5 +310,5 @@ For support or issues:
 
 **Version**: 1.0  
 **Last Updated**: January 3, 2026  
-**Status**: Production Ready ✅
+**Status**: Production Ready âœ…
 

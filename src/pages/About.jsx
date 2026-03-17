@@ -15,7 +15,7 @@ export default function About() {
         <div className="relative w-full mb-8">
           <img
             src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243127/products/wo9lzrfabc3cpvjt4x7a.jpg"
-            alt="Makhaantraa Hero"
+            alt="Dev Makhana Udyog Hero"
             className="w-full h-[22rem] md:h-[28rem] object-cover rounded-2xl shadow-xl border-4 border-yellow-300"
           />
           {/* Decorative leaf accent */}
@@ -24,7 +24,7 @@ export default function About() {
         </div>
         <h1 className="text-5xl font-extrabold mb-4 text-gray-900 tracking-tight">About Us</h1>
         <p className="text-xl text-gray-700 max-w-4xl mx-auto">
-          Makhaantraa is dedicated to bringing authentic, GI-tagged Mithila makhana from the heart of Bihar directly to you—ensuring purity, traceability, and taste in every bite.
+          Dev Makhana Udyog is dedicated to bringing authentic, GI-tagged Mithila makhana from the heart of Bihar directly to you‍”ensuring purity, traceability, and taste in every bite.
         </p>
       </section>
 
@@ -54,7 +54,7 @@ export default function About() {
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Our Story</h2>
           <p className="text-gray-700 text-lg mb-2">
-            Founded in 2020, Makhaantraa started with a small collective of Mithila farmers and food technologists who wanted to champion authentic, nutrient-rich makhana. What began as a regional initiative has grown into a trusted brand serving homes and businesses across India.
+            Founded in 2020, Dev Makhana Udyog started with a small collective of Mithila farmers and food technologists who wanted to champion authentic, nutrient-rich makhana. What began as a regional initiative has grown into a trusted brand serving homes and businesses across India.
           </p>
           <p className="text-gray-700 text-lg">
             We stay close to the source: transparent sourcing, careful grading, and packaging that preserves freshness so every batch tastes as intended.
@@ -67,7 +67,7 @@ export default function About() {
         <img src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp" alt="Certified Makhana" className="w-full md:w-1/3 rounded-2xl shadow-md object-cover h-40 md:h-56 border-2 border-yellow-200" />
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Certified Products</h2>
-          <p className="text-gray-700 text-lg mb-2">We specialize in GI-Tagged Makhana (Fox Nuts) — certified, safe, and traceable. Our products meet global food safety standards (FSSAI, ISO, HACCP) and are perfect for health-conscious brands, retailers, and distributors worldwide.</p>
+          <p className="text-gray-700 text-lg mb-2">We specialize in GI-Tagged Makhana (Fox Nuts) ‍” certified, safe, and traceable. Our products meet global food safety standards (FSSAI, ISO, HACCP) and are perfect for health-conscious brands, retailers, and distributors worldwide.</p>
         </div>
       </section>
 
@@ -133,7 +133,7 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex items-center gap-4">
             <span className="text-4xl">🌱</span>
-            <p className="text-lg text-gray-700">Makhana is a superfood—rich in protein, fiber, and antioxidants, and naturally gluten-free!</p>
+            <p className="text-lg text-gray-700">Makhana is a superfood‍”rich in protein, fiber, and antioxidants, and naturally gluten-free!</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-4xl">🔥</span>
@@ -145,7 +145,7 @@ export default function About() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-4xl">🏆</span>
-            <p className="text-lg text-gray-700">Makhaantraa brings you the boldest flavors and the cleanest supply chain—taste the difference!</p>
+            <p className="text-lg text-gray-700">Dev Makhana Udyog brings you the boldest flavors and the cleanest supply chain—taste the difference!</p>
           </div>
         </div>
       </section>
@@ -161,7 +161,7 @@ export default function About() {
           </div>
           <div className="h-12 w-1 bg-green-300 md:h-1 md:w-24 md:bg-green-300 md:my-0 my-4"></div>
           <div className="flex flex-col items-center">
-            <span className="text-5xl mb-2">🧑‍🔬</span>
+            <span className="text-5xl mb-2">🧑‍🔬</span>
             <span className="font-bold">Graded & Tested</span>
             <span className="text-gray-600 text-sm">Lab-checked for quality</span>
           </div>
@@ -186,18 +186,18 @@ export default function About() {
         <div className="flex flex-wrap justify-center gap-8">
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 1" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-pink-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">“The flavors are amazing and the quality is always top-notch!”</p>
-            <span className="block text-sm text-gray-500">— Sunita, Delhi</span>
+            <p className="italic text-gray-800 mb-1">‍œThe flavors are amazing and the quality is always top-notch!‍</p>
+            <span className="block text-sm text-gray-500">‍” Sunita, Delhi</span>
           </div>
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 2" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-yellow-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">“I love knowing exactly where my makhana comes from. Super transparent!”</p>
-            <span className="block text-sm text-gray-500">— Rajesh, Mumbai</span>
+            <p className="italic text-gray-800 mb-1">‍œI love knowing exactly where my makhana comes from. Super transparent!‍</p>
+            <span className="block text-sm text-gray-500">‍” Rajesh, Mumbai</span>
           </div>
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 3" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-green-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">“Fast delivery and the best makhana I’ve ever tasted!”</p>
-            <span className="block text-sm text-gray-500">— Meena, Bangalore</span>
+            <p className="italic text-gray-800 mb-1">‍œFast delivery and the best makhana I‍™ve ever tasted!‍</p>
+            <span className="block text-sm text-gray-500">‍” Meena, Bangalore</span>
           </div>
         </div>
       </section>

@@ -13,7 +13,7 @@ The application now supports sending password reset emails and other notificatio
 ### Step 2: Generate App Password
 1. Go to: https://myaccount.google.com/apppasswords
 2. Select app: **Mail**
-3. Select device: **Other (Custom name)** → Type: "Makhaantraa Foods App"
+3. Select device: **Other (Custom name)** â†’ Type: "Dev Makhana Udyog App"
 4. Click **Generate**
 5. Copy the 16-digit password (remove spaces)
 
@@ -25,7 +25,7 @@ Add these to your `server/.env` file:
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASSWORD=your-16-digit-app-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 FRONTEND_URL=http://localhost:3000
 ```
 
@@ -50,7 +50,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 EMAIL_USER=apikey
 EMAIL_PASSWORD=your-sendgrid-api-key
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 FRONTEND_URL=https://your-production-domain.com
 ```
 
@@ -62,7 +62,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 EMAIL_USER=your-mailgun-username
 EMAIL_PASSWORD=your-mailgun-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 FRONTEND_URL=https://your-production-domain.com
 ```
 
@@ -74,7 +74,7 @@ SMTP_PORT=587
 SMTP_SECURE=false
 EMAIL_USER=your-ses-smtp-username
 EMAIL_PASSWORD=your-ses-smtp-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 FRONTEND_URL=https://your-production-domain.com
 ```
 
@@ -87,7 +87,7 @@ FRONTEND_URL=https://your-production-domain.com
 | `EMAIL_SERVICE` | Email service type (`gmail` or `smtp`) | Yes | - |
 | `EMAIL_USER` | Email address to send from | Yes | - |
 | `EMAIL_PASSWORD` | Email password or App Password | Yes | - |
-| `EMAIL_FROM_NAME` | Display name for outgoing emails | No | "Makhaantraa Foods" |
+| `EMAIL_FROM_NAME` | Display name for outgoing emails | No | "Dev Makhana Udyog" |
 | `SMTP_HOST` | SMTP server hostname | Yes (for smtp) | "smtp.gmail.com" |
 | `SMTP_PORT` | SMTP server port | No | 587 |
 | `SMTP_SECURE` | Use SSL/TLS (true for port 465) | No | false |
@@ -99,16 +99,16 @@ FRONTEND_URL=https://your-production-domain.com
 
 Once email is configured, the following features will work:
 
-### ✅ Password Reset
+### âœ… Password Reset
 - Users can request password reset from login page
 - They receive an email with a secure reset link
 - Link expires after 1 hour
 
-### ✅ Welcome Emails (Optional)
+### âœ… Welcome Emails (Optional)
 - New users receive welcome emails on registration
 - Can be enabled in the registration route
 
-### ✅ Order Confirmations (Optional)
+### âœ… Order Confirmations (Optional)
 - Customers receive order confirmation emails
 - Can be integrated with order creation
 
@@ -131,12 +131,12 @@ curl -X POST http://localhost:5000/api/auth/forgot-password \
 ### Method 3: Verify Email Config in Server Logs
 When the server starts, you should see:
 ```
-✅ Email service is ready to send messages
+âœ… Email service is ready to send messages
 ```
 
 If you see an error:
 ```
-❌ Email service configuration error: [error details]
+âŒ Email service configuration error: [error details]
 ```
 
 ---
@@ -155,7 +155,7 @@ Add to your environment variables:
 ```env
 NODE_TLS_REJECT_UNAUTHORIZED=0
 ```
-⚠️ Only use this in development! For production, fix SSL certificates properly.
+âš ï¸ Only use this in development! For production, fix SSL certificates properly.
 
 ### Issue: Emails go to spam
 **Solutions:**

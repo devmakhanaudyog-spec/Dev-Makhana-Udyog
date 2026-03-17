@@ -16,7 +16,7 @@ console.log(`
 
 1. ENSURE MONGODB IS RUNNING
    └─ Start MongoDB service (mongod)
-  └─ Connection: mongodb://localhost:27017/dev-mkahna-udyog
+  └─ Connection: use MONGODB_URI from server/.env
 
 2. BACKEND SETUP (Terminal 1)
    ├─ cd server
@@ -121,7 +121,7 @@ Other:
 🌍 ENVIRONMENT VARIABLES:
 
 All configured in server/.env:
-  - MONGODB_URI: mongodb://localhost:27017/dev-mkahna-udyog (or MongoDB Atlas URI)
+  - MONGODB_URI: your MongoDB connection string (Atlas or local)
   - JWT_SECRET: your_jwt_secret_key
   - JWT_EXPIRES_IN: 30d
   - STRIPE_SECRET_KEY: your_stripe_secret_key
@@ -144,7 +144,7 @@ Dependencies missing?
   └─ npm install in both root and server directories
 
 Database needs reset?
-  └─ Delete MongoDB local database or drop dev-mkahna-udyog collection
+  └─ Reset collections in the database pointed by MONGODB_URI
   └─ Run node seed-complete.js again
 
 ═══════════════════════════════════════════════════════════════════════════════

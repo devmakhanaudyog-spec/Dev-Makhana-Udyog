@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 const getFromAddress = () => {
-  const fromName = process.env.EMAIL_FROM_NAME || 'Makhaantraa Foods';
+  const fromName = process.env.EMAIL_FROM_NAME || 'Dev Makhana Udyog';
   const fromEmail = process.env.EMAIL_FROM_ADDRESS || process.env.EMAIL_USER;
   return `"${fromName}" <${fromEmail}>`;
 };
@@ -54,7 +54,7 @@ const sendPasswordResetEmail = async (to, resetToken, userName = 'User') => {
     const mailOptions = {
       from: getFromAddress(),
       to: to,
-      subject: 'Password Reset Request - Makhaantraa Foods',
+      subject: 'Password Reset Request - Dev Makhana Udyog',
       html: `
         <!DOCTYPE html>
         <html>
@@ -76,12 +76,12 @@ const sendPasswordResetEmail = async (to, resetToken, userName = 'User') => {
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">🔐 Password Reset Request</h1>
+              <h1 style="margin: 0;">ðŸ” Password Reset Request</h1>
             </div>
             <div class="content">
               <p>Hello <strong>${userName}</strong>,</p>
               
-              <p>We received a request to reset your password for your Makhaantraa Foods account. If you didn't make this request, you can safely ignore this email.</p>
+              <p>We received a request to reset your password for your Dev Makhana Udyog account. If you didn't make this request, you can safely ignore this email.</p>
               
               <p>To reset your password, click the button below:</p>
               
@@ -95,7 +95,7 @@ const sendPasswordResetEmail = async (to, resetToken, userName = 'User') => {
               </div>
               
               <div class="warning">
-                <strong>⚠️ Security Notice:</strong>
+                <strong>âš ï¸ Security Notice:</strong>
                 <ul style="margin: 10px 0; padding-left: 20px;">
                   <li>This link will expire in <strong>1 hour</strong></li>
                   <li>Only use this link if you requested a password reset</li>
@@ -105,11 +105,11 @@ const sendPasswordResetEmail = async (to, resetToken, userName = 'User') => {
               
               <p>If you didn't request a password reset, please ignore this email or contact our support team if you have concerns about your account security.</p>
               
-              <p>Best regards,<br><strong>Makhaantraa Foods Team</strong></p>
+              <p>Best regards,<br><strong>Dev Makhana Udyog Team</strong></p>
             </div>
             <div class="footer">
               <p>This email was sent to ${to}</p>
-              <p>© ${new Date().getFullYear()} Makhaantraa Foods. All rights reserved.</p>
+              <p>Â© ${new Date().getFullYear()} Dev Makhana Udyog. All rights reserved.</p>
               <p>This is an automated message, please do not reply to this email.</p>
             </div>
           </div>
@@ -119,7 +119,7 @@ const sendPasswordResetEmail = async (to, resetToken, userName = 'User') => {
       text: `
 Hello ${userName},
 
-We received a request to reset your password for your Makhaantraa Foods account.
+We received a request to reset your password for your Dev Makhana Udyog account.
 
 To reset your password, visit this link:
 ${resetUrl}
@@ -129,7 +129,7 @@ This link will expire in 1 hour.
 If you didn't request a password reset, please ignore this email.
 
 Best regards,
-Makhaantraa Foods Team
+Dev Makhana Udyog Team
       `
     };
 
@@ -147,10 +147,10 @@ const verifyEmailConfig = async () => {
   try {
     const transporter = createTransporter();
     await transporter.verify();
-    console.log('✅ Email service is ready to send messages');
+    console.log('âœ… Email service is ready to send messages');
     return true;
   } catch (error) {
-    console.error('❌ Email service configuration error:', error.message);
+    console.error('âŒ Email service configuration error:', error.message);
     return false;
   }
 };
@@ -163,7 +163,7 @@ const sendWelcomeEmail = async (to, userName) => {
     const mailOptions = {
       from: getFromAddress(),
       to: to,
-      subject: 'Welcome to Makhaantraa Foods! 🎉',
+      subject: 'Welcome to Dev Makhana Udyog! ðŸŽ‰',
       html: `
         <!DOCTYPE html>
         <html>
@@ -179,17 +179,17 @@ const sendWelcomeEmail = async (to, userName) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">Welcome to Makhaantraa Foods! 🎉</h1>
+              <h1 style="margin: 0;">Welcome to Dev Makhana Udyog! ðŸŽ‰</h1>
             </div>
             <div class="content">
               <p>Hello <strong>${userName}</strong>,</p>
-              <p>Thank you for joining Makhaantraa Foods! We're excited to have you as part of our community.</p>
+              <p>Thank you for joining Dev Makhana Udyog! We're excited to have you as part of our community.</p>
               <p>Explore our premium quality makhana products and enjoy a healthy snacking experience.</p>
               <p>If you have any questions, feel free to reach out to our support team.</p>
-              <p>Happy shopping!<br><strong>Makhaantraa Foods Team</strong></p>
+              <p>Happy shopping!<br><strong>Dev Makhana Udyog Team</strong></p>
             </div>
             <div class="footer">
-              <p>© ${new Date().getFullYear()} Makhaantraa Foods. All rights reserved.</p>
+              <p>Â© ${new Date().getFullYear()} Dev Makhana Udyog. All rights reserved.</p>
             </div>
           </div>
         </body>
@@ -215,7 +215,7 @@ const sendOTPEmail = async (to, otp) => {
     const mailOptions = {
       from: getFromAddress(),
       to: to,
-      subject: 'Verify Your Email - Makhaantraa Foods OTP',
+      subject: 'Verify Your Email - Dev Makhana Udyog OTP',
       html: `
         <!DOCTYPE html>
         <html>
@@ -237,12 +237,12 @@ const sendOTPEmail = async (to, otp) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">✉️ Email Verification</h1>
+              <h1 style="margin: 0;">âœ‰ï¸ Email Verification</h1>
             </div>
             <div class="content">
               <p>Hello,</p>
               
-              <p>Thank you for signing up with Makhaantraa Foods! To complete your registration, please verify your email address using the OTP (One-Time Password) below:</p>
+              <p>Thank you for signing up with Dev Makhana Udyog! To complete your registration, please verify your email address using the OTP (One-Time Password) below:</p>
               
               <div class="otp-box">
                 <p style="margin: 0; color: #666;">Your verification code is:</p>
@@ -251,7 +251,7 @@ const sendOTPEmail = async (to, otp) => {
               </div>
               
               <div class="warning">
-                <strong>⚠️ Important:</strong>
+                <strong>âš ï¸ Important:</strong>
                 <ul style="margin: 10px 0; padding-left: 20px;">
                   <li>Never share this OTP with anyone</li>
                   <li>This code will expire in 10 minutes</li>
@@ -264,11 +264,11 @@ const sendOTPEmail = async (to, otp) => {
               
               <p>If you have any trouble, please contact our support team.</p>
               
-              <p>Best regards,<br><strong>Makhaantraa Foods Team</strong></p>
+              <p>Best regards,<br><strong>Dev Makhana Udyog Team</strong></p>
             </div>
             <div class="footer">
               <p>This email was sent to ${to}</p>
-              <p>© ${new Date().getFullYear()} Makhaantraa Foods. All rights reserved.</p>
+              <p>Â© ${new Date().getFullYear()} Dev Makhana Udyog. All rights reserved.</p>
               <p>This is an automated message, please do not reply to this email.</p>
             </div>
           </div>
@@ -276,7 +276,7 @@ const sendOTPEmail = async (to, otp) => {
         </html>
       `,
       text: `
-Verify Your Email - Makhaantraa Foods
+Verify Your Email - Dev Makhana Udyog
 
 Hello,
 
@@ -289,7 +289,7 @@ This code is valid for 10 minutes only.
 Never share this OTP with anyone. If you didn't request this, please ignore this email.
 
 Best regards,
-Makhaantraa Foods Team
+Dev Makhana Udyog Team
       `
     };
 
@@ -306,7 +306,7 @@ Makhaantraa Foods Team
 const sendContactEmail = async (contact) => {
   try {
     const transporter = createTransporter();
-    const receiver = process.env.CONTACT_RECEIVER || process.env.EMAIL_USER || 'support@makhaantraafoods.com';
+    const receiver = process.env.CONTACT_RECEIVER || process.env.EMAIL_USER || 'support@devmakhanaudyog.com';
 
     const mailOptions = {
       from: getFromAddress(),
@@ -388,7 +388,7 @@ const sendOrderConfirmationEmail = async (to, orderDetails) => {
         <body>
           <div class="container">
             <div class="header">
-              <h1 style="margin: 0;">Order Confirmed! 🎉</h1>
+              <h1 style="margin: 0;">Order Confirmed! ðŸŽ‰</h1>
             </div>
             <div class="content">
               <p>Hello <strong>${orderDetails.customerName}</strong>,</p>
@@ -396,15 +396,15 @@ const sendOrderConfirmationEmail = async (to, orderDetails) => {
               <div class="order-box">
                 <h3>Order Details:</h3>
                 <p><strong>Order ID:</strong> #${orderDetails.orderId}</p>
-                <p><strong>Total Amount:</strong> ₹${orderDetails.totalAmount}</p>
+                <p><strong>Total Amount:</strong> â‚¹${orderDetails.totalAmount}</p>
                 <p><strong>Status:</strong> ${orderDetails.status}</p>
               </div>
               <p>We'll send you another email when your order ships.</p>
-              <p>Thank you for choosing Makhaantraa Foods!</p>
-              <p>Best regards,<br><strong>Makhaantraa Foods Team</strong></p>
+              <p>Thank you for choosing Dev Makhana Udyog!</p>
+              <p>Best regards,<br><strong>Dev Makhana Udyog Team</strong></p>
             </div>
             <div class="footer">
-              <p>© ${new Date().getFullYear()} Makhaantraa Foods. All rights reserved.</p>
+              <p>Â© ${new Date().getFullYear()} Dev Makhana Udyog. All rights reserved.</p>
             </div>
           </div>
         </body>

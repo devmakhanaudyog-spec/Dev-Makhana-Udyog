@@ -1,16 +1,16 @@
-# 🚀 Quick Setup Checklist
+# Ã°Å¸Å¡â‚¬ Quick Setup Checklist
 
-## Complete! ✅ Implementation is Done
+## Complete! Ã¢Å“â€¦ Implementation is Done
 
 All code changes have been implemented. Here's what you need to do to get it running:
 
 ---
 
-## 🔑 Step 1: Get Google OAuth Credentials (5 min)
+## Ã°Å¸â€â€˜ Step 1: Get Google OAuth Credentials (5 min)
 
 ### Visit Google Cloud Console:
 - [ ] Go to https://console.cloud.google.com
-- [ ] Create new project: "Makhaantraa Foods"
+- [ ] Create new project: "Dev Makhana Udyog"
 - [ ] Enable "Google+ API"
 - [ ] Create OAuth 2.0 Web credential
 - [ ] Set Authorized redirect URIs:
@@ -21,7 +21,7 @@ All code changes have been implemented. Here's what you need to do to get it run
 
 ---
 
-## 📝 Step 2: Configure Environment Variables (5 min)
+## Ã°Å¸â€œÂ Step 2: Configure Environment Variables (5 min)
 
 ### Backend (`ecommerce/server/.env`):
 
@@ -39,12 +39,12 @@ MAX_OTP_ATTEMPTS=5
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
 EMAIL_PASSWORD=your-16-digit-app-password
-EMAIL_FROM_NAME=Makhaantraa Foods
+EMAIL_FROM_NAME=Dev Makhana Udyog
 
 # Keep existing variables...
 NODE_ENV=development
 PORT=5000
-MONGO_URI=your-existing-mongo-uri
+MONGODB_URI=your-existing-mongo-uri
 JWT_SECRET=your-existing-jwt-secret
 ```
 
@@ -59,7 +59,7 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=your-existing-stripe-key
 
 ---
 
-## 📧 Step 3: Gmail Setup (for OTP Emails)
+## Ã°Å¸â€œÂ§ Step 3: Gmail Setup (for OTP Emails)
 
 ### If using Gmail:
 - [ ] Go to https://myaccount.google.com/apppasswords
@@ -73,7 +73,7 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY=your-existing-stripe-key
 
 ---
 
-## 🚀 Step 4: Start the Project
+## Ã°Å¸Å¡â‚¬ Step 4: Start the Project
 
 ### Terminal 1 - Backend:
 ```bash
@@ -83,9 +83,9 @@ npm run dev
 
 **Expected output:**
 ```
-✅ Server running on http://localhost:5000
-✅ Database connected
-✅ Email service ready
+Ã¢Å“â€¦ Server running on http://localhost:5000
+Ã¢Å“â€¦ Database connected
+Ã¢Å“â€¦ Email service ready
 ```
 
 ### Terminal 2 - Frontend:
@@ -96,12 +96,12 @@ npm start
 
 **Expected output:**
 ```
-✅ Frontend running on http://localhost:3000
+Ã¢Å“â€¦ Frontend running on http://localhost:3000
 ```
 
 ---
 
-## 🧪 Step 5: Test the Features (10 min)
+## Ã°Å¸Â§Âª Step 5: Test the Features (10 min)
 
 ### Test 1: Signup with OTP Email Verification
 ```
@@ -116,7 +116,7 @@ npm start
 9. Auto-redirected to /profile
 ```
 
-**✅ Success = OTP flow working!**
+**Ã¢Å“â€¦ Success = OTP flow working!**
 
 ### Test 2: Resend OTP
 ```
@@ -127,7 +127,7 @@ npm start
 5. Try again with new OTP
 ```
 
-**✅ Success = Resend cooldown working!**
+**Ã¢Å“â€¦ Success = Resend cooldown working!**
 
 ### Test 3: Wrong OTP Error
 ```
@@ -137,7 +137,7 @@ npm start
 4. Must click "Resend OTP" to try again
 ```
 
-**✅ Success = Rate limiting working!**
+**Ã¢Å“â€¦ Success = Rate limiting working!**
 
 ### Test 4: Google Login
 ```
@@ -149,7 +149,7 @@ npm start
 6. See profile page
 ```
 
-**✅ Success = Google OAuth working!**
+**Ã¢Å“â€¦ Success = Google OAuth working!**
 
 ### Test 5: Traditional Login (After Verification)
 ```
@@ -159,13 +159,13 @@ npm start
 4. Should login normally (no OTP needed)
 ```
 
-**✅ Success = Post-verification login working!**
+**Ã¢Å“â€¦ Success = Post-verification login working!**
 
 ---
 
-## 🎯 What Was Implemented?
+## Ã°Å¸Å½Â¯ What Was Implemented?
 
-### ✅ Backend
+### Ã¢Å“â€¦ Backend
 - OTP generation & verification
 - Email sending with OTP
 - Google OAuth integration
@@ -173,7 +173,7 @@ npm start
 - 3 new API endpoints
 - Rate limiting
 
-### ✅ Frontend
+### Ã¢Å“â€¦ Frontend
 - OTP verification modal
 - Google login button
 - Enhanced signup flow
@@ -181,7 +181,7 @@ npm start
 - Loading states
 - Dark mode support
 
-### ✅ Security
+### Ã¢Å“â€¦ Security
 - No fake email registrations
 - Rate limiting (5 attempts)
 - OTP expiry (10 minutes)
@@ -191,7 +191,7 @@ npm start
 
 ---
 
-## 📊 Test Credentials
+## Ã°Å¸â€œÅ  Test Credentials
 
 ### Test Signup:
 - Name: Test User
@@ -204,7 +204,7 @@ npm start
 
 ---
 
-## 🐛 Troubleshooting
+## Ã°Å¸Ââ€º Troubleshooting
 
 ### Issue: "OTP not received"
 **Solution:**
@@ -236,7 +236,7 @@ npm start
 
 ---
 
-## 📚 Documentation Files
+## Ã°Å¸â€œÅ¡ Documentation Files
 
 For more detailed info, read these:
 
@@ -246,7 +246,7 @@ For more detailed info, read these:
 
 ---
 
-## ✅ Completion Checklist
+## Ã¢Å“â€¦ Completion Checklist
 
 - [ ] Google Client ID & Secret obtained
 - [ ] `.env` file updated with Google credentials
@@ -254,14 +254,14 @@ For more detailed info, read these:
 - [ ] Gmail app password configured (if using Gmail)
 - [ ] Backend server started (`npm run dev`)
 - [ ] Frontend server started (`npm start`)
-- [ ] Signup with OTP tested ✅
-- [ ] Google login tested ✅
-- [ ] Traditional login tested ✅
+- [ ] Signup with OTP tested Ã¢Å“â€¦
+- [ ] Google login tested Ã¢Å“â€¦
+- [ ] Traditional login tested Ã¢Å“â€¦
 - [ ] All features working!
 
 ---
 
-## 🚀 Next Phases (Optional)
+## Ã°Å¸Å¡â‚¬ Next Phases (Optional)
 
 ### Phase 2: Advanced Features
 - [ ] Email templates customization
@@ -278,7 +278,7 @@ For more detailed info, read these:
 
 ---
 
-## 📞 Need Help?
+## Ã°Å¸â€œÅ¾ Need Help?
 
 1. Check troubleshooting section above
 2. Review error messages in console
@@ -288,7 +288,7 @@ For more detailed info, read these:
 
 ---
 
-## 🎉 Ready to Go!
+## Ã°Å¸Å½â€° Ready to Go!
 
 Everything is implemented and ready for testing. Start with **Step 1** above and follow through!
 
@@ -296,4 +296,4 @@ Everything is implemented and ready for testing. Start with **Step 1** above and
 
 ---
 
-**Good luck! 🚀**
+**Good luck! Ã°Å¸Å¡â‚¬**

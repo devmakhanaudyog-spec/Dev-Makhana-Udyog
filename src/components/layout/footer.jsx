@@ -96,14 +96,14 @@ function Footer() {
         <div className="border-t border-slate-700 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
           <div className="text-center md:text-left space-y-1">
             <p className="text-sm text-slate-400">
-              &copy; Makhaantraa Foods. All Rights Reserved.
+              &copy; Dev Makhana Udyog. All Rights Reserved.
             </p>
-            <p className="text-xs text-slate-500">Made with ❤️ by the Makhaantraa team.</p>
+            <p className="text-xs text-slate-500">Made with â¤ï¸ by the Dev Makhana Udyog team.</p>
           </div>
           <div className="flex items-center space-x-6">
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaFacebook size={24} /></a>
-              <a href="https://www.instagram.com/makhaantraafoods/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
+              <a href="https://www.instagram.com/Dev Makhana Udyog/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
               <a href="https://twitter.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaTwitter size={24} /></a>
               <a href="https://in.linkedin.com/in/makhaantra%C3%A3-foods-96a241397" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaLinkedin size={24} /></a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="text-slate-400 hover:text-green-400 transition-colors"><FaWhatsapp size={24} /></a>
@@ -112,10 +112,10 @@ function Footer() {
               className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-bold shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200 text-base border-2 border-white/10"
               style={{ minWidth: 120, letterSpacing: '0.02em' }}
               onClick={() => {
-                const shareUrl = 'https://www.makhaantraafoods.com';
+                const shareUrl = 'https://www.devmakhanaudyog.com';
                 const shareData = {
-                  title: 'Makhaantraa Foods',
-                  text: 'Check out Makhaantraa Foods!',
+                  title: 'Dev Makhana Udyog',
+                  text: 'Check out Dev Makhana Udyog!',
                   url: shareUrl,
                 };
                 if (navigator.share) {

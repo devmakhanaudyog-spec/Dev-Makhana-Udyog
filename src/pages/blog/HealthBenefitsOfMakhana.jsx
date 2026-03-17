@@ -106,7 +106,7 @@ const HealthBenefitsArticle = () => (
       <p className="text-gray-700 leading-relaxed">
         Makhana from Mithila region of Bihar has been granted Geographical Indication (GI) tag, certifying its superior quality. 
         Our premium makhana has less than 3% moisture content and high pop rate (above 85%), ensuring maximum nutritional value 
-        and better taste. Order authentic GI-tagged makhana from Makhaantraa Foods today!
+        and better taste. Order authentic GI-tagged makhana from Dev Makhana Udyog today!
       </p>
     </div>
   </div>

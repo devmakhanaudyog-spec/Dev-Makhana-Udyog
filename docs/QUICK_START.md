@@ -1,4 +1,4 @@
-# 🚀 QUICK START GUIDE - Get Your Project Running in 10 Minutes
+# ðŸš€ QUICK START GUIDE - Get Your Project Running in 10 Minutes
 
 ## Step 1: Backend Setup (5 minutes)
 
@@ -13,7 +13,7 @@ Create `server/.env`:
 ```env
 NODE_ENV=development
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/dev-mkahna-udyog
+MONGODB_URI=${MONGODB_URI}
 JWT_SECRET=your-super-secret-key-change-in-production
 CLIENT_URL=http://localhost:3000
 ```
@@ -41,8 +41,8 @@ npm run dev
 
 You should see:
 ```
-✅ MongoDB Connected
-🚀 Server running on port 5000
+âœ… MongoDB Connected
+ðŸš€ Server running on port 5000
 ```
 
 ---
@@ -75,7 +75,7 @@ http://localhost:3000
 
 ---
 
-## ✅ Verify Everything Works
+## âœ… Verify Everything Works
 
 ### Test Checklist
 - [ ] Backend running on `http://localhost:5000`
@@ -96,7 +96,7 @@ curl -X POST http://localhost:5000/api/auth/register \
 
 ---
 
-## 🧪 Test Account Setup
+## ðŸ§ª Test Account Setup
 
 ### Create Admin Account (via MongoDB)
 
@@ -121,28 +121,28 @@ db.users.insertOne({
 
 ---
 
-## 🎨 Project Structure Quick Reference
+## ðŸŽ¨ Project Structure Quick Reference
 
 ```
 dev-mkahna-udyog/
-├── server/              ← Backend (port 5000)
-│   ├── models/         ← Database schemas
-│   ├── routes/         ← API endpoints
-│   └── server.js       ← Main server
-│
-├── src/                ← Frontend (port 3000)
-│   ├── pages/          ← Page components
-│   ├── components/     ← UI components
-│   ├── context/        ← Global state
-│   └── App.js          ← Main app
-│
-├── public/             ← Static assets
-└── package.json        ← Dependencies
+â”œâ”€â”€ server/              â† Backend (port 5000)
+â”‚   â”œâ”€â”€ models/         â† Database schemas
+â”‚   â”œâ”€â”€ routes/         â† API endpoints
+â”‚   â””â”€â”€ server.js       â† Main server
+â”‚
+â”œâ”€â”€ src/                â† Frontend (port 3000)
+â”‚   â”œâ”€â”€ pages/          â† Page components
+â”‚   â”œâ”€â”€ components/     â† UI components
+â”‚   â”œâ”€â”€ context/        â† Global state
+â”‚   â””â”€â”€ App.js          â† Main app
+â”‚
+â”œâ”€â”€ public/             â† Static assets
+â””â”€â”€ package.json        â† Dependencies
 ```
 
 ---
 
-## 📍 Important URLs
+## ðŸ“ Important URLs
 
 | Purpose | URL |
 |---------|-----|
@@ -155,9 +155,9 @@ dev-mkahna-udyog/
 
 ---
 
-## 🔧 Common Issues & Solutions
+## ðŸ”§ Common Issues & Solutions
 
-### ❌ "Port 5000 already in use"
+### âŒ "Port 5000 already in use"
 ```bash
 # Kill process on port 5000
 # Windows
@@ -169,23 +169,23 @@ lsof -i :5000
 kill -9 <PID>
 ```
 
-### ❌ "MongoDB connection failed"
+### âŒ "MongoDB connection failed"
 - Check MongoDB is running: `mongod` or MongoDB Atlas connection
 - Verify `MONGODB_URI` in `.env`
 - Check firewall settings
 
-### ❌ "API calls failing"
+### âŒ "API calls failing"
 - Ensure backend is running on port 5000
 - Check `REACT_APP_API_URL` in `.env.local`
 - Check browser console for errors
 
-### ❌ "CORS errors"
+### âŒ "CORS errors"
 - Backend CORS is already enabled
 - Verify frontend URL is `http://localhost:3000`
 
 ---
 
-## 🎯 What to Explore First
+## ðŸŽ¯ What to Explore First
 
 ### 1. Browse Products
 ```
@@ -228,34 +228,34 @@ http://localhost:3000/products
 
 ---
 
-## 📦 Features to Test
+## ðŸ“¦ Features to Test
 
-### Authentication ✅
+### Authentication âœ…
 - Register new account
 - Login with credentials
 - View profile
 - Update profile
 
-### Shopping ✅
+### Shopping âœ…
 - Filter products by category
 - Search products
 - Add to cart
 - Add to wishlist
 - View wishlist
 
-### Reviews ✅
+### Reviews âœ…
 - View product reviews
 - Write a review (needs purchase)
 - Rate product
 - See helpful votes
 
-### Checkout ✅
+### Checkout âœ…
 - Enter shipping address
 - Select payment method
 - Apply coupon code
 - See order summary
 
-### Admin ✅
+### Admin âœ…
 - View dashboard analytics
 - Manage products
 - View all orders
@@ -263,7 +263,7 @@ http://localhost:3000/products
 
 ---
 
-## 🚀 Next Steps (Optional)
+## ðŸš€ Next Steps (Optional)
 
 ### Setup Email Service
 ```env
@@ -300,7 +300,7 @@ REACT_APP_GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
 
 ---
 
-## 📊 Testing the API with Postman
+## ðŸ“Š Testing the API with Postman
 
 ### 1. Import API into Postman
 
@@ -348,7 +348,7 @@ Body: {
 
 ---
 
-## 🎓 Learning Resources
+## ðŸŽ“ Learning Resources
 
 ### Read These Files First
 1. `COMPLETE_README.md` - Full overview
@@ -363,7 +363,7 @@ Body: {
 
 ---
 
-## ✅ Troubleshooting Commands
+## âœ… Troubleshooting Commands
 
 ```bash
 # Check if Node.js is installed
@@ -389,12 +389,12 @@ kill -9 <PID>
 
 ---
 
-## 📞 Getting Help
+## ðŸ“ž Getting Help
 
 ### Documentation
-- ✅ COMPLETE_README.md
-- ✅ IMPLEMENTATION_GUIDE.md
-- ✅ Code comments
+- âœ… COMPLETE_README.md
+- âœ… IMPLEMENTATION_GUIDE.md
+- âœ… Code comments
 
 ### Debug Mode
 ```bash
@@ -412,10 +412,10 @@ DEBUG=* npm run dev
 
 ---
 
-## 🎉 You're All Set!
+## ðŸŽ‰ You're All Set!
 
-Your e-commerce platform is now running. Explore the features and enjoy! 🚀
+Your e-commerce platform is now running. Explore the features and enjoy! ðŸš€
 
 ---
 
-**Happy Coding! 💻**
+**Happy Coding! ðŸ’»**

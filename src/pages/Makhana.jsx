@@ -264,8 +264,8 @@ export default function Makhana() {
                         {/* Sample Package Selector */}
                         <select className="w-full input-brand p-3 md:col-span-2" value={form.samplePackage} onChange={e => setForm({ ...form, samplePackage: e.target.value })} required>
                           <option value="" disabled>Select Sample Package (Required)</option>
-                          <option value="650">Sample Package – ₹850 (includes shipping, 1x premium pack)</option>
-                          <option value="1000">Sample Package – ₹1700 (includes shipping, 2x premium packs)</option>
+                          <option value="650">Sample Package ‍“ â‚¹850 (includes shipping, 1x premium pack)</option>
+                          <option value="1000">Sample Package ‍“ â‚¹1700 (includes shipping, 2x premium packs)</option>
                         </select>
                         {/* Payment Method Selector */}
                         <div className="w-full md:col-span-2 flex flex-col gap-2 mt-2">
@@ -283,7 +283,7 @@ export default function Makhana() {
                           {form.paymentMethod === 'upi' && (
                             <div className="bg-green-50 border border-green-200 rounded p-3 mt-2 text-sm">
                               <div className="font-semibold mb-1">Pay via UPI</div>
-                              <div>UPI ID: <span className="font-mono">makhaantraafoods@upi</span></div>
+                              <div>UPI ID: <span className="font-mono">Dev Makhana Udyog@upi</span></div>
                               <div className="text-xs text-slate-500">(After submitting the form, please pay the selected amount and share the transaction ID with our team on WhatsApp.)</div>
                             </div>
                           )}
@@ -340,7 +340,7 @@ export default function Makhana() {
           </div>
           <div className="flex gap-3">
             <button onClick={scrollToForm} className="bg-white text-brand px-6 py-3 rounded-lg font-semibold hover:opacity-95 transition">Get Sample</button>
-            <button onClick={() => window.open(`https://wa.me/${(settings?.whatsappNumber || '919999999999').replace(/[^\d+]/g, '')}?text=Hi%20Makhaantraa%20Foods,%20I'd%20like%20to%20discuss%20Makhana%20orders.`, "_blank")} className="btn-brand-ghost px-6 py-3 rounded-lg bg-white text-brand font-semibold">Talk to Sales</button>
+            <button onClick={() => window.open(`https://wa.me/${(settings?.whatsappNumber || '919999999999').replace(/[^\d+]/g, '')}?text=Hi%20Dev%20Makhana%20Udyog,%20I'd%20like%20to%20discuss%20Makhana%20orders.`, "_blank")} className="btn-brand-ghost px-6 py-3 rounded-lg bg-white text-brand font-semibold">Talk to Sales</button>
           </div>
         </div>
       </section>

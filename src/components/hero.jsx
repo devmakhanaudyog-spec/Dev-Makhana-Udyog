@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSettings } from '../context/SettingsContext';
 import { makhanaProducts } from "../data/makhana";
 import { Link, useNavigate } from "react-router-dom";
-import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp, Leaf } from "lucide-react";
+import { Shield, Award, Package, Star, CheckCircle2, TrendingUp, Users, ArrowUp, Leaf, ClipboardList, FlaskConical, DollarSign } from "lucide-react";
 import { API_BASE_URL } from '../config';
 import FAQ, { makhaanaFAQs } from './FAQ';
 
@@ -299,20 +299,55 @@ function DealsBanner() {
   );
 }
 
+const canonicalFeatured = [
+  { id: "7-suta", displayName: "7 Suta Makhana", aliases: ["7 suta makhana", "7 suta makhana hand picked"] },
+  { id: "6-suta", displayName: "6 Suta Makhana", aliases: ["6 suta makhana"] },
+  { id: "5-suta", displayName: "5 Suta Makhana", aliases: ["5 suta makhana"] },
+  { id: "roasted-makhana", displayName: "Roasted Makhana", aliases: ["roasted makhana"] }
+];
+
+const normalizeFeaturedName = (value = "") =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+const getFeaturedProductKey = (product) =>
+  (product?.productId || product?.id || "").toString().toLowerCase();
+
+const localFeaturedMap = new Map(makhanaProducts.map((product) => [getFeaturedProductKey(product), product]));
+
+const pickCanonicalProduct = (target, products) => {
+  const byId = products.find((product) => getFeaturedProductKey(product) === target.id);
+  if (byId) return byId;
+
+  const aliasSet = new Set(target.aliases.map(normalizeFeaturedName));
+  const byName = products.find((product) => aliasSet.has(normalizeFeaturedName(product?.name || "")));
+  if (byName) return byName;
+
+  return localFeaturedMap.get(target.id) || null;
+};
+
 /* ---------------------- Featured Products ---------------------- */
 function FeaturedProducts() {
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
-  const [featured, setFeatured] = useState([]);
+  const [catalog, setCatalog] = useState([]);
+
   useEffect(() => {
     setLoaded(false);
-    fetch(`${API_BASE_URL}/api/products?featured=true&limit=4`)
+    const localFallback = canonicalFeatured
+      .map((target) => localFeaturedMap.get(target.id))
+      .filter(Boolean);
+
+    fetch(`${API_BASE_URL}/api/products?limit=100`)
       .then(res => res.json())
       .then(data => {
-        setFeatured(Array.isArray(data.products) && data.products.length ? data.products : makhanaProducts.filter(p => p.featured));
+        const apiProducts = Array.isArray(data.products) ? data.products : [];
+        setCatalog(apiProducts.length ? apiProducts : localFallback);
         setLoaded(true);
       })
-      .catch(() => { setFeatured(makhanaProducts.filter(p => p.featured)); setLoaded(true); });
+      .catch(() => {
+        setCatalog(localFallback);
+        setLoaded(true);
+      });
   }, []);
 
   if (!loaded) {
@@ -328,16 +363,12 @@ function FeaturedProducts() {
     );
   }
 
-  // Always show these products in this order if present
-  const featuredNames = [
-    "7 Suta Makhana",
-    "6 Suta Makhana",
-    "5 Suta Makhana",
-    "Roasted Makhana"
-  ];
-  const featuredToShow = featuredNames
-    .map(name => featured.find(p => p.name === name))
-    .filter(Boolean);
+  const featuredToShow = canonicalFeatured
+    .map((target) => ({
+      displayName: target.displayName,
+      product: pickCanonicalProduct(target, catalog)
+    }))
+    .filter((item) => Boolean(item.product));
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-20 bg-white">
@@ -351,9 +382,9 @@ function FeaturedProducts() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {featuredToShow.map((p) => (
+        {featuredToShow.map(({ product: p, displayName }) => (
           <button
-            key={p._id || p.productId || p.id}
+            key={p._id || p.productId || p.id || displayName}
             onClick={() => navigate(`/product/${p.productId || p._id || p.id}`)}
             className="group text-left bg-white rounded-3xl shadow-lg border-2 border-gray-100 overflow-hidden hover:shadow-2xl hover:border-green-200 transition-all duration-300 hover:-translate-y-2"
           >
@@ -371,7 +402,7 @@ function FeaturedProducts() {
 
             <div className="p-6">
               <h3 className="font-bold text-xl text-slate-900 mb-3 group-hover:text-green-700 transition-colors">
-                {p.name}
+                {displayName}
               </h3>
               <div className="space-y-2 mb-4">
                 <div className="flex items-center justify-between text-sm">
@@ -403,9 +434,9 @@ function FeaturedProducts() {
 function HowItWorks(){
   const [loaded, setLoaded] = useState(false);
   const steps = [
-    { id:1, emoji:"📋", title:"Browse & Select", desc:"Choose from our premium makhana grades for any order size from Products page." },
-    { id:2, emoji:"📦", title:"Request Sample", desc:"Order sample to test quality before placing your Bulk order. for sample order Fill the Order-Sample Form." },
-    { id:3, emoji:"✅", title:"Place Your Order", desc:"Order from small packs to bulk quantities - we serve all. for small pack order from cart and for bulk brder Fill the Bulk-Order form." }
+    { id:1, Icon: ClipboardList, bg:"from-blue-100 to-blue-200",   fg:"text-blue-700",   title:"Browse & Select",  desc:"Choose from our premium makhana grades for any order size from the Products page." },
+    { id:2, Icon: Package,       bg:"from-amber-100 to-amber-200", fg:"text-amber-700",  title:"Request Sample",   desc:"Order a sample to test quality before placing your bulk order. Fill the Order-Sample Form." },
+    { id:3, Icon: CheckCircle2,  bg:"from-green-100 to-green-200", fg:"text-green-700",  title:"Place Your Order", desc:"Order from small packs to bulk quantities — we serve all. Cart for small packs, Bulk-Order form for wholesale." }
   ];
 
   useEffect(() => {
@@ -446,7 +477,9 @@ function HowItWorks(){
               {idx + 1}
             </div>
             
-            <div className="text-6xl mb-6 mt-4">{s.emoji}</div>
+            <div className={`w-20 h-20 mb-6 mt-4 flex items-center justify-center bg-gradient-to-br ${s.bg} rounded-3xl shadow-md`}>
+              <s.Icon className={`w-10 h-10 ${s.fg}`} />
+            </div>
             <h4 className="font-bold text-2xl text-slate-900 mb-3">{s.title}</h4>
             <p className="text-slate-600 leading-relaxed text-lg">{s.desc}</p>
           </div>
@@ -472,10 +505,10 @@ function HowItWorks(){
 function WhyChooseUs(){
   const [loaded, setLoaded] = useState(false);
   const features = [
-    { id:1, emoji:"🏅", title:"GI-Certified", desc:"Authentic Mithila Makhana with geographical indication tag" },
-    { id:2, emoji:"🔬", title:"Lab-Tested Quality", desc:"Every batch tested for moisture, pop rate & foreign matter" },
-    { id:3, emoji:"📦", title:"Flexible Quantities", desc:"From small retail packs to bulk wholesale orders - we serve all" },
-    { id:4, emoji:"💰", title:"Best Pricing", desc:"Competitive rates for all order sizes with volume discounts" }
+    { id:1, Icon: Award,        bg:"from-amber-100 to-amber-200",   fg:"text-amber-700",  title:"GI-Certified",       desc:"Authentic Mithila Makhana with geographical indication tag" },
+    { id:2, Icon: FlaskConical, bg:"from-blue-100 to-blue-200",     fg:"text-blue-700",   title:"Lab-Tested Quality", desc:"Every batch tested for moisture, pop rate & foreign matter" },
+    { id:3, Icon: Package,      bg:"from-green-100 to-green-200",   fg:"text-green-700",  title:"Flexible Quantities",desc:"From small retail packs to bulk wholesale orders — we serve all" },
+    { id:4, Icon: DollarSign,   bg:"from-purple-100 to-purple-200", fg:"text-purple-700", title:"Best Pricing",       desc:"Competitive rates for all order sizes with volume discounts" }
   ];
 
   useEffect(() => {
@@ -501,7 +534,7 @@ function WhyChooseUs(){
           <Award className="w-4 h-4" />
           <span>Our Commitment</span>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Why Choose Makhaantraa Foods</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Why Choose Dev Makhana Udyog</h2>
         <p className="text-xl text-slate-600 max-w-2xl mx-auto">GI-certified quality with complete traceability and transparency</p>
       </div>
 
@@ -511,8 +544,8 @@ function WhyChooseUs(){
             key={f.id}
             className="bg-gradient-to-br from-white to-green-50 rounded-3xl p-8 shadow-lg border-2 border-green-100 hover:shadow-2xl hover:border-green-300 transition-all duration-300 hover:-translate-y-2 text-center group"
           >
-            <div className="w-20 h-20 mx-auto mb-5 bg-gradient-to-br from-green-100 to-green-200 rounded-3xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-md">
-              {f.emoji}
+            <div className={`w-20 h-20 mx-auto mb-5 bg-gradient-to-br ${f.bg} rounded-3xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-md`}>
+              <f.Icon className={`w-10 h-10 ${f.fg}`} />
             </div>
             <h4 className="font-bold text-xl text-slate-900 mb-3 group-hover:text-green-700 transition-colors">
               {f.title}
