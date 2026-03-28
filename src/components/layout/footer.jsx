@@ -126,11 +126,7 @@ function Footer() {
               style={{ minWidth: 120, letterSpacing: '0.02em' }}
               onClick={() => {
                 const shareUrl = 'https://www.devmakhana.com/';
-                const shareData = {
-                  title: 'Dev Makhana Udyog',
-                  text: 'Discover premium GI-tagged Mithila Makhana from Dev Makhana Udyog.',
-                  url: shareUrl,
-                };
+                const shareData = { url: shareUrl };
                 if (navigator.share) {
                   navigator.share(shareData).catch(() => {});
                 } else if (navigator.clipboard) {
