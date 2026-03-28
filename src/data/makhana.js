@@ -144,18 +144,18 @@ export const makhanaProducts = [
 export const blogPosts = [
   {
     slug: "why-gi-mithila-makhana",
-    title: "Why the GI Tag on Mithila Makhana is More Than Just a Label ‍“ A Quality Promise by Dev Makhana Udyog PVT. LTD.",
-    excerpt: "Discover why the GI tag is more than a label‍”it‍™s a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
+    title: "Why the GI Tag on Mithila Makhana is More Than Just a Label - A Quality Promise by Dev Makhana Udyog PVT. LTD.",
+    excerpt: "Discover why the GI tag is more than a label - it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
     image: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp",
     date: "2026-01-10",
     body: [
-      "Why the GI Tag on Mithila Makhana is More Than Just a Label ‍“ A Quality Promise by Dev Makhana Udyog PVT. LTD.",
+      "Why the GI Tag on Mithila Makhana is More Than Just a Label - A Quality Promise by Dev Makhana Udyog PVT. LTD.",
       "At Dev Makhana Udyog PVT. LTD., we believe that great food tells a story of where it comes from. That is why we source our makhana exclusively from the GI-tagged Mithila region. In a world full of generic snacks, Mithila makhana stands out as a symbol of purity, tradition, and a standard of quality that you can actually taste.",  
       "What Exactly is GI-Tagged Mithila Makhana?",
-      "Think of a Geographical Indication (GI) tag as a birth certificate for food. Just as Champagne only comes from France, true Mithila Makhana only comes from the sun-drenched wetlands of North Bihar‍”places like Madhubani and Darbhanga.",
+      "Think of a Geographical Indication (GI) tag as a birth certificate for food. Just as Champagne only comes from France, true Mithila Makhana only comes from the sun-drenched wetlands of North Bihar - places like Madhubani and Darbhanga.",
       "The region`s unique soil and water give this makhana its signature pearl size, superior crunch, and incredible nutritional profile. The GI tag is a legal promise: it ensures that what you are buying is the real deal, grown using time-honored methods that haven`t changed for generations. For our buyers, it`s the ultimate guarantee of authenticity.",
       "Why This Matters for Your Business (Exporters, Retailers, and Chefs)",
-      "If you are an exporter, you know that international buyers don‍™t just want food‍”they want proof. The GI tag simplifies your life by providing built-in traceability and reducing quality disputes. We back this up at Dev Makhana Udyog with lot-wise Certificates of Analysis (COA), tracking everything from moisture levels to pop-rate, so you can ship with total confidence.",
+      "If you are an exporter, you know that international buyers don't just want food - they want proof. The GI tag simplifies your life by providing built-in traceability and reducing quality disputes. We back this up at Dev Makhana Udyog with lot-wise Certificates of Analysis (COA), tracking everything from moisture levels to pop-rate, so you can ship with total confidence.",
       "For retailers, the GI tag is a powerful story to tell on your shelves. Today`s snackers want to know the who, where, and how behind their food. Highlighting Mithila-sourced makhana builds instant trust and positions your brand as a premium choice for health-conscious families.",
       "For chefs and foodservice providers, consistency is everything. You need makhana that roasts evenly and maintains its texture across every batch. Because Mithila makhana is grown in its ideal natural habitat, it offers a reliable yield and a uniform crunch that keeps your menu items perfect every time.",
       "The Magic of Mithila`s Traditional Farming",
@@ -204,12 +204,12 @@ export const blogPosts = [
   // },
   {
     slug: "healthy-snacking",
-    title: "Makhana: The Clean-Label Super Snack ‍“ A Personal Promise from Dev Makhana Udyog PVT. LTD.",
+    title: "Makhana: The Clean-Label Super Snack - A Personal Promise from Dev Makhana Udyog PVT. LTD.",
     excerpt: "Discover the plant-based powerhouse that`s high in protein, low GI, and ready to take on any flavor you can imagine.",
     image: "https://res.cloudinary.com/dujkkenmf/image/upload/v1769243016/products/nevehoaogbeowjdrwewa.webp",
     date: "2026-01-20",
     body: [
-      "At Dev Makhana Udyog PVT. LTD., we don`t just see makhana as a commodity; we see it as the future of mindful eating. As the world moves away from over-processed 'junk' and toward transparent, honest ingredients, makhana (fox nuts) has stepped into the spotlight. It is the ultimate 'better-for-you' snack‍”a plant-based powerhouse that feels light, tastes great, and respects the body.",
+      "At Dev Makhana Udyog PVT. LTD., we don`t just see makhana as a commodity; we see it as the future of mindful eating. As the world moves away from over-processed 'junk' and toward transparent, honest ingredients, makhana (fox nuts) has stepped into the spotlight. It is the ultimate 'better-for-you' snack - a plant-based powerhouse that feels light, tastes great, and respects the body.",
 
       "With its naturally airy texture and impressive nutritional stats, makhana is more than a trend; it is a versatile solution for brands and buyers who believe that food should be both functional and simple.",
 
@@ -221,7 +221,7 @@ export const blogPosts = [
 
       "A Neutral Canvas for Your Culinary Imagination",
 
-      "One of the most exciting things about makhana is its 'personality'‍”it is a master of disguise. Unlike many nuts that have a heavy, distinct flavor, makhana has a beautifully neutral profile. It acts like a sponge for flavor, making it a dream for product developers and chefs.",
+      "One of the most exciting things about makhana is its 'personality' - it is a master of disguise. Unlike many nuts that have a heavy, distinct flavor, makhana has a beautifully neutral profile. It acts like a sponge for flavor, making it a dream for product developers and chefs.",
 
       "Whether you are looking to create a savory snack or a sweet treat, makhana can do it all:",  
 
@@ -261,7 +261,7 @@ export const blogPosts = [
       
       "Conclusion",
 
-      "Makhana is that rare 'triple threat' in the food world: it`s naturally clean, nutritionally dense, and commercially ready for the global stage. Its ability to swing from a spicy snack to a sweet indulgence‍”all while staying under a 'superfood' banner‍”makes it a must-have for modern retail shelves and professional kitchens.", 
+      "Makhana is that rare 'triple threat' in the food world: it`s naturally clean, nutritionally dense, and commercially ready for the global stage. Its ability to swing from a spicy snack to a sweet indulgence - all while staying under a 'superfood' banner - makes it a must-have for modern retail shelves and professional kitchens.", 
 
       "By blending the wisdom of traditional sourcing with the precision of modern packaging, Dev Makhana Udyog PVT. LTD. is proud to be your partner in bringing this clean-label super snack to the world."  ,
 

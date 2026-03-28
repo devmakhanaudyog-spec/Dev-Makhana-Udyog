@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { useSettings } from '../context/SettingsContext';
 import toast from 'react-hot-toast';
 import axios from '../utils/api.js';
+import { formatINR } from '../utils/currency';
 import { AlertCircle, CreditCard, Wallet, ShoppingBag, MapPin, Plus, Check, ArrowLeft } from 'lucide-react';
 import RazorpayPayment from '../components/RazorpayPayment';
 import StripePayment from '../components/StripePayment';
@@ -266,7 +267,7 @@ export default function EnhancedCheckout() {
       });
 
       setDiscount(res.data.discount);
-      toast.success(`Coupon applied! You save ₹${res.data.discount}`);
+      toast.success(`Coupon applied! You save ${formatINR(res.data.discount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
     } catch (error) {
       toast.error(error.response?.data?.error || 'Invalid coupon');
       setDiscount(0);
@@ -758,7 +759,7 @@ export default function EnhancedCheckout() {
               ) : (
                 <>
                   <ShoppingBag size={22} />
-                  <span>Place Order • ₹{finalTotal.toFixed(2)}</span>
+                  <span>Place Order • {formatINR(finalTotal, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                   </svg>
@@ -783,7 +784,7 @@ export default function EnhancedCheckout() {
                       {item.name} ×{item.qty}
                       <span className="text-gray-500"> • {packLabel}</span>
                     </span>
-                    <span className="font-semibold">₹{linePrice.toFixed(2)}</span>
+                    <span className="font-semibold">{formatINR(linePrice, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                 );
               })}
@@ -792,29 +793,29 @@ export default function EnhancedCheckout() {
             <div className="border-t space-y-2 text-sm">
               <div className="flex justify-between pt-4">
                 <span>Subtotal</span>
-                <span>₹{cartTotal.toFixed(2)}</span>
+                <span>{formatINR(cartTotal, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Discount</span>
-                  <span>-₹{discount.toFixed(2)}</span>
+                  <span>-{formatINR(discount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>{shippingPrice ? `₹${shippingPrice.toFixed(2)}` : 'FREE'}</span>
+                <span>{shippingPrice ? formatINR(shippingPrice, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'FREE'}</span>
               </div>
               <div className="flex justify-between">
                 <span>GST ({gstPercent}%)</span>
-                <span>₹{taxPrice.toFixed(2)}</span>
+                <span>{formatINR(taxPrice, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
               <div className="flex justify-between text-green-700 font-semibold">
                 <span>Special Discount ({specialDiscountPercent}%)</span>
-                <span>-₹{specialDiscountAmount.toFixed(2)}</span>
+                <span>-{formatINR(specialDiscountAmount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
               <div className="flex justify-between font-bold text-base pt-4 border-t">
                 <span>Total</span>
-                <span className="text-green-700">₹{finalTotal.toFixed(2)}</span>
+                <span className="text-green-700">{formatINR(finalTotal, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
             </div>
           </div>
@@ -857,7 +858,9 @@ export default function EnhancedCheckout() {
               <div className="mb-6 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700 font-medium">Total Amount</span>
-                  <span className="font-bold text-3xl bg-brand-gradient bg-clip-text text-transparent">₹{finalTotal.toFixed(2)}</span>
+                  <span className="font-bold text-3xl bg-brand-gradient bg-clip-text text-transparent">
+                    {formatINR(finalTotal, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
                 </div>
               </div>
 

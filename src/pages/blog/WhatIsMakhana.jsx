@@ -211,7 +211,7 @@ const WhatIsMakhanaArticle = () => (
     </ul>
 
     <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 mt-8">
-      <h3 className="text-xl font-bold text-yellow-900 mb-3">âš ï¸ Any Side Effects?</h3>
+      <h3 className="text-xl font-bold text-yellow-900 mb-3">Warning: Any Side Effects?</h3>
       <p className="text-gray-700 leading-relaxed">
         Makhana is generally very safe. However, consume in moderation (20-30g per day). Excessive consumption may cause:
       </p>

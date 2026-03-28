@@ -4,7 +4,7 @@ import BlogPostTemplate from '../../components/BlogPostTemplate';
 const CleanLabelArticle = () => (
   <div className="space-y-6">
     <p className="text-lg text-gray-700 leading-relaxed">
-      At Dev Makhana Udyog PVT. LTD., we don't just see makhana as a commodity; we see it as the future of mindful eating. As the world moves away from over-processed 'junk' and toward transparent, honest ingredients, makhana (fox nuts) has stepped into the spotlight. It is the ultimate 'better-for-you' snack‍”a plant-based powerhouse that feels light, tastes great, and respects the body. With its naturally airy texture and impressive nutritional stats, makhana is more than a trend; it is a versatile solution for brands and buyers who believe that food should be both functional and simple.
+      At Dev Makhana Udyog PVT. LTD., we don't just see makhana as a commodity; we see it as the future of mindful eating. As the world moves away from over-processed 'junk' and toward transparent, honest ingredients, makhana (fox nuts) has stepped into the spotlight. It is the ultimate 'better-for-you' snack - a plant-based powerhouse that feels light, tastes great, and respects the body. With its naturally airy texture and impressive nutritional stats, makhana is more than a trend; it is a versatile solution for brands and buyers who believe that food should be both functional and simple.
     </p>
 
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Makhana is the Heart of the Clean-Label Movement</h2>
@@ -17,7 +17,7 @@ const CleanLabelArticle = () => (
 
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">A Neutral Canvas for Your Culinary Imagination</h2>
     <p className="text-gray-700 leading-relaxed mb-4">
-      One of the most exciting things about makhana is its 'personality'‍”it is a master of disguise. Unlike many nuts that have a heavy, distinct flavor, makhana has a beautifully neutral profile. It acts like a sponge for flavor, making it a dream for product developers and chefs. Whether you are looking to create a savory snack or a sweet treat, makhana can do it all:
+      One of the most exciting things about makhana is its 'personality' - it is a master of disguise. Unlike many nuts that have a heavy, distinct flavor, makhana has a beautifully neutral profile. It acts like a sponge for flavor, making it a dream for product developers and chefs. Whether you are looking to create a savory snack or a sweet treat, makhana can do it all:
     </p>
     
     <div className="grid md:grid-cols-2 gap-4">
@@ -107,7 +107,7 @@ const CleanLabelArticle = () => (
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Conclusion</h2>
     <div className="bg-green-50 border-l-4 border-green-500 p-6">
       <p className="text-gray-700 leading-relaxed">
-        Makhana is that rare 'triple threat' in the food world: it's naturally clean, nutritionally dense, and commercially ready for the global stage. Its ability to swing from a spicy snack to a sweet indulgence‍”all while staying under a 'superfood' banner‍”makes it a must-have for modern retail shelves and professional kitchens. By blending the wisdom of traditional sourcing with the precision of modern packaging, Dev Makhana Udyog PVT. LTD. is proud to be your partner in bringing this clean-label super snack to the world.
+        Makhana is that rare 'triple threat' in the food world: it's naturally clean, nutritionally dense, and commercially ready for the global stage. Its ability to swing from a spicy snack to a sweet indulgence - all while staying under a 'superfood' banner - makes it a must-have for modern retail shelves and professional kitchens. By blending the wisdom of traditional sourcing with the precision of modern packaging, Dev Makhana Udyog PVT. LTD. is proud to be your partner in bringing this clean-label super snack to the world.
       </p>
     </div>
 
@@ -139,7 +139,7 @@ const CleanLabelArticle = () => (
 export default function CleanLabelMakhanaPost() {
   return (
     <BlogPostTemplate
-      title="Makhana: The Clean-Label Super Snack ‍“ A Personal Promise from Dev Makhana Udyog"
+      title="Makhana: The Clean-Label Super Snack - A Personal Promise from Dev Makhana Udyog"
       excerpt="Discover the plant-based powerhouse that's high in protein, low GI, and ready to take on any flavor you can imagine."
       content={<CleanLabelArticle />}
       author="Dev Makhana Udyog Team"

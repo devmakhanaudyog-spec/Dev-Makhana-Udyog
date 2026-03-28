@@ -48,17 +48,6 @@ function Navbar() {
     setIsOpen(false);
   }
 
-  const menuIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 transform -rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </svg>
-  );
-  const closeIcon = (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  );
-
   return (
     <nav className={`w-full h-20 ${isCartPage ? 'sticky' : 'fixed'} top-0 left-0 z-[100] shadow-brand bg-brand-gradient text-white`}>
       <div className='max-w-[1500px] mx-auto flex justify-between items-center h-full px-4'>
@@ -99,43 +88,69 @@ function Navbar() {
 
         {/* Mobile menu button */}
         <div className='md:hidden'>
-          <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-white focus:outline-none">
-            <div className={`${isOpen ? 'rotate-90' : ''} transition-transform`}>{isOpen ? closeIcon : menuIcon}</div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 text-white focus:outline-none"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isOpen}
+          >
+            <div className="relative w-6 h-6">
+              <span
+                className={`absolute left-0 top-1 block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ease-in-out ${
+                  isOpen ? 'translate-y-2 rotate-45' : ''
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-3 block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ease-in-out ${
+                  isOpen ? 'opacity-0' : 'opacity-100'
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-5 block h-0.5 w-6 bg-white rounded-full transition-all duration-300 ease-in-out ${
+                  isOpen ? '-translate-y-2 -rotate-45' : ''
+                }`}
+              />
+            </div>
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {isOpen && (
-        <div className='md:hidden w-full absolute top-20 left-0 bg-brand-gradient text-white shadow-lg'>
-          <div className='flex flex-col space-y-4 p-4'>
-            <ul className='flex flex-col items-center space-y-4'>
-              <li><Link to="/" onClick={()=>setIsOpen(false)} className={navClass(['/'])}>Home</Link></li>
-              <li><Link to="/products" onClick={()=>setIsOpen(false)} className={navClass(['/products', '/product'])}>Product</Link></li>
-              <li><Link to="/makhana-sample" onClick={()=>setIsOpen(false)} className={navClass(['/makhana-sample'])}>Order Sample</Link></li>
-              <li><Link to="/order-bulk" onClick={()=>setIsOpen(false)} className={navClass(['/order-bulk'])}>Order In Bulk</Link></li>
-              <li><Link to="/blog" onClick={()=>setIsOpen(false)} className={navClass(['/blog'])}>Blog</Link></li>
-              <li><Link to="/contact" onClick={()=>setIsOpen(false)} className={navClass(['/contact'])}>Contact</Link></li>
-              <li><Link to="/about" onClick={()=>setIsOpen(false)} className={navClass(['/about'])}>About</Link></li>
-              {isAuthenticated && (
-                <li><Link to="/orders" onClick={()=>setIsOpen(false)} className={navClass(['/orders'])}>My Orders</Link></li>
-              )}
-            </ul>
+      <div
+        className={`md:hidden w-full absolute top-20 left-0 bg-brand-gradient text-white shadow-lg transition-all duration-300 ease-out ${
+          isOpen
+            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+            : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'
+        }`}
+        aria-hidden={!isOpen}
+      >
+        <div className='flex flex-col space-y-4 p-4'>
+          <ul className='flex flex-col items-center space-y-4'>
+            <li><Link to="/" onClick={()=>setIsOpen(false)} className={navClass(['/'])}>Home</Link></li>
+            <li><Link to="/products" onClick={()=>setIsOpen(false)} className={navClass(['/products', '/product'])}>Product</Link></li>
+            <li><Link to="/makhana-sample" onClick={()=>setIsOpen(false)} className={navClass(['/makhana-sample'])}>Order Sample</Link></li>
+            <li><Link to="/order-bulk" onClick={()=>setIsOpen(false)} className={navClass(['/order-bulk'])}>Order In Bulk</Link></li>
+            <li><Link to="/blog" onClick={()=>setIsOpen(false)} className={navClass(['/blog'])}>Blog</Link></li>
+            <li><Link to="/contact" onClick={()=>setIsOpen(false)} className={navClass(['/contact'])}>Contact</Link></li>
+            <li><Link to="/about" onClick={()=>setIsOpen(false)} className={navClass(['/about'])}>About</Link></li>
+            {isAuthenticated && (
+              <li><Link to="/orders" onClick={()=>setIsOpen(false)} className={navClass(['/orders'])}>My Orders</Link></li>
+            )}
+          </ul>
 
-            <button onClick={()=>{ setIsOpen(false); navigate(isAuthenticated ? '/profile' : '/login'); }} className='w-full py-2 bg-white/90 text-green-700 rounded-md font-medium'>
-              {isAuthenticated ? 'Profile' : 'Login'}
-            </button>
-            <button onClick={()=>{ setIsOpen(false); goToCart(); }} className='w-full py-2 relative bg-white text-green-700 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center' title="Cart">
-              <ShoppingCart size={24} />
-              {cartCount > 0 && (
-                <span className="ml-2 bg-green-600 text-white rounded-full min-w-[24px] h-6 px-2 text-xs font-semibold flex items-center justify-center">
-                  {cartCount > 99 ? '99+' : cartCount}
-                </span>
-              )}
-            </button>
-          </div>
+          <button onClick={()=>{ setIsOpen(false); navigate(isAuthenticated ? '/profile' : '/login'); }} className='w-full py-2 bg-white/90 text-green-700 rounded-md font-medium'>
+            {isAuthenticated ? 'Profile' : 'Login'}
+          </button>
+          <button onClick={()=>{ setIsOpen(false); goToCart(); }} className='w-full py-2 relative bg-white text-green-700 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center' title="Cart">
+            <ShoppingCart size={24} />
+            {cartCount > 0 && (
+              <span className="ml-2 bg-green-600 text-white rounded-full min-w-[24px] h-6 px-2 text-xs font-semibold flex items-center justify-center">
+                {cartCount > 99 ? '99+' : cartCount}
+              </span>
+            )}
+          </button>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

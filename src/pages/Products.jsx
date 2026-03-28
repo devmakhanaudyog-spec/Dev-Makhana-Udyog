@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Package, ShieldCheck, AlertCircle } from "lucide-react";
 
 import { API_BASE_URL } from "../config";
+import { formatINR } from "../utils/currency";
 
 export default function Products() {
   const navigate = useNavigate();
@@ -215,8 +216,14 @@ export default function Products() {
               <h3 className="text-2xl font-bold text-slate-900">{p.name}</h3>
               <p className="text-slate-700 text-sm leading-relaxed">{p.description}</p>
               <div className="flex items-baseline gap-2 text-slate-900">
-                <span className="text-xl font-bold text-brand">â‚¹{p.price ?? "-"}</span>
-                {p.originalPrice ? <span className="text-sm text-gray-400 line-through">â‚¹{p.originalPrice}</span> : null}
+                <span className="text-xl font-bold text-brand">
+                  {typeof p.price === "number" ? formatINR(p.price, { maximumFractionDigits: 0 }) : "-"}
+                </span>
+                {typeof p.originalPrice === "number" ? (
+                  <span className="text-sm text-gray-400 line-through">
+                    {formatINR(p.originalPrice, { maximumFractionDigits: 0 })}
+                  </span>
+                ) : null}
                 {p.discount ? <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-semibold">{p.discount}% OFF</span> : null}
               </div>
               {/* Removed pop rate, moisture, packaging, use case for product cards as requested */}

@@ -148,8 +148,8 @@ export default function BlogPost() {
         <p className="text-lg text-brand mb-2">{post.excerpt}</p>
         <div className="flex items-center gap-4 text-xs text-slate-400 mb-8">
           <span>By {author}</span>
-          <span>‍¢ {date}</span>
-          <span>‍¢ {readingTime}</span>
+          <span>| {date}</span>
+          <span>| {readingTime}</span>
         </div>
         {/* Social share button with Web Share API and fallback */}
         <div className="flex gap-3 mb-8">

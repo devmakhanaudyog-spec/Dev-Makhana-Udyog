@@ -7,6 +7,7 @@ import api from '../utils/api';
 const mockNavigate = jest.fn();
 const mockLogout = jest.fn();
 const mockSetUser = jest.fn();
+const mockLogin = jest.fn();
 
 jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
@@ -15,7 +16,7 @@ jest.mock('react-router-dom', () => ({
 
 jest.mock('../context/AuthContext', () => ({
   useAuth: () => ({
-    login: jest.fn(),
+    login: mockLogin,
     user: null,
     logout: mockLogout,
     isAuthenticated: false,
@@ -53,6 +54,10 @@ jest.mock('../utils/api', () => ({
 describe('Login signup form', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockLogin.mockResolvedValue({
+      success: true,
+      user: { role: 'user' }
+    });
   });
 
   test('shows signup fields when toggled', () => {
@@ -65,10 +70,10 @@ describe('Login signup form', () => {
     expect(screen.getByPlaceholderText(/enter your phone number/i)).toBeInTheDocument();
   });
 
-  test('submits signup data and opens otp flow', async () => {
+  test('submits signup data and redirects to profile', async () => {
     api.post.mockResolvedValue({
       data: {
-        requiresOTP: true
+        message: 'Account created successfully!'
       }
     });
 
@@ -85,11 +90,14 @@ describe('Login signup form', () => {
     fireEvent.change(screen.getByPlaceholderText(/^password$/i), {
       target: { value: 'secret123' }
     });
+    fireEvent.change(screen.getByPlaceholderText(/confirm your password/i), {
+      target: { value: 'secret123' }
+    });
     fireEvent.change(screen.getByPlaceholderText(/enter your phone number/i), {
       target: { value: '9999999999' }
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /^sign up$/i }));
+    fireEvent.click(screen.getByRole('button', { name: /create account/i }));
 
     await waitFor(() => {
       expect(api.post).toHaveBeenCalledWith('/api/auth/register', {
@@ -101,9 +109,12 @@ describe('Login signup form', () => {
     });
 
     await waitFor(() => {
-      expect(toast.success).toHaveBeenCalledWith('Account created! Please verify your email.');
+      expect(mockLogin).toHaveBeenCalledWith('user@example.com', 'secret123');
     });
 
-    expect(await screen.findByText(/otp modal/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(toast.success).toHaveBeenCalledWith('Account created successfully!');
+      expect(mockNavigate).toHaveBeenCalledWith('/profile', { replace: true });
+    });
   });
 });

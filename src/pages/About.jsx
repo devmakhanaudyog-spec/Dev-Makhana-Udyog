@@ -24,7 +24,7 @@ export default function About() {
         </div>
         <h1 className="text-5xl font-extrabold mb-4 text-gray-900 tracking-tight">About Us</h1>
         <p className="text-xl text-gray-700 max-w-4xl mx-auto">
-          Dev Makhana Udyog is dedicated to bringing authentic, GI-tagged Mithila makhana from the heart of Bihar directly to you‍”ensuring purity, traceability, and taste in every bite.
+          Dev Makhana Udyog is dedicated to bringing authentic, GI-tagged Mithila makhana from the heart of Bihar directly to you, ensuring purity, traceability, and taste in every bite.
         </p>
       </section>
 
@@ -67,7 +67,7 @@ export default function About() {
         <img src="https://res.cloudinary.com/dujkkenmf/image/upload/v1769243225/products/xh9lpswvcabiuqysqcwa.webp" alt="Certified Makhana" className="w-full md:w-1/3 rounded-2xl shadow-md object-cover h-40 md:h-56 border-2 border-yellow-200" />
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Certified Products</h2>
-          <p className="text-gray-700 text-lg mb-2">We specialize in GI-Tagged Makhana (Fox Nuts) ‍” certified, safe, and traceable. Our products meet global food safety standards (FSSAI, ISO, HACCP) and are perfect for health-conscious brands, retailers, and distributors worldwide.</p>
+          <p className="text-gray-700 text-lg mb-2">We specialize in GI-Tagged Makhana (Fox Nuts) - certified, safe, and traceable. Our products meet global food safety standards (FSSAI, ISO, HACCP) and are perfect for health-conscious brands, retailers, and distributors worldwide.</p>
         </div>
       </section>
 
@@ -133,7 +133,7 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex items-center gap-4">
             <span className="text-4xl">🌱</span>
-            <p className="text-lg text-gray-700">Makhana is a superfood‍”rich in protein, fiber, and antioxidants, and naturally gluten-free!</p>
+            <p className="text-lg text-gray-700">Makhana is a superfood, rich in protein, fiber, and antioxidants, and naturally gluten-free!</p>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-4xl">🔥</span>
@@ -161,7 +161,7 @@ export default function About() {
           </div>
           <div className="h-12 w-1 bg-green-300 md:h-1 md:w-24 md:bg-green-300 md:my-0 my-4"></div>
           <div className="flex flex-col items-center">
-            <span className="text-5xl mb-2">🧑‍🔬</span>
+            <span className="text-5xl mb-2">🧑‍🔬</span>
             <span className="font-bold">Graded & Tested</span>
             <span className="text-gray-600 text-sm">Lab-checked for quality</span>
           </div>
@@ -186,18 +186,18 @@ export default function About() {
         <div className="flex flex-wrap justify-center gap-8">
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 1" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-pink-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">‍œThe flavors are amazing and the quality is always top-notch!‍</p>
-            <span className="block text-sm text-gray-500">‍” Sunita, Delhi</span>
+            <p className="italic text-gray-800 mb-1">"The flavors are amazing and the quality is always top-notch!"</p>
+            <span className="block text-sm text-gray-500">- Sunita, Delhi</span>
           </div>
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 2" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-yellow-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">‍œI love knowing exactly where my makhana comes from. Super transparent!‍</p>
-            <span className="block text-sm text-gray-500">‍” Rajesh, Mumbai</span>
+            <p className="italic text-gray-800 mb-1">"I love knowing exactly where my makhana comes from. Super transparent!"</p>
+            <span className="block text-sm text-gray-500">- Rajesh, Mumbai</span>
           </div>
           <div className="flex flex-col items-center max-w-xs">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" alt="Customer 3" className="w-16 h-16 rounded-full mb-2 object-cover border-2 border-green-300 bg-gray-200" />
-            <p className="italic text-gray-800 mb-1">‍œFast delivery and the best makhana I‍™ve ever tasted!‍</p>
-            <span className="block text-sm text-gray-500">‍” Meena, Bangalore</span>
+            <p className="italic text-gray-800 mb-1">"Fast delivery and the best makhana I've ever tasted!"</p>
+            <span className="block text-sm text-gray-500">- Meena, Bangalore</span>
           </div>
         </div>
       </section>
@@ -205,8 +205,16 @@ export default function About() {
       {/* Sourcing Map */}
       <section className="bg-white rounded-2xl shadow-lg p-8 mt-10 w-full mx-auto flex flex-col items-center">
         <h2 className="text-3xl font-bold text-center mb-6 text-green-700">Our Sourcing Region</h2>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/India_Bihar_locator_map.svg/600px-India_Bihar_locator_map.svg.png" alt="Bihar Map" className="w-64 h-48 object-contain rounded-xl shadow-md mb-2 border border-green-200" />
-        <span className="text-gray-600 text-sm">All our makhana is sourced directly from the ponds of Mithila, Bihar.</span>
+        <div className="w-full max-w-3xl rounded-xl overflow-hidden shadow-md border border-green-200 mb-2">
+          <iframe
+            title="Madhubani Bihar Map"
+            src="https://www.google.com/maps?q=Madhubani,Bihar&output=embed"
+            className="w-full h-64 md:h-80"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+        <span className="text-gray-600 text-sm text-center">All our makhana is sourced directly from the ponds of Madhubani, Bihar.</span>
       </section>
 
       {/* Playful Divider */}

@@ -44,7 +44,7 @@ export default function Contact() {
         <div className="space-y-6">
           <h1 className="text-4xl font-bold text-gray-800">Get in Touch</h1>
           <p className="text-gray-600">
-            We‍™d love to hear from you! Whether you have a question about our products, need support, or just want to share feedback, our team is here to help.
+            We'd love to hear from you! Whether you have a question about our products, need support, or just want to share feedback, our team is here to help.
           </p>
           <div className="space-y-4 text-gray-700">
             <div>

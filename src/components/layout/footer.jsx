@@ -98,7 +98,7 @@ function Footer() {
             <p className="text-sm text-slate-400">
               &copy; Dev Makhana Udyog. All Rights Reserved.
             </p>
-            <p className="text-xs text-slate-500">Made with â¤ï¸ by the Dev Makhana Udyog team.</p>
+            <p className="text-xs text-slate-500">Made with love by the Dev Makhana Udyog team.</p>
           </div>
           <div className="flex items-center space-x-6">
             <div className="flex space-x-4">

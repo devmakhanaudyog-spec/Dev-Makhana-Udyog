@@ -264,8 +264,8 @@ export default function Makhana() {
                         {/* Sample Package Selector */}
                         <select className="w-full input-brand p-3 md:col-span-2" value={form.samplePackage} onChange={e => setForm({ ...form, samplePackage: e.target.value })} required>
                           <option value="" disabled>Select Sample Package (Required)</option>
-                          <option value="650">Sample Package ‍“ â‚¹850 (includes shipping, 1x premium pack)</option>
-                          <option value="1000">Sample Package ‍“ â‚¹1700 (includes shipping, 2x premium packs)</option>
+                          <option value="650">Sample Package - INR 850 (includes shipping, 1x premium pack)</option>
+                          <option value="1000">Sample Package - INR 1700 (includes shipping, 2x premium packs)</option>
                         </select>
                         {/* Payment Method Selector */}
                         <div className="w-full md:col-span-2 flex flex-col gap-2 mt-2">

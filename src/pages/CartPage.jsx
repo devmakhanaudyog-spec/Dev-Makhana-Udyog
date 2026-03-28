@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { useSettings } from "../context/SettingsContext";
 import { API_BASE_URL } from '../config.js';
+import { formatINR } from '../utils/currency';
 import toast from "react-hot-toast";
 
 export default function CartPage() {
@@ -145,12 +146,12 @@ export default function CartPage() {
                           </h3>
                         </Link>
                         <div className="flex items-baseline gap-2 mb-1 sm:mb-0">
-                          <p className="text-base sm:text-xl font-bold text-green-600">₹{perPackPrice * (item.qty || 1)}</p>
+                          <p className="text-base sm:text-xl font-bold text-green-600">{formatINR(perPackPrice * (item.qty || 1), { maximumFractionDigits: 0 })}</p>
                           <span className="text-xs text-gray-500">({packSize}kg × {item.qty || 1})</span>
                         </div>
                       </div>
                       <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <p className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded">₹{item.price}/kg</p>
+                        <p className="text-xs text-gray-600 bg-gray-50 px-2 py-1 rounded">{formatINR(item.price, { maximumFractionDigits: 0 })}/kg</p>
                         <div className="flex flex-wrap gap-1.5">
                           {PACK_OPTIONS.map((opt) => {
                             const active = Number(opt.value) === Number(packSize);
@@ -207,7 +208,7 @@ export default function CartPage() {
                         </button>
                       </div>
                       <div className="mt-2 text-sm text-gray-600">
-                        Subtotal: <span className="text-lg font-bold text-gray-900">₹{linePrice.toLocaleString()}</span>
+                        Subtotal: <span className="text-lg font-bold text-gray-900">{formatINR(linePrice, { maximumFractionDigits: 0 })}</span>
                       </div>
                     </div>
                   </div>
@@ -223,7 +224,7 @@ export default function CartPage() {
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal ({cartCount} items)</span>
-                    <span className="font-semibold">₹{cartTotal.toLocaleString()}</span>
+                    <span className="font-semibold">{formatINR(cartTotal, { maximumFractionDigits: 0 })}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span className="flex items-center gap-1">
@@ -234,22 +235,22 @@ export default function CartPage() {
                       {shippingPrice === 0 ? (
                         <span className="text-green-600">FREE</span>
                       ) : (
-                        `₹${shippingPrice}`
+                        formatINR(shippingPrice, { maximumFractionDigits: 0 })
                       )}
                     </span>
                   </div>
                   {/* Removed shipping note; using fixed rule: 50 if < 1000, else free */}
                   <div className="flex justify-between text-gray-600">
                     <span>GST ({gstPercent}%)</span>
-                    <span className="font-semibold">₹{taxPrice.toFixed(2)}</span>
+                    <span className="font-semibold">{formatINR(taxPrice, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="flex justify-between text-green-700">
                     <span>Special Discount ({specialDiscountPercent}%)</span>
-                    <span className="font-semibold">-₹{specialDiscountAmount.toFixed(2)}</span>
+                    <span className="font-semibold">-{formatINR(specialDiscountAmount, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="border-t pt-3 flex justify-between text-lg font-bold text-gray-900">
                     <span>Total</span>
-                    <span className="text-green-600">₹{total.toFixed(2)}</span>
+                    <span className="text-green-600">{formatINR(total, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                 </div>
 
@@ -317,7 +318,7 @@ export default function CartPage() {
                         {item.name}
                       </h3>
                     </Link>
-                    <p className="text-2xl font-extrabold text-pink-600 mb-4">₹{item.price}</p>
+                    <p className="text-2xl font-extrabold text-pink-600 mb-4">{formatINR(item.price, { maximumFractionDigits: 0 })}</p>
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleMoveToCart(item)}

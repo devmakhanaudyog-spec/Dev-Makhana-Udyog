@@ -55,7 +55,7 @@ const blogPosts = [
   {
     id: 5,
     title: "Why the GI Tag on Mithila Makhana is More Than Just a Label",
-    excerpt: "Discover why the GI tag is more than a label‍”it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
+    excerpt: "Discover why the GI tag is more than a label - it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
     author: "Dev Makhana Udyog Team",
     date: "2026-01-10",
     category: "Education",
@@ -66,7 +66,7 @@ const blogPosts = [
   },
   {
     id: 6,
-    title: "Makhana: The Clean-Label Super Snack ‍“ A Personal Promise",
+    title: "Makhana: The Clean-Label Super Snack - A Personal Promise",
     excerpt: "Discover the plant-based powerhouse that's high in protein, low GI, and ready to take on any flavor you can imagine.",
     author: "Dev Makhana Udyog Team",
     date: "2026-01-20",

@@ -9,7 +9,7 @@ const GIMakhanaArticle = () => (
 
     <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">What Exactly is GI-Tagged Mithila Makhana?</h2>
     <p className="text-gray-700 leading-relaxed">
-      Think of a Geographical Indication (GI) tag as a birth certificate for food. Just as Champagne only comes from France, true Mithila Makhana only comes from the sun-drenched wetlands of North Bihar‍”places like Madhubani and Darbhanga.
+      Think of a Geographical Indication (GI) tag as a birth certificate for food. Just as Champagne only comes from France, true Mithila Makhana only comes from the sun-drenched wetlands of North Bihar - places like Madhubani and Darbhanga.
     </p>
     <p className="text-gray-700 leading-relaxed">
       The region's unique soil and water give this makhana its signature pearl size, superior crunch, and incredible nutritional profile. The GI tag is a legal promise: it ensures that what you are buying is the real deal, grown using time-honored methods that haven't changed for generations. For our buyers, it's the ultimate guarantee of authenticity.
@@ -100,7 +100,7 @@ export default function GIMakhanaPost() {
   return (
     <BlogPostTemplate
       title="Why the GI Tag on Mithila Makhana is More Than Just a Label"
-      excerpt="Discover why the GI tag is more than a label‍”it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila."
+      excerpt="Discover why the GI tag is more than a label - it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila."
       content={<GIMakhanaArticle />}
       author="Dev Makhana Udyog Team"
       date="2026-01-10"

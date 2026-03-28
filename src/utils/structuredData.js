@@ -124,7 +124,7 @@ export const generateLocalBusinessSchema = (location) => {
       "longitude": location.coordinates.lng
     } : undefined,
     "telephone": "+91-9142252059",
-    "priceRange": "â‚¹â‚¹",
+    "priceRange": "\u20B9\u20B9",
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
