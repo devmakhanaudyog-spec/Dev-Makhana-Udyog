@@ -389,17 +389,43 @@ router.post('/admin-login', async (req, res) => {
     const adminEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
     const adminPassword = (process.env.ADMIN_PASSWORD || '').trim();
     const loginEmail = email.toLowerCase();
+    const hasDefaultAdminConfig = Boolean(adminEmail && adminPassword);
 
-    if (!adminEmail || !adminPassword) {
-      return res.status(503).json({
-        error: 'Admin credentials are not configured. Set ADMIN_EMAIL and ADMIN_PASSWORD.',
-        code: 'ADMIN_CONFIG_MISSING'
+    // Always allow authentication via existing admin account in DB.
+    // This avoids hard 503 failures when env-based default admin values are missing.
+    let user = await User.findOne({ email: loginEmail });
+    const debug = {
+      loginEmail,
+      adminEmail,
+      hasDefaultAdminConfig,
+      found: !!user,
+      role: user?.role
+    };
+
+    if (!hasDefaultAdminConfig) {
+      if (!user || user.role !== 'admin') {
+        console.warn('ADMIN_LOGIN_DEBUG', debug, 'reject:missing-config-not-admin');
+        return res.status(401).json({ error: 'Invalid admin credentials', code: 'ADMIN_AUTH_FAILED' });
+      }
+
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        console.warn('ADMIN_LOGIN_DEBUG', debug, 'reject:missing-config-password-mismatch');
+        return res.status(401).json({ error: 'Invalid admin credentials', code: 'ADMIN_AUTH_FAILED' });
+      }
+
+      user.lastLogin = new Date();
+      await user.save();
+
+      console.log('ADMIN_LOGIN_DEBUG', debug, 'success:db-admin-fallback');
+      return res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id)
       });
     }
-
-    // Find user by email (any role)
-    let user = await User.findOne({ email: loginEmail });
-    const debug = { loginEmail, adminEmail, found: !!user, role: user?.role };
 
     // If a user exists with this email but is not admin, promote and reset password to default admin password
     if (user && user.role !== 'admin' && loginEmail === adminEmail) {
