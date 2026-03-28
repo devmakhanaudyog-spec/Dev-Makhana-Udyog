@@ -1,12 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 function Footer() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [installPromptEvent, setInstallPromptEvent] = useState(null);
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
 
   const whatsappNumber = '+919142252059';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^\d+]/g, '')}`;
+
+  useEffect(() => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone) {
+      setIsAppInstalled(true);
+    }
+
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault();
+      setInstallPromptEvent(event);
+    };
+
+    const handleAppInstalled = () => {
+      setIsAppInstalled(true);
+      setInstallPromptEvent(null);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallApp = async () => {
+    if (!installPromptEvent) {
+      alert('Install option is not available right now. Open this site in Chrome mobile and browse for a few seconds, then try again.');
+      return;
+    }
+
+    installPromptEvent.prompt();
+    const choiceResult = await installPromptEvent.userChoice;
+    if (choiceResult?.outcome === 'accepted') {
+      setIsAppInstalled(true);
+    }
+    setInstallPromptEvent(null);
+  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -121,6 +162,15 @@ function Footer() {
               <a href="https://in.linkedin.com/in/makhaantra%C3%A3-foods-96a241397" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaLinkedin size={24} /></a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="text-slate-400 hover:text-green-400 transition-colors"><FaWhatsapp size={24} /></a>
             </div>
+            <button
+              className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 text-white font-bold shadow-lg hover:scale-105 hover:from-emerald-600 hover:to-emerald-800 transition-all duration-200 text-base border-2 border-white/10 disabled:opacity-60 disabled:cursor-not-allowed"
+              style={{ minWidth: 120, letterSpacing: '0.02em' }}
+              onClick={handleInstallApp}
+              disabled={isAppInstalled}
+              title={isAppInstalled ? 'Already installed' : 'Install Dev Makhana Udyog app'}
+            >
+              {isAppInstalled ? 'App Installed' : 'Install App'}
+            </button>
             <button
               className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-bold shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200 text-base border-2 border-white/10"
               style={{ minWidth: 120, letterSpacing: '0.02em' }}
