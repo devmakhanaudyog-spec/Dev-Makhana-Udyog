@@ -274,13 +274,13 @@ export default function ProductDetail() {
         <title>{product.name} | Buy Premium Makhana | Dev Makhana Udyog</title>
         <meta name="description" content={`${product.description} Order ${product.name} at ${formatINR(product.price, { maximumFractionDigits: 0 })}. ${product.grade} grade, ${product.popRate} pop rate. GI-certified Mithila makhana.`} />
         <meta name="keywords" content={`${product.name}, buy makhana, ${product.grade}, makhana price, ${product.category}, fox nuts, lotus seeds`} />
-        <link rel="canonical" href={`https://www.Dev Makhana Udyog.com/product/${productKey}`} />
+        <link rel="canonical" href={`https://www.devmakhana.com/product/${productKey}`} />
         
         {/* Open Graph */}
         <meta property="og:title" content={`${product.name} | Dev Makhana Udyog`} />
         <meta property="og:description" content={product.description} />
         <meta property="og:type" content="product" />
-        <meta property="og:url" content={`https://www.Dev Makhana Udyog.com/product/${productKey}`} />
+        <meta property="og:url" content={`https://www.devmakhana.com/product/${productKey}`} />
         <meta property="og:image" content={activeImage || product.mainImage || product.image} />
         <meta property="product:price:amount" content={product.price} />
         <meta property="product:price:currency" content="INR" />
@@ -293,9 +293,9 @@ export default function ProductDetail() {
         {/* Breadcrumb Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify(generateBreadcrumbSchema([
-            { name: "Home", url: "https://www.Dev Makhana Udyog.com" },
-            { name: "Products", url: "https://www.Dev Makhana Udyog.com/products" },
-            { name: product.name, url: `https://www.Dev Makhana Udyog.com/product/${productKey}` }
+            { name: "Home", url: "https://www.devmakhana.com" },
+            { name: "Products", url: "https://www.devmakhana.com/products" },
+            { name: product.name, url: `https://www.devmakhana.com/product/${productKey}` }
           ]))}
         </script>
       </Helmet>

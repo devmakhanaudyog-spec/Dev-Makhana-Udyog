@@ -37,6 +37,19 @@ function Footer() {
   return (
     <footer className="bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 text-slate-100">
       <div className="max-w-[1500px] mx-auto px-4 py-10">
+        <div className="flex items-center gap-3 mb-8">
+          <img
+            src="/devmakhanalogo.png"
+            alt="Dev Makhana Udyog logo"
+            className="h-12 w-12 rounded-full object-cover border border-white/20 bg-white"
+            loading="lazy"
+          />
+          <div>
+            <p className="text-white text-lg font-bold leading-tight">Dev Makhana Udyog</p>
+            <p className="text-slate-300 text-sm">Premium GI-tagged Mithila Makhana</p>
+          </div>
+        </div>
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-lg font-bold mb-4 text-white">Company</h3>
@@ -103,7 +116,7 @@ function Footer() {
           <div className="flex items-center space-x-6">
             <div className="flex space-x-4">
               <a href="https://facebook.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaFacebook size={24} /></a>
-              <a href="https://www.instagram.com/Dev Makhana Udyog/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
+              <a href="https://www.instagram.com/devmakhanaudyog/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaInstagram size={24} /></a>
               <a href="https://twitter.com" className="text-slate-400 hover:text-green-400 transition-colors"><FaTwitter size={24} /></a>
               <a href="https://in.linkedin.com/in/makhaantra%C3%A3-foods-96a241397" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-400 transition-colors"><FaLinkedin size={24} /></a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="text-slate-400 hover:text-green-400 transition-colors"><FaWhatsapp size={24} /></a>
@@ -112,10 +125,10 @@ function Footer() {
               className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-bold shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200 text-base border-2 border-white/10"
               style={{ minWidth: 120, letterSpacing: '0.02em' }}
               onClick={() => {
-                const shareUrl = 'https://www.devmakhanaudyog.com';
+                const shareUrl = 'https://www.devmakhana.com/';
                 const shareData = {
                   title: 'Dev Makhana Udyog',
-                  text: 'Check out Dev Makhana Udyog!',
+                  text: 'Discover premium GI-tagged Mithila Makhana from Dev Makhana Udyog.',
                   url: shareUrl,
                 };
                 if (navigator.share) {

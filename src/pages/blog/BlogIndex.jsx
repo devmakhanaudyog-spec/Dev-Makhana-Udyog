@@ -105,13 +105,13 @@ export default function BlogIndex() {
           name="keywords" 
           content="makhana blog, fox nuts blog, makhana recipes, makhana benefits, healthy eating blog, nutrition articles" 
         />
-        <link rel="canonical" href="https://www.Dev Makhana Udyog.com/blog" />
+        <link rel="canonical" href="https://www.devmakhana.com/blog" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Makhana Blog - Health Tips & Recipes" />
         <meta property="og:description" content="Expert articles on makhana benefits, recipes, and nutrition" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.Dev Makhana Udyog.com/blog" />
+        <meta property="og:url" content="https://www.devmakhana.com/blog" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />

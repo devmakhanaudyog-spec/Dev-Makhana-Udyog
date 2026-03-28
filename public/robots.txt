@@ -4,7 +4,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://www.devmakhanaudyog.com/sitemap.xml
+Sitemap: https://www.devmakhana.com/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1

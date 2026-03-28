@@ -57,7 +57,7 @@ const BlogPostTemplate = ({
     "dateModified": date,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://www.Dev Makhana Udyog.com/blog/${slug}`
+      "@id": `https://www.devmakhana.com/blog/${slug}`
     }
   };
 
@@ -70,19 +70,19 @@ const BlogPostTemplate = ({
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.Dev Makhana Udyog.com"
+        "item": "https://www.devmakhana.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://www.Dev Makhana Udyog.com/blog"
+        "item": "https://www.devmakhana.com/blog"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": title,
-        "item": `https://www.Dev Makhana Udyog.com/blog/${slug}`
+        "item": `https://www.devmakhana.com/blog/${slug}`
       }
     ]
   };
@@ -94,13 +94,13 @@ const BlogPostTemplate = ({
         <title>{title} | Dev Makhana Udyog Blog</title>
         <meta name="description" content={excerpt} />
         <meta name="keywords" content={tags.join(', ')} />
-        <link rel="canonical" href={`https://www.Dev Makhana Udyog.com/blog/${slug}`} />
+        <link rel="canonical" href={`https://www.devmakhana.com/blog/${slug}`} />
         
         {/* Open Graph */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={excerpt} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://www.Dev Makhana Udyog.com/blog/${slug}`} />
+        <meta property="og:url" content={`https://www.devmakhana.com/blog/${slug}`} />
         {featuredImage && <meta property="og:image" content={featuredImage} />}
         <meta property="article:published_time" content={date} />
         <meta property="article:author" content={author} />

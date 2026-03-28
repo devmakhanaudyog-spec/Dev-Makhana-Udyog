@@ -51,7 +51,15 @@ function Navbar() {
   return (
     <nav className={`w-full h-20 ${isCartPage ? 'sticky' : 'fixed'} top-0 left-0 z-[100] shadow-brand bg-brand-gradient text-white`}>
       <div className='max-w-[1500px] mx-auto flex justify-between items-center h-full px-4'>
-        <Link to="/"><h1 className='text-3xl font-bold hover:text-gray-100 transition-colors'>Dev Makhana Udyog</h1></Link>
+        <Link to="/" className="flex items-center gap-3 hover:opacity-95 transition-opacity" aria-label="Dev Makhana Udyog home">
+          <img
+            src="/devmakhanalogo.png"
+            alt="Dev Makhana Udyog logo"
+            className="h-11 w-11 rounded-full object-cover border border-white/30 bg-white"
+            loading="eager"
+          />
+          <h1 className='text-2xl md:text-3xl font-bold hover:text-gray-100 transition-colors'>Dev Makhana Udyog</h1>
+        </Link>
 
         {/* Desktop menu */}
         <div className='hidden md:flex items-center space-x-8'>

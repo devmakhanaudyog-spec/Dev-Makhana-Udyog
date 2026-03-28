@@ -16,7 +16,7 @@ export const generateProductSchema = (product) => {
     },
     "offers": {
       "@type": "Offer",
-      "url": `https://www.devmakhanaudyog.com/product/${product._id || product.productId || product.id}`,
+      "url": `https://www.devmakhana.com/product/${product._id || product.productId || product.id}`,
       "priceCurrency": "INR",
       "price": product.price || 0,
       "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
@@ -85,8 +85,8 @@ export const organizationSchema = {
   "@type": "Organization",
   "name": "Dev Makhana Udyog",
   "alternateName": "Dev Makhana Udyog",
-  "url": "https://www.devmakhanaudyog.com",
-  "logo": "https://res.cloudinary.com/dujkkenmf/image/upload/v1769632767/products/aj7bbsmresc1skoofaol.jpg",
+  "url": "https://www.devmakhana.com",
+  "logo": "https://www.devmakhana.com/devmakhanalogo.png",
   "description": "Premium GI-tagged Mithila makhana (fox nuts) supplier from Bihar, India. Offering wholesale, retail, and export-grade makhana with lab testing and certification.",
   "address": {
     "@type": "PostalAddress",

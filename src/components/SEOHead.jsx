@@ -4,8 +4,8 @@ import { Helmet } from 'react-helmet-async';
 export default function SEOHead({ 
   title = 'Dev Mkahna Udyog - Premium Makhana Products', 
   description = 'Shop premium quality makhana products with secure checkout and fast delivery.',
-  image = '/mainimage.jpg',
-  url = 'https://your-domain.example'
+  image = 'https://www.devmakhana.com/devmakhanalogo.png',
+  url = 'https://www.devmakhana.com/'
 }) {
   return (
     <Helmet>
@@ -46,13 +46,13 @@ export default function SEOHead({
           "@context": "https://schema.org/",
           "@type": "Organization",
           "name": "Dev Mkahna Udyog",
-          "url": "https://your-domain.example",
-          "logo": "https://your-domain.example/logo.png",
+          "url": "https://www.devmakhana.com/",
+          "logo": "https://www.devmakhana.com/devmakhanalogo.png",
           "description": description,
           "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "Customer Service",
-            "email": "support@your-domain.example"
+            "email": "support@devmakhana.com"
           }
         })}
       </script>

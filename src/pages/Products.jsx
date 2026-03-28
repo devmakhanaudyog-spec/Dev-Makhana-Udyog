@@ -129,12 +129,12 @@ export default function Products() {
         <title>Buy Premium Makhana Products | GI-Certified Fox Nuts | Dev Makhana Udyog</title>
         <meta name="description" content="Shop authentic GI-certified makhana products from Mithila, Bihar. 7 Suta, 6 Suta, roasted & flavored varieties. Lab-tested, <3% moisture, 98%+ pop rate. Order now!" />
         <meta name="keywords" content="buy makhana, premium makhana, fox nuts online, lotus seeds, 7 suta makhana, roasted makhana, flavored makhana, GI certified makhana, makhana price, wholesale makhana" />
-        <link rel="canonical" href="https://www.Dev Makhana Udyog.com/products" />
+        <link rel="canonical" href="https://www.devmakhana.com/products" />
         
         {/* Open Graph */}
         <meta property="og:title" content="Buy Premium Makhana Products | GI-Certified Fox Nuts" />
         <meta property="og:description" content="Shop authentic GI-certified makhana from Mithila, Bihar. Multiple varieties available." />
-        <meta property="og:url" content="https://www.Dev Makhana Udyog.com/products" />
+        <meta property="og:url" content="https://www.devmakhana.com/products" />
         <meta property="og:type" content="website" />
       </Helmet>
 
