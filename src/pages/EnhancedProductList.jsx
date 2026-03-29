@@ -168,19 +168,41 @@ export default function EnhancedProductList() {
 
   const filteredAndSortedProducts = useMemo(() => {
     const searchLower = filters.search.trim().toLowerCase();
+    const selectedCategory = String(filters.category || 'all').trim().toLowerCase();
+
+    const resolveStock = (product) => {
+      const directStock = Number(product.stock);
+      if (Number.isFinite(directStock)) return directStock;
+
+      const countInStock = Number(product.countInStock);
+      if (Number.isFinite(countInStock)) return countInStock;
+
+      if (typeof product.inStock === 'boolean') return product.inStock ? 1 : 0;
+
+      const stockText = String(product.stockStatus || product.availability || '').toLowerCase();
+      if (stockText.includes('out') || stockText.includes('unavailable')) return 0;
+      if (stockText.includes('in') || stockText.includes('available')) return 1;
+
+      return 0;
+    };
 
     const filtered = allProducts.filter((p) => {
       const price = Number(p.price) || 0;
-      const stock = Number(p.stock);
+      const stock = resolveStock(p);
       const rating = Number(p.rating) || 0;
       const name = (p.name || '').toLowerCase();
       const description = (p.description || '').toLowerCase();
+      const grade = String(p.grade || '').toLowerCase();
+      const productCategory = String(p.subCategory || p.category || '').trim().toLowerCase();
 
-      const matchSearch = !searchLower || name.includes(searchLower) || description.includes(searchLower);
+      const matchSearch =
+        !searchLower ||
+        name.includes(searchLower) ||
+        description.includes(searchLower) ||
+        grade.includes(searchLower);
       const matchCategory =
-        filters.category === 'all' ||
-        p.subCategory === filters.category ||
-        p.category === filters.category;
+        selectedCategory === 'all' ||
+        productCategory === selectedCategory;
       const matchPrice = price <= filters.maxPrice;
       const matchAvailability =
         filters.availability === 'all' ||
@@ -299,15 +321,54 @@ export default function EnhancedProductList() {
       {/* Search Bar */}
       <div className="bg-white shadow-sm sticky top-0 z-30 p-4">
         <div className="w-full max-w-[1700px] mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
-              placeholder="Search makhana products..."
-              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-            />
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 pb-1">
+            <div className="min-w-0 w-full sm:flex-1 flex items-center gap-2 overflow-x-auto no-scrollbar">
+              <button
+                type="button"
+                onClick={() => handleFilterChange('category', 'all')}
+                className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold border-2 transition ${
+                  filters.category === 'all'
+                    ? 'bg-green-700 text-white border-green-700 shadow-sm'
+                    : 'bg-green-50 text-green-900 border-green-300 hover:bg-green-100 hover:border-green-500'
+                }`}
+              >
+                All
+              </button>
+              {makhanaCategories.map((cat) => (
+                <button
+                  key={cat.value}
+                  type="button"
+                  onClick={() => handleFilterChange('category', cat.value)}
+                  className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold border-2 transition ${
+                    filters.category === cat.value
+                      ? 'bg-green-700 text-white border-green-700 shadow-sm'
+                      : 'bg-green-50 text-green-900 border-green-300 hover:bg-green-100 hover:border-green-500'
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+
+            <div className="w-full sm:w-auto shrink-0 flex items-center gap-2 sm:ml-auto">
+              <div className="relative flex-1 sm:flex-none sm:w-[220px]">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                <input
+                  type="text"
+                  value={filters.search}
+                  onChange={(e) => handleFilterChange('search', e.target.value)}
+                  placeholder="Search..."
+                  className="w-full pl-8 pr-2.5 py-1.5 border border-green-200 rounded-full text-xs focus:ring-2 focus:ring-green-500 focus:border-transparent transition bg-white"
+                />
+              </div>
+              <button
+                type="button"
+                className="whitespace-nowrap px-2.5 py-1.5 text-xs rounded-full bg-green-600 text-white font-semibold hover:bg-green-700 transition"
+                onClick={() => handleFilterChange('page', 1)}
+              >
+                Search
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -317,20 +378,20 @@ export default function EnhancedProductList() {
         <div className="grid lg:grid-cols-[320px,1fr] gap-8">
           {/* Sidebar Filters */}
           <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
-            <div className="bg-white rounded-xl shadow-brand border border-green-50 p-6 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto no-scrollbar">
+            <div className="bg-gradient-to-b from-green-100 via-emerald-100 to-green-50 rounded-2xl shadow-xl border-2 border-green-300 ring-1 ring-green-200 p-6 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto no-scrollbar">
               {/* Header */}
-              <div className="flex justify-between items-center mb-8">
+              <div className="flex justify-between items-center mb-8 pb-4 border-b border-green-300">
                 <h3 className="text-xl font-bold text-gray-900">Filters</h3>
                 <button
                   onClick={resetFilters}
-                  className="text-xs font-semibold text-green-700 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-lg transition"
+                  className="text-xs font-semibold text-green-800 hover:text-green-900 hover:bg-white/70 px-3 py-1 rounded-lg transition"
                 >
                   Reset All
                 </button>
               </div>
 
               {/* Category Filter */}
-              <div className="mb-6 pb-6 border-b">
+              <div className="mb-4 p-4 rounded-xl bg-white/75 border border-green-200">
                 <button
                   onClick={() => toggleFilterSection('category')}
                   className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
@@ -339,25 +400,48 @@ export default function EnhancedProductList() {
                   {expandedFilters.category ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </button>
                 {expandedFilters.category && (
-                  <div className="space-y-2 ml-2">
-                    <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className="space-y-2">
+                    <label
+                      className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 cursor-pointer transition-all ${
+                        filters.category === 'all'
+                          ? 'border-green-600 bg-green-600 text-white shadow-sm'
+                          : 'border-green-200 bg-white text-slate-700 hover:border-green-400 hover:bg-green-50'
+                      }`}
+                    >
                       <input
                         type="radio"
                         checked={filters.category === 'all'}
                         onChange={() => handleFilterChange('category', 'all')}
-                        className="cursor-pointer"
+                        className="sr-only"
                       />
-                      <span className="text-gray-700 group-hover:text-pink-600 transition">All Products</span>
+                      <span className="text-sm font-semibold">All Products</span>
+                      <span
+                        className={`h-4 w-4 rounded-full border-2 ${
+                          filters.category === 'all' ? 'border-white bg-white/90' : 'border-green-500 bg-transparent'
+                        }`}
+                      />
                     </label>
                     {makhanaCategories.map((cat) => (
-                      <label key={cat.value} className="flex items-center gap-2 cursor-pointer group">
+                      <label
+                        key={cat.value}
+                        className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 cursor-pointer transition-all ${
+                          filters.category === cat.value
+                            ? 'border-green-600 bg-green-600 text-white shadow-sm'
+                            : 'border-green-200 bg-white text-slate-700 hover:border-green-400 hover:bg-green-50'
+                        }`}
+                      >
                         <input
                           type="radio"
                           checked={filters.category === cat.value}
                           onChange={() => handleFilterChange('category', cat.value)}
-                          className="cursor-pointer"
+                          className="sr-only"
                         />
-                        <span className="text-gray-700 group-hover:text-green-700 transition">{cat.name}</span>
+                        <span className="text-sm font-medium">{cat.name}</span>
+                        <span
+                          className={`h-4 w-4 rounded-full border-2 ${
+                            filters.category === cat.value ? 'border-white bg-white/90' : 'border-green-500 bg-transparent'
+                          }`}
+                        />
                       </label>
                     ))}
                   </div>
@@ -365,7 +449,7 @@ export default function EnhancedProductList() {
               </div>
 
               {/* Availability Filter */}
-              <div className="mb-6 pb-6 border-b">
+              <div className="mb-4 p-4 rounded-xl bg-white/75 border border-green-200">
                 <button
                   onClick={() => toggleFilterSection('availability')}
                   className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
@@ -374,44 +458,73 @@ export default function EnhancedProductList() {
                   {expandedFilters.availability ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </button>
                 {expandedFilters.availability && (
-                  <div className="space-y-2 ml-2">
-                    <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className="space-y-2">
+                    <label
+                      className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 cursor-pointer transition-all ${
+                        filters.availability === 'all'
+                          ? 'border-green-600 bg-green-600 text-white shadow-sm'
+                          : 'border-green-200 bg-white text-slate-700 hover:border-green-400 hover:bg-green-50'
+                      }`}
+                    >
                       <input
                         type="radio"
                         checked={filters.availability === 'all'}
                         onChange={() => handleFilterChange('availability', 'all')}
-                        className="cursor-pointer"
+                        className="sr-only"
                       />
-                      <span className="text-gray-700 group-hover:text-green-700 transition">All Products</span>
+                      <span className="text-sm font-semibold">All Products</span>
+                      <span
+                        className={`h-4 w-4 rounded-full border-2 ${
+                          filters.availability === 'all' ? 'border-white bg-white/90' : 'border-green-500 bg-transparent'
+                        }`}
+                      />
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer group">
+                    <label
+                      className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 cursor-pointer transition-all ${
+                        filters.availability === 'inStock'
+                          ? 'border-green-600 bg-green-600 text-white shadow-sm'
+                          : 'border-green-200 bg-white text-slate-700 hover:border-green-400 hover:bg-green-50'
+                      }`}
+                    >
                       <input
                         type="radio"
                         checked={filters.availability === 'inStock'}
                         onChange={() => handleFilterChange('availability', 'inStock')}
-                        className="cursor-pointer"
+                        className="sr-only"
                       />
-                      <span className="text-gray-700 group-hover:text-green-600 transition">
-                        ✓ In Stock
-                      </span>
+                      <span className="text-sm font-medium">In Stock</span>
+                      <span
+                        className={`h-4 w-4 rounded-full border-2 ${
+                          filters.availability === 'inStock' ? 'border-white bg-white/90' : 'border-green-500 bg-transparent'
+                        }`}
+                      />
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer group">
+                    <label
+                      className={`flex items-center justify-between gap-3 rounded-xl border px-3 py-2.5 cursor-pointer transition-all ${
+                        filters.availability === 'outOfStock'
+                          ? 'border-green-600 bg-green-600 text-white shadow-sm'
+                          : 'border-green-200 bg-white text-slate-700 hover:border-red-300 hover:bg-red-50/40'
+                      }`}
+                    >
                       <input
                         type="radio"
                         checked={filters.availability === 'outOfStock'}
                         onChange={() => handleFilterChange('availability', 'outOfStock')}
-                        className="cursor-pointer"
+                        className="sr-only"
                       />
-                      <span className="text-gray-700 group-hover:text-red-600 transition">
-                        ✗ Out of Stock
-                      </span>
+                      <span className="text-sm font-medium">Out of Stock</span>
+                      <span
+                        className={`h-4 w-4 rounded-full border-2 ${
+                          filters.availability === 'outOfStock' ? 'border-white bg-white/90' : 'border-red-400 bg-transparent'
+                        }`}
+                      />
                     </label>
                   </div>
                 )}
               </div>
 
               {/* Price Range Filter */}
-              <div className="mb-6 pb-6 border-b">
+              <div className="mb-4 p-4 rounded-xl bg-white/75 border border-green-200">
                 <button
                   onClick={() => toggleFilterSection('price')}
                   className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
@@ -446,7 +559,7 @@ export default function EnhancedProductList() {
               </div>
 
               {/* Rating Filter */}
-              <div>
+              <div className="p-4 rounded-xl bg-white/75 border border-green-200">
                 <button
                   onClick={() => toggleFilterSection('rating')}
                   className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
@@ -607,16 +720,18 @@ export default function EnhancedProductList() {
                       <ProductCard
                         key={product._id || product.productId || product.id}
                         product={product}
+                        viewMode="grid"
                         onOpenDetails={openProductDetail}
                       />
                     ))}
                   </div>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {paginatedProducts.map((product) => (
                       <ProductCard
                         key={product._id || product.productId || product.id}
                         product={product}
+                        viewMode="list"
                         onOpenDetails={openProductDetail}
                       />
                     ))}

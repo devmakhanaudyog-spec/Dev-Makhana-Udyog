@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
@@ -16,39 +16,25 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const defaultPackSize = 1; // in kg
-  const migratedOnLoginRef = useRef(false);
-
-  const cartStorageKey = user ? `cart_${user._id}` : 'cart_guest';
-  const wishlistStorageKey = user ? `wishlist_${user._id}` : 'wishlist_guest';
+  const cartStorageKey = user ? `cart_${user._id}` : null;
+  const wishlistStorageKey = user ? `wishlist_${user._id}` : null;
 
   useEffect(() => {
+    if (!user) {
+      setCart([]);
+      setWishlist([]);
+      return;
+    }
     loadCart();
     loadWishlist();
-    // On login, migrate guest cart into user cart once
-    if (user && !migratedOnLoginRef.current) {
-      try {
-        const guestCartRaw = localStorage.getItem('cart_guest') || '[]';
-        const guestCart = JSON.parse(guestCartRaw);
-        if (Array.isArray(guestCart) && guestCart.length > 0) {
-          const currentUserCartRaw = localStorage.getItem(cartStorageKey) || '[]';
-          const currentUserCart = JSON.parse(currentUserCartRaw);
-          const merged = mergeCarts(currentUserCart, guestCart);
-          setCart(merged);
-          localStorage.setItem(cartStorageKey, JSON.stringify(merged));
-          localStorage.removeItem('cart_guest');
-          window.dispatchEvent(new Event('storage'));
-        }
-        migratedOnLoginRef.current = true;
-      } catch (e) {
-        console.warn('Cart migration error:', e);
-      }
-    } else if (!user) {
-      migratedOnLoginRef.current = false;
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const loadCart = () => {
+    if (!cartStorageKey) {
+      setCart([]);
+      return;
+    }
     try {
       const cartData = localStorage.getItem(cartStorageKey) || '[]';
       const parsed = JSON.parse(cartData);
@@ -63,6 +49,10 @@ export const CartProvider = ({ children }) => {
   };
 
   const loadWishlist = () => {
+    if (!wishlistStorageKey) {
+      setWishlist([]);
+      return;
+    }
     try {
       const wishlistData = localStorage.getItem(wishlistStorageKey) || '[]';
       const parsed = JSON.parse(wishlistData);
@@ -73,25 +63,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const mergeCarts = (baseCart, incomingCart) => {
-    const map = new Map();
-    const addItem = (it) => {
-      const id = it._id || it.id;
-      if (!id) return;
-      const existing = map.get(id);
-      if (existing) {
-        const qty = Math.min((existing.qty || 0) + (it.qty || 0), 10);
-        map.set(id, { ...existing, qty, packSizeKg: it.packSizeKg || existing.packSizeKg || defaultPackSize });
-      } else {
-        map.set(id, { ...it, _id: id, id, qty: Math.min(it.qty || 1, 10), packSizeKg: it.packSizeKg || defaultPackSize });
-      }
-    };
-    (Array.isArray(baseCart) ? baseCart : []).forEach(addItem);
-    (Array.isArray(incomingCart) ? incomingCart : []).forEach(addItem);
-    return Array.from(map.values());
-  };
-
   const addToCart = (product, quantity = 1, packSizeKg = defaultPackSize) => {
+    if (!user || !cartStorageKey) return;
     // Use _id if available (database products), otherwise use id (static products like makhana)
     const productId = product._id || product.id;
     const existing = cart.find(item => (item._id || item.id) === productId);
@@ -114,6 +87,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
+    if (!user || !cartStorageKey) return;
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
@@ -128,6 +102,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const updatePackSize = (productId, packSizeKg) => {
+    if (!user || !cartStorageKey) return;
     const normalizedPack = Number(packSizeKg) || defaultPackSize;
     const newCart = cart.map(item =>
       (item._id || item.id) === productId ? { ...item, packSizeKg: normalizedPack } : item
@@ -138,6 +113,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
+    if (!user || !cartStorageKey) return;
     const newCart = cart.filter(item => (item._id || item.id) !== productId);
     setCart(newCart);
     localStorage.setItem(cartStorageKey, JSON.stringify(newCart));
@@ -145,12 +121,14 @@ export const CartProvider = ({ children }) => {
   };
 
   const clearCart = () => {
+    if (!user || !cartStorageKey) return;
     setCart([]);
     localStorage.removeItem(cartStorageKey);
     window.dispatchEvent(new Event('storage'));
   };
 
   const addToWishlist = (product) => {
+    if (!user || !wishlistStorageKey) return;
     const productId = product._id || product.id;
     if (wishlist.find(item => (item._id || item.id) === productId)) {
       return;
@@ -161,6 +139,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromWishlist = (productId) => {
+    if (!user || !wishlistStorageKey) return;
     const newWishlist = wishlist.filter(item => (item._id || item.id) !== productId);
     setWishlist(newWishlist);
     localStorage.setItem(wishlistStorageKey, JSON.stringify(newWishlist));

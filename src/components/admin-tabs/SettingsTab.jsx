@@ -31,6 +31,8 @@ export default function SettingsTab({ settings, updateSettings }) {
     shippingCost: settings?.shippingCost ?? 50,
     taxPercentage: settings?.taxPercentage ?? 18,
     specialDiscountPercentage: settings?.specialDiscountPercentage ?? 0,
+    samplePackageBasicPrice: settings?.samplePackageBasicPrice ?? 850,
+    samplePackagePremiumPrice: settings?.samplePackagePremiumPrice ?? 1700,
     paymentGateway: 'razorpay',
     smtpHost: 'smtp.gmail.com',
     smtpPort: 587,
@@ -49,6 +51,8 @@ export default function SettingsTab({ settings, updateSettings }) {
       shippingCost: settings?.shippingCost ?? 50,
       taxPercentage: settings?.taxPercentage ?? 18,
       specialDiscountPercentage: settings?.specialDiscountPercentage ?? 0,
+      samplePackageBasicPrice: settings?.samplePackageBasicPrice ?? 850,
+      samplePackagePremiumPrice: settings?.samplePackagePremiumPrice ?? 1700,
       currencyCode: settings?.currencyCode || 'INR',
       heroImage: settings?.heroImage || ''
     }));
@@ -78,6 +82,8 @@ export default function SettingsTab({ settings, updateSettings }) {
       'shippingCost',
       'taxPercentage',
       'specialDiscountPercentage',
+      'samplePackageBasicPrice',
+      'samplePackagePremiumPrice',
       'currencyCode',
       'heroImage'
     ];
@@ -473,6 +479,35 @@ export default function SettingsTab({ settings, updateSettings }) {
                       onChange={handleChange}
                       className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     />
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-200">
+                    <h4 className="text-base font-bold text-slate-900 mb-3">Sample Package Pricing</h4>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Basic Package Price (INR)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          name="samplePackageBasicPrice"
+                          value={formData.samplePackageBasicPrice}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Premium Package Price (INR)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          name="samplePackagePremiumPrice"
+                          value={formData.samplePackagePremiumPrice}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500">These values are used in the customer sample order form package selector and payment amount.</p>
+                    </div>
                   </div>
                 </div>
               </div>

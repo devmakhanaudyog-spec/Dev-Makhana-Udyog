@@ -115,7 +115,7 @@ function HeroSection() {
 
         {/* Hero Image */}
         <div className="flex justify-center items-center relative">
-          <div className="relative w-96 h-96 md:w-[450px] md:h-[450px]">
+          <div className="relative w-full max-w-[22rem] aspect-square md:max-w-none md:w-[450px] md:h-[450px]">
             {/* Professional Background Glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-green-200 via-emerald-100 to-transparent rounded-2xl blur-3xl opacity-30 -z-10"></div>
             
@@ -138,7 +138,7 @@ function HeroSection() {
       {/* Stats Bar */}
       <div className="bg-white border-t border-b border-green-100">
         <div className="max-w-[1500px] mx-auto px-4 py-8">
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             <div className="text-center">
               <div className="text-2xl md:text-3xl font-bold text-green-700 mb-1">1000+</div>
               <div className="text-xs md:text-sm text-slate-600 font-medium">Happy Customers</div>

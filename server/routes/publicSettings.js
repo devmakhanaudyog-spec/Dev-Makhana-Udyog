@@ -19,6 +19,8 @@ router.get('/', async (req, res) => {
       shippingCost,
       taxPercentage,
       specialDiscountPercentage,
+      samplePackageBasicPrice,
+      samplePackagePremiumPrice,
       currencyCode,
       heroImage
     } = settings;
@@ -32,6 +34,8 @@ router.get('/', async (req, res) => {
       shippingCost,
       taxPercentage,
       specialDiscountPercentage,
+      samplePackageBasicPrice,
+      samplePackagePremiumPrice,
       currencyCode,
       heroImage
     });

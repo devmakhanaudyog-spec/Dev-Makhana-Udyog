@@ -149,7 +149,7 @@ export default function Orders() {
       </div>
 
       {/* Category Preview Cards */}
-      <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <div className="max-w-4xl mx-auto mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Regular Orders Counter */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 flex flex-col items-center cursor-pointer hover:shadow-xl transition min-w-0 w-full" onClick={() => setActiveTab('regular')}>
           <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mb-2">
@@ -171,18 +171,6 @@ export default function Orders() {
           </div>
           <div className="text-lg font-semibold text-yellow-800">Free Sample Requests</div>
         </div>
-      </div>
-      {/* Refresh Button */}
-      <div className="max-w-4xl mx-auto mb-4 flex justify-end">
-        <button
-          onClick={fetchAll}
-          className="flex items-center gap-2 px-4 py-2 rounded font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 transition disabled:opacity-60"
-          disabled={ordersLoading || bulkOrdersLoading || freeSamplesLoading}
-          title="Refresh orders"
-        >
-          <svg className={`w-5 h-5 ${ordersLoading || bulkOrdersLoading || freeSamplesLoading ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5.635 19A9 9 0 1 1 19 5.635" /></svg>
-          Refresh
-        </button>
       </div>
       {/* Tabbed View for All Orders in Category */}
       <div className="max-w-4xl mx-auto mb-8 flex flex-wrap gap-2 sm:gap-3 justify-center">
@@ -214,7 +202,7 @@ export default function Orders() {
       
       {/* Order Details Modal */}
       {showOrderModal && selectedOrder && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+          <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black bg-opacity-40 px-2 py-4 overflow-y-auto">
             <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
@@ -504,7 +492,7 @@ export default function Orders() {
 
       {/* Bulk Order Modal */}
       {showBulkOrderModal && selectedBulkOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black bg-opacity-40 px-2 py-4 overflow-y-auto">
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"
@@ -561,7 +549,7 @@ export default function Orders() {
 
       {/* Free Sample Modal */}
       {showSampleModal && selectedSample && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-2">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black bg-opacity-40 px-2 py-4 overflow-y-auto">
           <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 max-w-lg w-full relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl"

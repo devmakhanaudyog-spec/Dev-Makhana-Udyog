@@ -14,6 +14,7 @@ html {
   overflow-x: hidden;
   width: 100%;
   scroll-behavior: smooth; /* Not supported on iOS < 15.4 */
+  -ms-overflow-style: none;
 }
 
 body {
@@ -23,6 +24,14 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 #root {

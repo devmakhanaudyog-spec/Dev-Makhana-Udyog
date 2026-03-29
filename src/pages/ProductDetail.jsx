@@ -41,7 +41,7 @@ export default function ProductDetail() {
     { label: '10kg', value: 10 },
   ];
   const [packSize, setPackSize] = useState(1); // default to 1kg
-  const { cart, addToCart, addToWishlist, isInCart, isInWishlist } = useCart();
+  const { cart, addToCart, addToWishlist, removeFromWishlist, isInCart, isInWishlist } = useCart();
 
   // Scroll to top when component loads or product changes
   useEffect(() => {
@@ -210,6 +210,11 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!product) return;
+    if (!user) {
+      toast.error('Please login first');
+      navigate('/login');
+      return;
+    }
     const inCart = isInCart(productKey);
     console.log('Product key:', productKey, 'Is in cart:', inCart, 'Cart:', cart);
     if (inCart) {
@@ -222,8 +227,14 @@ export default function ProductDetail() {
 
   const handleAddToWishlist = () => {
     if (!product) return;
+    if (!user) {
+      toast.error('Please login first');
+      navigate('/login');
+      return;
+    }
     if (isInWishlist(productKey)) {
-        toast('Already in wishlist');
+      removeFromWishlist(productKey);
+      toast.success('Removed from wishlist!');
       return;
     }
     addToWishlist(product);

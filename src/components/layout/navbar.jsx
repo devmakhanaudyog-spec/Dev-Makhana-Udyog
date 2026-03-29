@@ -23,7 +23,11 @@ function Navbar() {
 
   const updateCartCount = useCallback(() => {
     try {
-      const storageKey = user ? `cart_${user._id}` : 'cart_guest';
+      if (!isAuthenticated || !user) {
+        setCartCount(0);
+        return;
+      }
+      const storageKey = `cart_${user._id}`;
       const cartData = localStorage.getItem(storageKey) || "[]";
       const cart = JSON.parse(cartData);
       const totalItems = Array.isArray(cart) ? cart.reduce((sum, item) => sum + item.qty, 0) : 0;
@@ -32,7 +36,7 @@ function Navbar() {
       console.error("Error parsing cart:", e);
       setCartCount(0);
     }
-  }, [user]);
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     updateCartCount();
@@ -51,14 +55,14 @@ function Navbar() {
   return (
     <nav className={`w-full h-20 ${isCartPage ? 'sticky' : 'fixed'} top-0 left-0 z-[100] shadow-brand bg-brand-gradient text-white`}>
       <div className='max-w-[1500px] mx-auto flex justify-between items-center h-full px-4'>
-        <Link to="/" className="flex items-center gap-3 hover:opacity-95 transition-opacity" aria-label="Dev Makhana Udyog home">
+        <Link to="/" className="min-w-0 flex items-center gap-2 sm:gap-3 hover:opacity-95 transition-opacity" aria-label="Dev Makhana Udyog home">
           <img
             src="/devmakhanalogo.png"
             alt="Dev Makhana Udyog logo"
             className="h-11 w-11 rounded-full object-cover border border-white/30 bg-white"
             loading="eager"
           />
-          <h1 className='text-2xl md:text-3xl font-bold hover:text-gray-100 transition-colors'>Dev Makhana Udyog</h1>
+          <h1 className='truncate text-lg sm:text-xl md:text-3xl font-bold hover:text-gray-100 transition-colors'>Dev Makhana Udyog</h1>
         </Link>
 
         {/* Desktop menu */}
@@ -86,7 +90,7 @@ function Navbar() {
           </button>
           <button onClick={goToCart} className='relative ml-2 p-2 bg-white text-green-700 rounded-md hover:bg-gray-100 transition-colors' title="Cart">
             <ShoppingCart size={24} />
-            {cartCount > 0 && (
+            {isAuthenticated && cartCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 bg-green-600 text-white rounded-full min-w-[20px] h-5 px-1 text-xs font-semibold flex items-center justify-center">
                 {cartCount > 99 ? '99+' : cartCount}
               </span>
@@ -151,7 +155,7 @@ function Navbar() {
           </button>
           <button onClick={()=>{ setIsOpen(false); goToCart(); }} className='w-full py-2 relative bg-white text-green-700 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-center' title="Cart">
             <ShoppingCart size={24} />
-            {cartCount > 0 && (
+            {isAuthenticated && cartCount > 0 && (
               <span className="ml-2 bg-green-600 text-white rounded-full min-w-[24px] h-6 px-2 text-xs font-semibold flex items-center justify-center">
                 {cartCount > 99 ? '99+' : cartCount}
               </span>

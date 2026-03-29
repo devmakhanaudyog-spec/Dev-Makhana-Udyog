@@ -2,6 +2,71 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from '../utils/api.js';
 import { ClipboardList, CheckCircle2, ShieldCheck, MessageCircle } from "lucide-react";
 import { useAuth } from '../context/AuthContext';
+
+const normalizeName = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+const stripTrailingWeight = (value) => {
+  const text = String(value || '').trim();
+  return text
+    .replace(/\s*\(\s*\d+(?:\.\d+)?\s*(?:g|gm|grams|kg|kgs)\s*\)\s*$/i, '')
+    .replace(/\s*[-,]?\s*\d+(?:\.\d+)?\s*(?:g|gm|grams|kg|kgs)\s*$/i, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+};
+
+const isExcludedCategory = (value) => {
+  const category = normalizeName(value).replace(/[-_]/g, ' ');
+  return category === 'save on bundles' || category === 'save on bundle';
+};
+
+// localStorage utilities for bulk order form
+const STORAGE_KEY = 'bulkOrderFormDraft';
+
+const saveBulkOrderDraft = (formData, selectionState) => {
+  try {
+    const draft = {
+      form: formData,
+      selections: selectionState,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+  } catch (err) {
+    console.error('Failed to save draft:', err);
+  }
+};
+
+const loadBulkOrderDraft = () => {
+  try {
+    const draft = localStorage.getItem(STORAGE_KEY);
+    if (!draft) return null;
+    const parsed = JSON.parse(draft);
+    // Only load draft if it's less than 7 days old
+    if (Date.now() - parsed.timestamp > 7 * 24 * 60 * 60 * 1000) {
+      localStorage.removeItem(STORAGE_KEY);
+      return null;
+    }
+    return parsed;
+  } catch (err) {
+    console.error('Failed to load draft:', err);
+    return null;
+  }
+};
+
+const clearBulkOrderDraft = () => {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (err) {
+    console.error('Failed to clear draft:', err);
+  }
+};
+
+const FALLBACK_MAKHANA_CATALOG = {
+  'Premium Grades': ['7 Suta Premium', '6 Suta Grade', '5 Suta Grade', '4 Suta Grade'],
+  'Raw & Roasted': ['Raw Makhana', 'Roasted Makhana', 'Flavoured Makhana']
+};
+
+const PACKAGING_OPTIONS = ['200g', '1kg', '6kg', '7kg', '10kg'];
+
 export default function OrderBulk() {
   const [footerVisible, setFooterVisible] = useState(false);
   const footerRef = useRef(null);
@@ -23,6 +88,14 @@ export default function OrderBulk() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+  const [bulkTypeMode, setBulkTypeMode] = useState('single');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  const [selectedTypesMulti, setSelectedTypesMulti] = useState([]);
+  const [packagingMode, setPackagingMode] = useState('single');
+  const [selectedPackaging, setSelectedPackaging] = useState('');
+  const [selectedPackagingsMulti, setSelectedPackagingsMulti] = useState([]);
+  const [makhanaTypeCatalog, setMakhanaTypeCatalog] = useState(FALLBACK_MAKHANA_CATALOG);
   const { user } = useAuth();
   const waNumber = '919142252059';
   const waMsg = encodeURIComponent('Hello! I want to discuss a bulk makhana order.');
@@ -57,25 +130,158 @@ export default function OrderBulk() {
       }));
     }
   }, [user]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadMakhanaTypes = async () => {
+      try {
+        const response = await axios.get('/api/products?limit=2000');
+        const products = Array.isArray(response.data?.products)
+          ? response.data.products
+          : Array.isArray(response.data)
+            ? response.data
+            : [];
+
+        const catalog = {};
+        const seenByCategory = {};
+
+        products.forEach((product) => {
+          const category = String(product?.category || '').trim().toLowerCase();
+          const subCategoryRaw = String(product?.subCategory || '').trim();
+          const subCategory = subCategoryRaw.toLowerCase();
+          const name = String(product?.name || product?.title || product?.productName || '').trim();
+          const cleanedName = stripTrailingWeight(name);
+          const normalized = normalizeName(cleanedName);
+
+          const isMakhana = category === 'makhana' || subCategory.includes('makhana') || normalized.includes('makhana');
+          if (!isMakhana || !cleanedName) return;
+
+          const finalCategory = subCategoryRaw || 'Makhana';
+          if (isExcludedCategory(finalCategory)) return;
+
+          if (!catalog[finalCategory]) {
+            catalog[finalCategory] = [];
+            seenByCategory[finalCategory] = new Set();
+          }
+
+          if (seenByCategory[finalCategory].has(normalized)) return;
+          seenByCategory[finalCategory].add(normalized);
+          catalog[finalCategory].push(cleanedName);
+        });
+
+        const normalizedCatalog = Object.entries(catalog).reduce((acc, [key, values]) => {
+          acc[key] = values.sort((a, b) => a.localeCompare(b));
+          return acc;
+        }, {});
+
+        if (isMounted && Object.keys(normalizedCatalog).length > 0) {
+          setMakhanaTypeCatalog(normalizedCatalog);
+        }
+      } catch (loadErr) {
+        // Keep fallback catalog if fetch fails.
+      }
+    };
+
+    loadMakhanaTypes();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   
   // Scroll to top on page load
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (bulkTypeMode !== 'single') return;
+    if (!selectedType) {
+      setForm((prev) => ({ ...prev, makhanaType: '' }));
+      return;
+    }
+    setForm((prev) => ({ ...prev, makhanaType: selectedType }));
+  }, [bulkTypeMode, selectedType]);
+
+  useEffect(() => {
+    if (bulkTypeMode !== 'multiple') return;
+    const joined = selectedTypesMulti.join(', ');
+    setForm((prev) => ({ ...prev, makhanaType: joined }));
+  }, [bulkTypeMode, selectedTypesMulti]);
+
+  // Auto-sync packaging selection(s) to form.packaging
+  useEffect(() => {
+    if (packagingMode === 'single') {
+      if (!selectedPackaging) {
+        setForm((prev) => ({ ...prev, packaging: '' }));
+        return;
+      }
+      setForm((prev) => ({ ...prev, packaging: selectedPackaging }));
+    }
+  }, [packagingMode, selectedPackaging]);
+
+  useEffect(() => {
+    if (packagingMode !== 'multiple') return;
+    const joined = selectedPackagingsMulti.join(', ');
+    setForm((prev) => ({ ...prev, packaging: joined }));
+  }, [packagingMode, selectedPackagingsMulti]);
+
+  // Auto-save form draft to localStorage (silently - no notification)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      saveBulkOrderDraft(form, {
+        bulkTypeMode,
+        selectedCategory,
+        selectedType,
+        selectedTypesMulti,
+        packagingMode,
+        selectedPackaging,
+        selectedPackagingsMulti
+      });
+    }, 1000); // Save after 1 second of inactivity
+
+    return () => clearTimeout(timer);
+  }, [form, bulkTypeMode, selectedCategory, selectedType, selectedTypesMulti, packagingMode, selectedPackaging, selectedPackagingsMulti]);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    if (bulkTypeMode === 'single' && !selectedType) {
+      setError('Please select one Makhana type.');
+      setLoading(false);
+      return;
+    }
+
+    if (bulkTypeMode === 'multiple' && selectedTypesMulti.length === 0) {
+      setError('Please select at least one Makhana type.');
+      setLoading(false);
+      return;
+    }
+
+    if (packagingMode === 'single' && !selectedPackaging) {
+      setError('Please select one packaging size.');
+      setLoading(false);
+      return;
+    }
+
+    if (packagingMode === 'multiple' && selectedPackagingsMulti.length === 0) {
+      setError('Please select at least one packaging size.');
+      setLoading(false);
+      return;
+    }
     
     try {
       await axios.post('/api/bulk-orders/submit', form);
       setStatus("sent");
+      clearBulkOrderDraft(); // Clear saved draft after successful submission
       setForm({
-        fullName: "",
+        fullName: user?.name || "",
         company: "",
-        phone: "",
-        email: "",
+        phone: user?.phone || "",
+        email: user?.email || "",
         addressLine1: "",
         addressLine2: "",
         landmark: "",
@@ -89,6 +295,13 @@ export default function OrderBulk() {
         postSampleQty: "",
         notes: ""
       });
+      setBulkTypeMode('single');
+      setSelectedCategory('');
+      setSelectedType('');
+      setSelectedTypesMulti([]);
+      setPackagingMode('single');
+      setSelectedPackaging('');
+      setSelectedPackagingsMulti([]);
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to submit request. Please try again.');
     } finally {
@@ -145,18 +358,146 @@ export default function OrderBulk() {
               <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="District" value={form.district} onChange={(e) => setForm({...form, district: e.target.value})} required />
               <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="State" autoComplete="address-level1" value={form.state} onChange={(e) => setForm({...form, state: e.target.value})} required />
               <input className="w-full input-brand p-3 placeholder:text-xs md:placeholder:text-sm" placeholder="PIN Code" type="text" pattern="[0-9]{6}" maxLength="6" autoComplete="postal-code" value={form.pincode} onChange={(e) => setForm({...form, pincode: e.target.value})} required />
+                        {/* Draft Restore Notification */}
             
-            <select className="input-brand p-3 md:col-span-2" value={form.makhanaType} onChange={(e) => setForm({...form, makhanaType: e.target.value})} required>
-              <option value="" disabled>Select Makhana Type</option>
-              <option value="7-suta">7 Suta Premium (16mm+, 99% Pop Rate) - Export Grade</option>
-              <option value="6-suta">6 Suta Grade (14-16mm, 98% Pop Rate) - Popular Choice</option>
-              <option value="5-suta">5 Suta Grade (12-14mm, 97% Pop Rate) - Standard</option>
-              <option value="4-suta">4 Suta Grade (10-12mm) - Budget Friendly</option>
-              <option value="raw-makhana">Raw Makhana (Unprocessed Bulk)</option>
-              <option value="roasted-makhana">Roasted Makhana (Lightly Roasted)</option>
-              <option value="flavored-makhana">Flavored RTE (Ready-to-Eat)</option>
-              <option value="multiple">Multiple Types (Specify in notes)</option>
-            </select>
+                        <div className="md:col-span-2 rounded-xl border border-green-100 p-4 bg-green-50/40">
+              <label className="block font-semibold text-brand mb-3">Makhana Type Selection</label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBulkTypeMode('single');
+                    setSelectedTypesMulti([]);
+                    setSelectedType('');
+                    setSelectedCategory('');
+                    setForm((prev) => ({ ...prev, makhanaType: '' }));
+                  }}
+                  className={`p-2 rounded-lg border text-sm font-semibold transition ${bulkTypeMode === 'single' ? 'bg-green-600 text-white border-green-700 shadow ring-2 ring-green-200' : 'bg-white border-green-200 text-slate-700 hover:border-green-300 hover:bg-green-50'}`}
+                >
+                  Single Type
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBulkTypeMode('multiple');
+                    setSelectedType('');
+                    setSelectedCategory('');
+                    setForm((prev) => ({ ...prev, makhanaType: '' }));
+                  }}
+                  className={`p-2 rounded-lg border text-sm font-semibold transition ${bulkTypeMode === 'multiple' ? 'bg-green-600 text-white border-green-700 shadow ring-2 ring-green-200' : 'bg-white border-green-200 text-slate-700 hover:border-green-300 hover:bg-green-50'}`}
+                >
+                  Multiple Types
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {bulkTypeMode === 'single' && (
+                  <>
+                    <select
+                      className="input-brand p-3"
+                      value={selectedCategory}
+                      onChange={(e) => {
+                        setSelectedCategory(e.target.value);
+                        setSelectedType('');
+                        setForm((prev) => ({ ...prev, makhanaType: '' }));
+                      }}
+                      required
+                    >
+                      <option value="" disabled>Select Category</option>
+                      {Object.keys(makhanaTypeCatalog).map((category) => (
+                        <option key={category} value={category}>{category}</option>
+                      ))}
+                    </select>
+
+                    <select
+                      className="input-brand p-3"
+                      value={selectedType}
+                      onChange={(e) => setSelectedType(e.target.value)}
+                      disabled={!selectedCategory}
+                      required
+                    >
+                      <option value="" disabled>Select Makhana Type</option>
+                      {(makhanaTypeCatalog[selectedCategory] || []).map((type) => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
+                  </>
+                )}
+
+                {bulkTypeMode === 'multiple' && (
+                  <div className="md:col-span-2">
+                    <div className="border border-green-200 rounded-lg bg-white p-3 max-h-[300px] overflow-y-auto">
+                      {Object.keys(makhanaTypeCatalog).length === 0 ? (
+                        <div className="text-xs text-slate-500 px-2 py-1">No types available</div>
+                      ) : (
+                        Object.entries(makhanaTypeCatalog).map(([category, types]) => (
+                          <div key={category} className="mb-4 pb-4 border-b border-slate-200 last:border-b-0 last:mb-0 last:pb-0">
+                            <p className="text-sm font-semibold text-slate-800 mb-2 text-green-700">{category}</p>
+                            <div className="space-y-1 ml-2">
+                              {types.map((type) => (
+                                <label key={type} className="flex items-center gap-2 px-2 py-1 rounded hover:bg-green-50 cursor-pointer text-sm text-slate-700">
+                                  <input
+                                    type="checkbox"
+                                    checked={selectedTypesMulti.includes(type)}
+                                    onChange={(e) => {
+                                      if (e.target.checked) {
+                                        setSelectedTypesMulti((prev) => [...prev, type]);
+                                      } else {
+                                        setSelectedTypesMulti((prev) => prev.filter((item) => item !== type));
+                                      }
+                                    }}
+                                  />
+                                  <span>{type}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <p className="text-xs text-slate-600 mt-2">
+                {bulkTypeMode === 'single'
+                  ? 'Choose one Makhana type for this bulk request.'
+                  : `Selected ${selectedTypesMulti.length} type(s). All selected types will be submitted together.`}
+              </p>
+
+              {/* Selected Items Preview */}
+              {bulkTypeMode === 'single' && selectedType && (
+                <div className="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                  <p className="text-xs font-semibold text-slate-700 mb-2">✓ Selected Product:</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                      {selectedType}
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {bulkTypeMode === 'multiple' && selectedTypesMulti.length > 0 && (
+                <div className="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                  <p className="text-xs font-semibold text-slate-700 mb-2">✓ Selected Products ({selectedTypesMulti.length}):</p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedTypesMulti.map((type) => (
+                      <span key={type} className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                        {type}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedTypesMulti((prev) => prev.filter((t) => t !== type))}
+                          className="text-green-600 hover:text-green-900 font-bold text-lg leading-none"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             
             <select className="input-brand p-3 md:col-span-2" value={form.monthlyVolume} onChange={(e) => setForm({...form, monthlyVolume: e.target.value})} required>
               <option value="" disabled>Estimated Monthly Requirement</option>
@@ -169,14 +510,109 @@ export default function OrderBulk() {
               <option value="5000kg+">5+ Tons/month</option>
             </select>
             
-            <select className="input-brand p-3 md:col-span-2" value={form.packaging} onChange={(e) => setForm({...form, packaging: e.target.value})} required>
-              <option value="" disabled>Select Packaging Size</option>
-              <option value="200g">200g</option>
-              <option value="1kg">1 Kg</option>
-              <option value="6kg">6 Kg</option>
-              <option value="7kg">7 Kg</option>
-              <option value="10kg">10 Kg</option>
-            </select>
+            <div className="md:col-span-2 rounded-xl border border-blue-100 p-4 bg-blue-50/40">
+              <label className="block font-semibold text-brand mb-3">Packaging Size Selection</label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPackagingMode('single');
+                    setSelectedPackagingsMulti([]);
+                    setSelectedPackaging('');
+                    setForm((prev) => ({ ...prev, packaging: '' }));
+                  }}
+                  className={`p-2 rounded-lg border text-sm font-semibold transition ${packagingMode === 'single' ? 'bg-blue-600 text-white border-blue-700 shadow ring-2 ring-blue-200' : 'bg-white border-blue-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50'}`}
+                >
+                  Single Size
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPackagingMode('multiple');
+                    setSelectedPackaging('');
+                    setForm((prev) => ({ ...prev, packaging: '' }));
+                  }}
+                  className={`p-2 rounded-lg border text-sm font-semibold transition ${packagingMode === 'multiple' ? 'bg-blue-600 text-white border-blue-700 shadow ring-2 ring-blue-200' : 'bg-white border-blue-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50'}`}
+                >
+                  Multiple Sizes
+                </button>
+              </div>
+
+              {packagingMode === 'single' ? (
+                <select
+                  className="input-brand p-3 w-full"
+                  value={selectedPackaging}
+                  onChange={(e) => setSelectedPackaging(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Select Packaging Size</option>
+                  {PACKAGING_OPTIONS.map((option) => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
+              ) : (
+                <div className="border border-blue-200 rounded-lg bg-white p-2 max-h-[180px] overflow-y-auto">
+                  {PACKAGING_OPTIONS.length === 0 && (
+                    <div className="text-xs text-slate-500 px-2 py-1">No options available</div>
+                  )}
+                  {PACKAGING_OPTIONS.map((option) => (
+                    <label key={option} className="flex items-center gap-2 px-2 py-1 rounded hover:bg-blue-50 cursor-pointer text-sm text-slate-700">
+                      <input
+                        type="checkbox"
+                        checked={selectedPackagingsMulti.includes(option)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedPackagingsMulti((prev) => [...prev, option]);
+                          } else {
+                            setSelectedPackagingsMulti((prev) => prev.filter((item) => item !== option));
+                          }
+                        }}
+                      />
+                      <span>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-xs text-slate-600 mt-2">
+                {packagingMode === 'single'
+                  ? 'Choose one packaging size for this bulk request.'
+                  : `Selected ${selectedPackagingsMulti.length} size(s). All selected sizes will be submitted together.`}
+              </p>
+
+              {/* Selected Packaging Preview */}
+              {packagingMode === 'single' && selectedPackaging && (
+                <div className="mt-3 p-3 bg-white rounded-lg border border-blue-200">
+                  <p className="text-xs font-semibold text-slate-700 mb-2">✓ Selected Size:</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                      {selectedPackaging}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {packagingMode === 'multiple' && selectedPackagingsMulti.length > 0 && (
+                <div className="mt-3 p-3 bg-white rounded-lg border border-blue-200">
+                  <p className="text-xs font-semibold text-slate-700 mb-2">✓ Selected Sizes ({selectedPackagingsMulti.length}):</p>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedPackagingsMulti.map((size) => (
+                      <span key={size} className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                        {size}
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPackagingsMulti((prev) => prev.filter((s) => s !== size))}
+                          className="text-blue-600 hover:text-blue-900 font-bold text-lg leading-none"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
             
             <input
               className="input-brand p-3 md:col-span-2"

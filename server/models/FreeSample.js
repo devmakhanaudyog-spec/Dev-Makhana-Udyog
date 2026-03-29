@@ -15,11 +15,27 @@ const freeSampleSchema = new mongoose.Schema({
   state: { type: String, required: [true, 'State is required'], trim: true },
   pincode: { type: String, required: [true, 'PIN code is required'], trim: true },
   makhanaType: { type: String, required: [true, 'Makhana type is required'], trim: true },
+  sampleRequestType: { type: String, enum: ['single', 'multiple', 'package'], default: 'single' },
+  sampleItems: {
+    type: [{
+      category: { type: String, trim: true, default: '' },
+      type: { type: String, required: true, trim: true },
+      quantityG: { type: Number, required: true, min: 1, max: 100 },
+      unitPrice: { type: Number, default: 0, min: 0 },
+      lineAmount: { type: Number, default: 0, min: 0 }
+    }],
+    default: []
+  },
   requirement: { type: String, trim: true, default: '' },
   message: { type: String, trim: true, default: '' },
   chargedAmount: { type: Number, default: 0 },
   samplePackage: { type: String, enum: ['650', '1000'], required: true },
-  paymentMethod: { type: String, enum: ['upi', 'razorpay'], required: true },
+  paymentMethod: { type: String, enum: ['razorpay'], required: true },
+  paymentStatus: { type: String, enum: ['Pending', 'Paid', 'Failed'], default: 'Pending' },
+  paymentId: { type: String, default: '' },
+  razorpayOrderId: { type: String, default: '' },
+  razorpayPaymentId: { type: String, default: '' },
+  razorpaySignature: { type: String, default: '' },
   status: { type: String, enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], default: 'Pending' },
   adminNotes: { type: String, default: '' },
   createdAt: { type: Date, default: Date.now }

@@ -12,6 +12,8 @@ const settingsSchema = new mongoose.Schema({
   shippingCost: { type: Number, default: 50 },
   taxPercentage: { type: Number, default: 18 },
   specialDiscountPercentage: { type: Number, default: 0 },
+  samplePackageBasicPrice: { type: Number, default: 850 },
+  samplePackagePremiumPrice: { type: Number, default: 1700 },
   currencyCode: { type: String, default: 'INR' },
   socialLinks: {
     facebook: String,

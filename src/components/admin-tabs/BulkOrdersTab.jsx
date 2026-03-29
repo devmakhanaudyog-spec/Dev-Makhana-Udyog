@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Eye, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+
 // Map stored values to readable kg format
 const getPostSampleQtyLabel = (value) => {
   const qtyMap = {
@@ -13,6 +14,24 @@ const getPostSampleQtyLabel = (value) => {
     'above-1000': '1000+ Kgs'
   };
   return qtyMap[value] || value;
+};
+
+// Parse makhana types from comma-separated string
+const parseMakhanaTypes = (typeString) => {
+  if (!typeString) return [];
+  return typeString
+    .split(',')
+    .map((t) => t.trim())
+    .filter((t) => t.length > 0);
+};
+
+// Parse packaging sizes from comma-separated string
+const parsePackagingSizes = (sizeString) => {
+  if (!sizeString) return [];
+  return sizeString
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
 };
 
 
@@ -167,7 +186,15 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
                     <td className="px-6 py-3 text-sm font-semibold text-slate-900">{order.orderId || `BULK-${order._id.slice(-6).toUpperCase()}`}</td>
                     <td className="px-6 py-3 text-sm font-semibold text-slate-900">{order.company || order.fullName}</td>
                     <td className="px-6 py-3 text-sm text-slate-600">{order.email}</td>
-                    <td className="px-6 py-3 text-sm text-slate-600">{order.makhanaType}</td>
+                    <td className="px-6 py-3 text-sm text-slate-600">
+                      <div className="flex flex-wrap gap-1">
+                        {parseMakhanaTypes(order.makhanaType).map((type, idx) => (
+                          <span key={idx} className="inline-block px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+                            {type}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
                     <td className="px-6 py-3 text-sm text-slate-600">{order.monthlyVolume || '—'}</td>
                       <td className="px-6 py-3 text-sm text-slate-600">{getPostSampleQtyLabel(order.postSampleQty) || '—'}</td>
                     <td className="px-6 py-3">
@@ -272,20 +299,32 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
               <div className="border-t pt-4">
                 <h3 className="text-lg font-bold text-slate-900 mb-3">Product & Order Details</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <p className="text-sm text-slate-600">Product Type</p>
-                    <p className="font-semibold text-slate-900">{selectedOrder.makhanaType}</p>
+                  <div className="col-span-2 md:col-span-4">
+                    <p className="text-sm text-slate-600 mb-2">Product Types</p>
+                    <div className="flex flex-wrap gap-2">
+                      {parseMakhanaTypes(selectedOrder.makhanaType).map((type, idx) => (
+                        <span key={idx} className="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="col-span-2 md:col-span-4">
+                    <p className="text-sm text-slate-600 mb-2">Packaging Size(s)</p>
+                    <div className="flex flex-wrap gap-2">
+                      {parsePackagingSizes(selectedOrder.packaging).map((size, idx) => (
+                        <span key={idx} className="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                          {size}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <p className="text-sm text-slate-600">Monthly Volume</p>
                     <p className="font-semibold text-slate-900">{selectedOrder.monthlyVolume}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-600">Packaging Type</p>
-                    <p className="font-semibold text-slate-900">{selectedOrder.packaging}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-600">Immediate Order Quantity</p>
+                    <p className="text-sm text-slate-600">Immediate Order Qty</p>
                     <p className="font-semibold text-slate-900">{selectedOrder.postSampleQty || '—'}</p>
                   </div>
                 </div>

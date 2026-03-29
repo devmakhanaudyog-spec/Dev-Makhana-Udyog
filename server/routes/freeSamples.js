@@ -1,7 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const FreeSample = require('../models/FreeSample');
+const Product = require('../models/Product');
 const { protect } = require('../middleware/auth');
+
+const normalizeName = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, ' ');
+
+const stripTrailingWeight = (value) => {
+  const text = String(value || '').trim();
+  return text
+    .replace(/\s*\(\s*\d+(?:\.\d+)?\s*(?:g|gm|grams|kg|kgs)\s*\)\s*$/i, '')
+    .replace(/\s*[-,]?\s*\d+(?:\.\d+)?\s*(?:g|gm|grams|kg|kgs)\s*$/i, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+};
+
+const getEffectivePrice = (product) => {
+  const basePrice = Number(product?.price) || 0;
+  const discount = Number(product?.discount) || 0;
+  if (discount > 0) {
+    return Math.max(0, basePrice - (basePrice * discount / 100));
+  }
+  return basePrice;
+};
 
 // Submit free sample request (optional auth)
 router.post('/submit', async (req, res) => {
@@ -19,10 +40,18 @@ router.post('/submit', async (req, res) => {
       state,
       pincode,
       makhanaType,
+      sampleRequestType,
+      sampleItems,
       requirement,
       message,
       samplePackage,
-      paymentMethod
+      paymentMethod,
+      paymentStatus,
+      paymentId,
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature,
+      chargedAmount
     } = req.body;
 
     // Validate required fields (trim and check for empty strings)
@@ -35,8 +64,6 @@ router.post('/submit', async (req, res) => {
       district,
       state,
       pincode,
-      makhanaType,
-      samplePackage,
       paymentMethod
     };
 
@@ -67,6 +94,119 @@ router.post('/submit', async (req, res) => {
       return res.status(400).json({ error: 'PIN code must be exactly 6 digits' });
     }
 
+    const normalizedPaymentMethod = String(paymentMethod || '').trim().toLowerCase();
+    if (normalizedPaymentMethod !== 'razorpay') {
+      return res.status(400).json({ error: 'Only Razorpay payments are accepted for sample requests' });
+    }
+
+    const normalizedRequestType = ['single', 'multiple', 'package'].includes(sampleRequestType)
+      ? sampleRequestType
+      : 'single';
+
+    const normalizedSampleItems = Array.isArray(sampleItems)
+      ? sampleItems
+          .filter((item) => item && item.type)
+          .map((item) => ({
+            category: String(item.category || '').trim(),
+            type: String(item.type || '').trim(),
+            quantityG: Number(item.quantityG) || 0,
+          unitPrice: Number(item.unitPrice) || 0,
+          lineAmount: Number(item.lineAmount) || 0,
+          }))
+      : [];
+
+    const mergedSampleItems = normalizedSampleItems.reduce((acc, item) => {
+      const key = normalizeName(item.type);
+      if (!key) return acc;
+      if (!acc[key]) {
+        acc[key] = { ...item };
+      } else {
+        acc[key].quantityG += Number(item.quantityG) || 0;
+      }
+      return acc;
+    }, {});
+
+    const dedupedSampleItems = Object.values(mergedSampleItems);
+
+    if (normalizedRequestType !== 'package') {
+      if (dedupedSampleItems.length === 0) {
+        return res.status(400).json({ error: 'Please select at least one Makhana type' });
+      }
+
+      const invalidSample = dedupedSampleItems.find((item) => !item.type || item.quantityG < 1 || item.quantityG > 100);
+      if (invalidSample) {
+        return res.status(400).json({ error: 'Each Makhana type must have quantity between 1g and 100g' });
+      }
+
+      if (normalizedRequestType === 'single' && dedupedSampleItems.length > 1) {
+        return res.status(400).json({ error: 'Single type request can contain only one Makhana type' });
+      }
+    }
+
+    if (normalizedRequestType === 'package' && (!samplePackage || (typeof samplePackage === 'string' && !samplePackage.trim()))) {
+      return res.status(400).json({ error: 'Sample package is required for package requests' });
+    }
+
+    const fallbackMakhanaType = String(makhanaType || '').trim();
+
+    let computedSampleItems = [];
+    let computedChargedAmount = 0;
+
+    if (normalizedRequestType !== 'package') {
+      const products = await Product.find({ active: true }).select('name subCategory category price discount');
+      const productMap = new Map();
+
+      products.forEach((product) => {
+        const rawKey = normalizeName(product.name);
+        const cleanedKey = normalizeName(stripTrailingWeight(product.name));
+        if (rawKey && !productMap.has(rawKey)) productMap.set(rawKey, product);
+        if (cleanedKey && !productMap.has(cleanedKey)) productMap.set(cleanedKey, product);
+      });
+
+      computedSampleItems = dedupedSampleItems.map((item) => {
+        const product = productMap.get(normalizeName(item.type));
+        if (!product) {
+          return { ...item, productMissing: true };
+        }
+        const unitPrice = getEffectivePrice(product);
+        const lineAmount = Number((unitPrice * (item.quantityG / 1000)).toFixed(2));
+        return {
+          category: String(product.subCategory || product.category || item.category || '').trim(),
+          type: String(product.name || item.type || '').trim(),
+          quantityG: item.quantityG,
+          unitPrice,
+          lineAmount,
+        };
+      });
+
+      const missingProductItem = computedSampleItems.find((item) => item.productMissing);
+      if (missingProductItem) {
+        return res.status(400).json({ error: `Product pricing not found for type: ${missingProductItem.type}` });
+      }
+
+      computedChargedAmount = Number(
+        computedSampleItems.reduce((sum, item) => sum + (Number(item.lineAmount) || 0), 0).toFixed(2)
+      );
+
+      if (computedChargedAmount <= 0) {
+        return res.status(400).json({ error: 'Unable to calculate amount for selected Makhana types' });
+      }
+    } else {
+      computedChargedAmount = Number(chargedAmount) || Number(samplePackage) || 0;
+    }
+
+    const finalMakhanaType = normalizedRequestType === 'package'
+      ? (fallbackMakhanaType || `Package Sample (${samplePackage})`)
+      : (computedSampleItems.map((item) => `${item.type} (${item.quantityG}g)`).join(', ') || fallbackMakhanaType);
+
+    if (!finalMakhanaType) {
+      return res.status(400).json({ error: 'Makhana type details are required' });
+    }
+
+    if (!paymentId || !razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return res.status(400).json({ error: 'Razorpay payment details are required' });
+    }
+
     const sampleData = {
       name: name.trim(),
       company: (company || '').trim(),
@@ -79,11 +219,19 @@ router.post('/submit', async (req, res) => {
       district: district.trim(),
       state: state.trim(),
       pincode: pincode.trim(),
-      makhanaType: makhanaType.trim(),
+      makhanaType: finalMakhanaType,
+      sampleRequestType: normalizedRequestType,
+      sampleItems: computedSampleItems,
       requirement: (requirement || '').trim(),
       message: (message || '').trim(),
       samplePackage: samplePackage,
-      paymentMethod: paymentMethod,
+      chargedAmount: computedChargedAmount,
+      paymentMethod: normalizedPaymentMethod,
+      paymentStatus: paymentStatus || 'Paid',
+      paymentId: String(paymentId),
+      razorpayOrderId: String(razorpayOrderId),
+      razorpayPaymentId: String(razorpayPaymentId),
+      razorpaySignature: String(razorpaySignature),
       status: 'Pending'
     };
 

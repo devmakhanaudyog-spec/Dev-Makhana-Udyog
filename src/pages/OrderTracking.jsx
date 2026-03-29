@@ -206,7 +206,7 @@ export default function OrderTracking() {
 
         {isLoggedIn && (
           <>
-            <div className="grid md:grid-cols-4 gap-4 mb-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <div className="bg-white rounded-xl border border-green-100 p-4 shadow-sm">
                 <div className="text-sm text-gray-500">Total Orders</div>
                 <div className="text-2xl font-bold text-gray-900">{summary.total}</div>
@@ -224,7 +224,7 @@ export default function OrderTracking() {
                 <div className="text-2xl font-bold text-red-700">{summary.cancelled}</div>
               </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
               <div className="bg-blue-50 rounded-xl border border-blue-200 p-4 shadow-sm">
                 <div className="text-sm text-blue-700 font-medium">Regular Orders</div>
                 <div className="text-2xl font-bold text-blue-900">{summary.regularCount}</div>

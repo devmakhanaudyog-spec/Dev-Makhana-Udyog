@@ -12,6 +12,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
   const { settings, setSettings } = useSettings();
+  const authRedirectToastShownRef = React.useRef(false);
     // ...existing code...
   const { 
     cart, 
@@ -27,8 +28,14 @@ export default function CartPage() {
 
     React.useEffect(() => {
       if (!authLoading && !user) {
-        toast.error('Please login to view your cart');
+        if (!authRedirectToastShownRef.current) {
+          toast.error('Please login to view your cart');
+          authRedirectToastShownRef.current = true;
+        }
         navigate('/login?next=/cart', { replace: true });
+      }
+      if (user) {
+        authRedirectToastShownRef.current = false;
       }
       // Always reload settings on mount
       (async () => {
