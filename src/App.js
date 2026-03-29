@@ -20,7 +20,7 @@ import ToastNotification from './components/Toast';
 // Lazy load components
 const Footer = lazy(() => import('./components/layout/footer'));
 const Hero = lazy(() => import('./components/hero'));
-const Products = lazy(() => import('./pages/Products'));
+const Products = lazy(() => import('./pages/EnhancedProductList'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const CartPage = lazy(() => import('./pages/CartPage'));
 const EnhancedCheckout = lazy(() => import('./pages/EnhancedCheckout'));

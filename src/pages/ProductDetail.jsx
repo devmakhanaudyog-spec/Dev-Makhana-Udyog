@@ -223,7 +223,7 @@ export default function ProductDetail() {
   const handleAddToWishlist = () => {
     if (!product) return;
     if (isInWishlist(productKey)) {
-      toast.info('Already in wishlist');
+        toast('Already in wishlist');
       return;
     }
     addToWishlist(product);
@@ -265,6 +265,20 @@ export default function ProductDetail() {
       </div>
     );
   }
+
+  const totalSellingPrice = Math.round((product.price || 999) * packSize * quantity);
+  const totalOriginalPrice = product.originalPrice
+    ? Math.round(product.originalPrice * packSize * quantity)
+    : null;
+  const discountAmount = totalOriginalPrice && totalOriginalPrice > totalSellingPrice
+    ? totalOriginalPrice - totalSellingPrice
+    : 0;
+  const calculatedDiscountPercent = totalOriginalPrice && totalOriginalPrice > 0
+    ? ((totalOriginalPrice - totalSellingPrice) / totalOriginalPrice) * 100
+    : 0;
+  const formattedDiscountPercent = discountAmount > 0
+    ? calculatedDiscountPercent.toFixed(2)
+    : null;
 
 
   return (
@@ -320,20 +334,25 @@ export default function ProductDetail() {
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 border border-green-100">
               <div className="flex items-baseline gap-3 mb-4">
                 <span className="text-4xl font-bold text-brand">
-                  {formatINR(Math.round((product.price || 999) * packSize * quantity), { maximumFractionDigits: 0 })}
+                  {formatINR(totalSellingPrice, { maximumFractionDigits: 0 })}
                 </span>
-                {product.originalPrice && (
+                {totalOriginalPrice && (
                   <span className="text-xl text-gray-400 line-through">
-                    {formatINR(Math.round(product.originalPrice * packSize * quantity), { maximumFractionDigits: 0 })}
+                    {formatINR(totalOriginalPrice, { maximumFractionDigits: 0 })}
                   </span>
                 )}
-                {product.discount && (
+                {formattedDiscountPercent && (
                   <span className="bg-red-500 text-white text-sm px-3 py-1 rounded-full font-semibold">
-                    {product.discount}% OFF
+                    {formattedDiscountPercent}% OFF
                   </span>
                 )}
                 <span className="text-xs text-gray-500 ml-2">({packSize}kg x {quantity})</span>
               </div>
+              {discountAmount > 0 && (
+                <p className="inline-flex items-center text-sm font-extrabold uppercase tracking-wide text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-1 mb-4">
+                  SAVE RS. {discountAmount.toLocaleString('en-IN')}
+                </p>
+              )}
 
               <div className="flex items-center gap-3 text-sm text-slate-700 mb-4">
                 <span className="bg-white px-3 py-1 rounded-full border border-green-100 font-semibold">MOQ: {product.moq || "-"}</span>

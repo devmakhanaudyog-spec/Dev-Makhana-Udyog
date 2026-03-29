@@ -32,8 +32,9 @@ async function addMakhanaProducts() {
       images: p.images,
       mainImage: p.images && p.images[0] ? p.images[0] : '',
       category: 'Makhana',
+      subCategory: p.subCategory || 'Plain Makhana',
       productId: p.id,
-      stock: 1000,
+      stock: typeof p.stock === 'number' ? p.stock : 1000,
     };
     await Product.findOneAndUpdate({ productId: p.id }, product, { upsert: true, new: true });
   }

@@ -1,53 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 function Footer() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [installPromptEvent, setInstallPromptEvent] = useState(null);
-  const [isAppInstalled, setIsAppInstalled] = useState(false);
 
   const whatsappNumber = '+919142252059';
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^\d+]/g, '')}`;
-
-  useEffect(() => {
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if (isStandalone) {
-      setIsAppInstalled(true);
-    }
-
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      setInstallPromptEvent(event);
-    };
-
-    const handleAppInstalled = () => {
-      setIsAppInstalled(true);
-      setInstallPromptEvent(null);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    window.addEventListener('appinstalled', handleAppInstalled);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      window.removeEventListener('appinstalled', handleAppInstalled);
-    };
-  }, []);
-
-  const handleInstallApp = async () => {
-    if (!installPromptEvent) {
-      alert('Install option is not available right now. Open this site in Chrome mobile and browse for a few seconds, then try again.');
-      return;
-    }
-
-    installPromptEvent.prompt();
-    const choiceResult = await installPromptEvent.userChoice;
-    if (choiceResult?.outcome === 'accepted') {
-      setIsAppInstalled(true);
-    }
-    setInstallPromptEvent(null);
-  };
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -163,17 +122,8 @@ function Footer() {
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" className="text-slate-400 hover:text-green-400 transition-colors"><FaWhatsapp size={24} /></a>
             </div>
             <button
-              className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 text-white font-bold shadow-lg hover:scale-105 hover:from-emerald-600 hover:to-emerald-800 transition-all duration-200 text-base border-2 border-white/10 disabled:opacity-60 disabled:cursor-not-allowed"
-              style={{ minWidth: 120, letterSpacing: '0.02em' }}
-              onClick={handleInstallApp}
-              disabled={isAppInstalled}
-              title={isAppInstalled ? 'Already installed' : 'Install Dev Makhana Udyog app'}
-            >
-              {isAppInstalled ? 'App Installed' : 'Install App'}
-            </button>
-            <button
-              className="ml-4 flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-bold shadow-lg hover:scale-105 hover:from-green-500 hover:to-green-700 transition-all duration-200 text-base border-2 border-white/10"
-              style={{ minWidth: 120, letterSpacing: '0.02em' }}
+              className="ml-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white font-semibold shadow-md hover:from-green-500 hover:to-green-700 transition-all duration-200 text-sm border border-white/10"
+              style={{ letterSpacing: '0.01em' }}
               onClick={() => {
                 const shareUrl = 'https://www.devmakhana.com/';
                 const shareData = { url: shareUrl };
@@ -188,10 +138,10 @@ function Footer() {
                 }
               }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 8.25V6a3 3 0 00-6 0v2.25m6 0A2.25 2.25 0 0117.25 10.5h.75A2.25 2.25 0 0120.25 12.75v4.5A2.25 2.25 0 0118 19.5h-12A2.25 2.25 0 013.75 17.25v-4.5A2.25 2.25 0 016 10.5h.75A2.25 2.25 0 019 8.25m6 0h-6" />
               </svg>
-              Share Website
+              Share
             </button>
           </div>
         </div>

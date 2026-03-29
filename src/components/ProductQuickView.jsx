@@ -3,7 +3,7 @@ import { X, ChevronLeft, ChevronRight, ShoppingCart, Heart } from 'lucide-react'
 import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
 
-export default function ProductQuickView({ product, onClose, isInWishlist, onAddToWishlist }) {
+export default function ProductQuickView({ product, onClose, onOpenDetails, isInWishlist, onAddToWishlist }) {
   const { addToCart } = useCart();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -97,7 +97,7 @@ export default function ProductQuickView({ product, onClose, isInWishlist, onAdd
                         key={idx}
                         onClick={() => setCurrentImageIndex(idx)}
                         className={`flex-1 rounded-lg overflow-hidden border-2 transition ${
-                          idx === currentImageIndex ? 'border-pink-500' : 'border-gray-300 hover:border-pink-300'
+                          idx === currentImageIndex ? 'border-green-600' : 'border-gray-300 hover:border-green-400'
                         }`}
                       >
                         <img src={img} alt={`View ${idx + 1}`} className="w-full h-16 object-cover" />
@@ -129,9 +129,9 @@ export default function ProductQuickView({ product, onClose, isInWishlist, onAdd
                 </div>
 
                 {/* Price */}
-                <div className="mb-6 bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-lg">
+                <div className="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-4xl font-bold text-pink-600">₹{product.price}</span>
+                    <span className="text-4xl font-bold text-brand">₹{product.price}</span>
                     {product.discount > 0 && (
                       <>
                         <span className="text-xl text-gray-400 line-through">₹{originalPrice}</span>
@@ -222,7 +222,7 @@ export default function ProductQuickView({ product, onClose, isInWishlist, onAdd
 
                     <button
                       onClick={handleAddToCart}
-                      className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg transition"
+                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:shadow-lg transition"
                     >
                       <ShoppingCart size={20} />
                       Add to Cart
@@ -235,11 +235,19 @@ export default function ProductQuickView({ product, onClose, isInWishlist, onAdd
                 )}
 
                 <button
+                  type="button"
+                  onClick={() => onOpenDetails(product)}
+                  className="w-full py-3 rounded-lg font-bold border-2 border-green-600 text-green-700 hover:bg-green-50 transition"
+                >
+                  View Full Details
+                </button>
+
+                <button
                   onClick={handleAddToWishlist}
                   className={`w-full py-3 rounded-lg font-bold border-2 transition flex items-center justify-center gap-2 ${
                     isInWishlist
                       ? 'border-red-500 bg-red-50 text-red-600'
-                      : 'border-pink-500 text-pink-600 hover:bg-pink-50'
+                      : 'border-green-600 text-green-700 hover:bg-green-50'
                   }`}
                 >
                   <Heart size={20} fill={isInWishlist ? 'currentColor' : 'none'} />

@@ -2,6 +2,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "../../utils/api.js";
 
+const SUBCATEGORY_OPTIONS = [
+  "Plain Makhana",
+  "Roasted Makhana",
+  "Makhana Dessert",
+  "Makhana Powder",
+  "Makhana Shake",
+  "Save On Bundles"
+];
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -10,12 +18,20 @@ export default function AdminProducts() {
     price: 0,
     description: "",
     image: "",
-    category: "Makhana"
+    category: "Makhana",
+    subCategory: "Plain Makhana"
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [editId, setEditId] = useState(null);
-  const [editForm, setEditForm] = useState({ name: "", price: 0, description: "", image: "", category: "Makhana" });
+  const [editForm, setEditForm] = useState({
+    name: "",
+    price: 0,
+    description: "",
+    image: "",
+    category: "Makhana",
+    subCategory: "Plain Makhana"
+  });
   const fileInputRef = useRef();
 
   useEffect(() => {
@@ -71,7 +87,14 @@ export default function AdminProducts() {
       const res = await axios.post("/api/admin/products", { ...form, image: imageUrl });
       if (Array.isArray(res.data)) setProducts(res.data);
       else setProducts((old) => [...old, res.data]);
-      setForm({ name: "", price: 0, description: "", image: "", category: "Makhana" });
+      setForm({
+        name: "",
+        price: 0,
+        description: "",
+        image: "",
+        category: "Makhana",
+        subCategory: "Plain Makhana"
+      });
       setImageFile(null);
       setImagePreview("");
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -87,13 +110,22 @@ export default function AdminProducts() {
       name: product.name || "",
       price: product.price || 0,
       description: product.description || "",
-      image: product.image || ""
+      image: product.image || "",
+      category: product.category || "Makhana",
+      subCategory: product.subCategory || "Plain Makhana"
     });
   }
 
   function cancelEdit() {
     setEditId(null);
-    setEditForm({ name: "", price: 0, description: "", image: "" });
+    setEditForm({
+      name: "",
+      price: 0,
+      description: "",
+      image: "",
+      category: "Makhana",
+      subCategory: "Plain Makhana"
+    });
   }
 
   async function saveEdit(id) {
@@ -148,13 +180,14 @@ export default function AdminProducts() {
           className="p-2 border rounded"
         />
         <select
-          value={form.category}
-          onChange={e => setForm({ ...form, category: e.target.value })}
+          value={form.subCategory}
+          onChange={e => setForm({ ...form, subCategory: e.target.value })}
           className="p-2 border rounded"
           required
         >
-          <option value="Makhana">Makhana</option>
-          <option value="Other">Other</option>
+          {SUBCATEGORY_OPTIONS.map((sub) => (
+            <option key={sub} value={sub}>{sub}</option>
+          ))}
         </select>
         <div className="flex flex-col items-center">
           <input
@@ -203,6 +236,15 @@ export default function AdminProducts() {
                     onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
                     className="p-1 border rounded mb-1"
                   />
+                  <select
+                    value={editForm.subCategory}
+                    onChange={(e) => setEditForm({ ...editForm, subCategory: e.target.value })}
+                    className="p-1 border rounded mb-1"
+                  >
+                    {SUBCATEGORY_OPTIONS.map((sub) => (
+                      <option key={sub} value={sub}>{sub}</option>
+                    ))}
+                  </select>
                 </div>
                 <div className="flex gap-2">
                   <button onClick={() => saveEdit(p._id)} className="text-green-600 mr-2">Save</button>
@@ -214,6 +256,7 @@ export default function AdminProducts() {
                 <div>
                   <div className="font-medium">{p.name}</div>
                   <div>₹{p.price}</div>
+                  <div className="text-xs text-green-700 font-medium">{p.subCategory || 'Plain Makhana'}</div>
                   <div className="text-xs text-gray-500">{p.description}</div>
                 </div>
                 <div className="flex gap-2">

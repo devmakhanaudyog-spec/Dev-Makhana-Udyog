@@ -1,23 +1,115 @@
-import React, { useState, useCallback } from 'react';
-import { Search, Filter, ShoppingCart, Heart, Grid3x3, List, ChevronUp, ChevronDown } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useCallback, useMemo } from 'react';
+import { Search, Filter, ShoppingCart, Grid3x3, List, ChevronUp, ChevronDown, ShieldCheck } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from '../utils/api.js';
 import { useQuery } from 'react-query';
-import { useCart } from '../context/CartContext';
 import toast from 'react-hot-toast';
 import ProductCard from '../components/ProductCard';
-import ProductQuickView from '../components/ProductQuickView';
+
+const DEFAULT_CATEGORIES = [
+  'Plain Makhana',
+  'Roasted Makhana',
+  'Makhana Dessert',
+  'Makhana Powder',
+  'Makhana Shake',
+  'Save On Bundles'
+];
+const CATEGORY_ORDER = [
+  'Plain Makhana',
+  'Roasted Makhana',
+  'Makhana Dessert',
+  'Makhana Powder',
+  'Makhana Shake',
+  'Save On Bundles'
+];
+
+const HERO_BY_CATEGORY = {
+  all: {
+    badge: 'GI-tagged Mithila lots',
+    title: 'Best Selling Makhana',
+    description: 'Browse complete collection across plain, roasted, dessert, powder, shake, and bundle categories.',
+    stats: [
+      { value: '76', label: 'Curated products' },
+      { value: '6', label: 'Core categories' },
+      { value: 'GI', label: 'Mithila origin' },
+      { value: '24-48h', label: 'Sample dispatch' }
+    ]
+  },
+  'Plain Makhana': {
+    badge: 'Naturally light and crunchy',
+    title: 'Plain Makhana Collection',
+    description: 'Premium, classic, mini, and family packs for daily snacking, gifting, and bulk requirements.',
+    stats: [
+      { value: '10', label: 'Plain SKUs' },
+      { value: '99%+', label: 'Pop rate' },
+      { value: '< 3%', label: 'Moisture' },
+      { value: '50kg+', label: 'Bulk MOQ' }
+    ]
+  },
+  'Roasted Makhana': {
+    badge: 'Ready-to-eat range',
+    title: 'Roasted Makhana Snacks',
+    description: 'Flavor-first roasted range with pouches and can formats for modern retail and quick snacking.',
+    stats: [
+      { value: '21', label: 'Roasted SKUs' },
+      { value: '2', label: 'Pack formats' },
+      { value: '8+', label: 'Popular flavors' },
+      { value: 'High', label: 'Repeat demand' }
+    ]
+  },
+  'Makhana Dessert': {
+    badge: 'Instant dessert line',
+    title: 'Makhana Kheer & Dessert Mixes',
+    description: 'Classic and flavor-led pre-mixes in convenient pack sizes for everyday and festive desserts.',
+    stats: [
+      { value: '17', label: 'Dessert SKUs' },
+      { value: '6+', label: 'Flavor options' },
+      { value: '100g', label: 'Core size' },
+      { value: 'Quick', label: 'Prep friendly' }
+    ]
+  },
+  'Makhana Powder': {
+    badge: 'Fine and textured grind',
+    title: 'Makhana Powder Range',
+    description: 'Nutrient-rich powder options for shakes, desserts, baby food, and fasting recipes.',
+    stats: [
+      { value: '3', label: 'Powder SKUs' },
+      { value: 'Fine', label: 'Grind quality' },
+      { value: '< 3%', label: 'Moisture' },
+      { value: '30kg+', label: 'MOQ' }
+    ]
+  },
+  'Makhana Shake': {
+    badge: 'Wholesome drink mixes',
+    title: 'Makhana Shake Premix Collection',
+    description: 'Smooth flavored shake mixes in regular and trial formats for health-focused consumers.',
+    stats: [
+      { value: '15', label: 'Shake SKUs' },
+      { value: '300g', label: 'Main pack' },
+      { value: '132g', label: 'Trial pack' },
+      { value: 'Creamy', label: 'Texture' }
+    ]
+  },
+  'Save On Bundles': {
+    badge: 'Combo savings range',
+    title: 'Makhana Value Bundles',
+    description: 'Cross-category bundles crafted for better savings on family and festival purchases.',
+    stats: [
+      { value: '10', label: 'Bundle SKUs' },
+      { value: 'Up to 30%', label: 'Savings' },
+      { value: 'Multi', label: 'Category mix' },
+      { value: 'Gift', label: 'Ready packs' }
+    ]
+  }
+};
+const MAX_PRICE_LIMIT = 10000;
 
 export default function EnhancedProductList() {
   const navigate = useNavigate();
-  const { addToCart, addToWishlist, isInWishlist } = useCart();
   const [filters, setFilters] = useState({
     search: '',
     category: 'all',
-    minPrice: 0,
-    maxPrice: 10000,
-    tempMinPrice: 0,
-    tempMaxPrice: 10000,
+    maxPrice: MAX_PRICE_LIMIT,
     availability: 'all',
     rating: 0,
     sort: 'featured',
@@ -27,7 +119,6 @@ export default function EnhancedProductList() {
 
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
-  const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [expandedFilters, setExpandedFilters] = useState({
     category: true,
     availability: true,
@@ -35,84 +126,135 @@ export default function EnhancedProductList() {
     rating: true
   });
 
-  const makhanaCategories = [
-    { name: 'Plain Makhana', value: 'plain-makhana' },
-    { name: 'Roasted Makhana', value: 'roasted-makhana' },
-    { name: 'Makhana Powder', value: 'makhana-powder' },
-    { name: 'Makhana Shake', value: 'makhana-shake' },
-    { name: 'Makhana Recipes', value: 'makhana-recipes' },
-  ];
-
   const fetchProducts = useCallback(async () => {
     try {
-      const params = new URLSearchParams();
-      if (filters.search) params.append('search', filters.search);
-      if (filters.category !== 'all') params.append('category', filters.category);
-      params.append('minPrice', filters.minPrice);
-      params.append('maxPrice', filters.maxPrice);
-      if (filters.availability !== 'all') params.append('availability', filters.availability);
-      if (filters.rating > 0) params.append('rating', filters.rating);
-      params.append('sort', filters.sort);
-      params.append('page', filters.page);
-      params.append('limit', filters.limit);
-
-      const res = await axios.get(`/api/products?${params}`);
+      // Pull a broad catalog once, then apply filters/sort/pagination on client
+      // so behavior is consistent even if backend ignores some sort keys.
+      const res = await axios.get('/api/products?limit=500&page=1');
       return res.data;
     } catch (error) {
       toast.error('Failed to load products');
       throw error;
     }
-  }, [filters]);
+  }, []);
 
   const { data, isLoading } = useQuery(
-    ['products', filters],
+    ['products-catalog'],
     fetchProducts,
     { staleTime: 5 * 60 * 1000 }
   );
 
-  const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value, page: 1 });
-  };
+  const allProducts = useMemo(() => data?.products || [], [data]);
+  const currentHero = HERO_BY_CATEGORY[filters.category] || HERO_BY_CATEGORY.all;
 
-  const handlePriceApply = () => {
-    setFilters({
-      ...filters,
-      minPrice: filters.tempMinPrice,
-      maxPrice: filters.tempMaxPrice,
-      page: 1
+  const makhanaCategories = useMemo(() => {
+    const fromApi = Array.from(
+      new Set(
+        allProducts
+          .map((p) => p.subCategory || p.category)
+          .filter((category) => Boolean(category) && category !== 'Makhana')
+      )
+    );
+    const merged = Array.from(new Set([...fromApi, ...DEFAULT_CATEGORIES]));
+    const orderMap = new Map(CATEGORY_ORDER.map((category, index) => [category, index]));
+    merged.sort((a, b) => {
+      const aIdx = orderMap.has(a) ? orderMap.get(a) : CATEGORY_ORDER.length;
+      const bIdx = orderMap.has(b) ? orderMap.get(b) : CATEGORY_ORDER.length;
+      if (aIdx === bIdx) return a.localeCompare(b);
+      return aIdx - bIdx;
     });
+    return merged.map((category) => ({ name: category, value: category }));
+  }, [allProducts]);
+
+  const filteredAndSortedProducts = useMemo(() => {
+    const searchLower = filters.search.trim().toLowerCase();
+
+    const filtered = allProducts.filter((p) => {
+      const price = Number(p.price) || 0;
+      const stock = Number(p.stock);
+      const rating = Number(p.rating) || 0;
+      const name = (p.name || '').toLowerCase();
+      const description = (p.description || '').toLowerCase();
+
+      const matchSearch = !searchLower || name.includes(searchLower) || description.includes(searchLower);
+      const matchCategory =
+        filters.category === 'all' ||
+        p.subCategory === filters.category ||
+        p.category === filters.category;
+      const matchPrice = price <= filters.maxPrice;
+      const matchAvailability =
+        filters.availability === 'all' ||
+        (filters.availability === 'inStock' && stock > 0) ||
+        (filters.availability === 'outOfStock' && stock <= 0);
+      const matchRating = filters.rating === 0 || rating >= filters.rating;
+
+      return matchSearch && matchCategory && matchPrice && matchAvailability && matchRating;
+    });
+
+    const sorted = [...filtered].sort((a, b) => {
+      const aPrice = Number(a.price) || 0;
+      const bPrice = Number(b.price) || 0;
+      const aRating = Number(a.rating) || 0;
+      const bRating = Number(b.rating) || 0;
+      const aReviews = Number(a.numReviews) || 0;
+      const bReviews = Number(b.numReviews) || 0;
+      const aDate = new Date(a.createdAt || 0).getTime();
+      const bDate = new Date(b.createdAt || 0).getTime();
+
+      switch (filters.sort) {
+        case 'best-selling':
+          return bReviews - aReviews || bRating - aRating;
+        case 'name-asc':
+          return (a.name || '').localeCompare(b.name || '');
+        case 'name-desc':
+          return (b.name || '').localeCompare(a.name || '');
+        case 'price':
+          return aPrice - bPrice;
+        case '-price':
+          return bPrice - aPrice;
+        case 'date-old':
+          return aDate - bDate;
+        case 'date-new':
+          return bDate - aDate;
+        case '-rating':
+          return bRating - aRating;
+        case 'featured':
+        default:
+          return (Number(b.discount) || 0) - (Number(a.discount) || 0) || bRating - aRating;
+      }
+    });
+
+    return sorted;
+  }, [allProducts, filters]);
+
+  const totalFiltered = filteredAndSortedProducts.length;
+  const totalPages = Math.max(1, Math.ceil(totalFiltered / filters.limit));
+  const currentPage = Math.min(filters.page, totalPages);
+
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * filters.limit;
+    return filteredAndSortedProducts.slice(start, start + filters.limit);
+  }, [filteredAndSortedProducts, currentPage, filters.limit]);
+
+  const handleFilterChange = (key, value) => {
+    if (key === 'page') {
+      setFilters({ ...filters, [key]: value });
+      return;
+    }
+    setFilters({ ...filters, [key]: value, page: 1 });
   };
 
   const resetFilters = () => {
     setFilters({
       search: '',
       category: 'all',
-      minPrice: 0,
-      maxPrice: 10000,
-      tempMinPrice: 0,
-      tempMaxPrice: 10000,
+      maxPrice: MAX_PRICE_LIMIT,
       availability: 'all',
       rating: 0,
       sort: 'featured',
       page: 1,
       limit: 12
     });
-  };
-
-  const handleAddToCart = (e, product) => {
-    e?.preventDefault();
-    e?.stopPropagation();
-    addToCart(product, 1);
-    toast.success(`${product.name} added to cart!`);
-  };
-
-  const handleAddToWishlist = (product) => {
-    if (isInWishlist(product._id)) {
-      toast.info('Already in wishlist');
-      return;
-    }
-    addToWishlist(product);
-    toast.success('Added to wishlist!');
   };
 
   const toggleFilterSection = (section) => {
@@ -123,19 +265,40 @@ export default function EnhancedProductList() {
 
   };
 
+  const openProductDetail = (product) => {
+    const productId = product.productId || product._id || product.id;
+    if (!productId) return;
+    navigate(`/product/${productId}`);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="bg-brand-soft min-h-screen">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2">Premium Makhana Products</h1>
-          <p className="text-pink-100">Discover our complete range of hand-picked, premium quality makhana from Dev Makhana Udyog</p>
+      <section className="bg-brand-gradient text-white">
+        <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2 max-w-2xl">
+            <p className="pill-brand bg-white/15 text-white inline-flex items-center gap-2"><ShieldCheck size={16} /> {currentHero.badge}</p>
+            <h1 className="text-3xl font-bold">{currentHero.title}</h1>
+            <p className="text-white/90 text-sm">{currentHero.description}</p>
+            <div className="flex gap-2 flex-wrap">
+              <Link to="/makhana-sample" className="bg-white text-brand px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-95 transition shadow-brand">Get Sample</Link>
+              <Link to="/order-bulk" className="btn-brand-ghost bg-white text-brand px-4 py-2 rounded-lg text-sm font-semibold">Order in Bulk</Link>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 text-xs">
+            {currentHero.stats.map((stat) => (
+              <div key={stat.label} className="bg-white/10 p-3 rounded-xl">
+                <div className="text-xl font-bold">{stat.value}</div>
+                <div className="opacity-80 text-xs">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Search Bar */}
       <div className="bg-white shadow-sm sticky top-0 z-30 p-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full max-w-[1700px] mx-auto">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -143,24 +306,24 @@ export default function EnhancedProductList() {
               value={filters.search}
               onChange={(e) => handleFilterChange('search', e.target.value)}
               placeholder="Search makhana products..."
-              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
             />
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-5 gap-8">
+      <div className="w-full max-w-[1700px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-8">
+        <div className="grid lg:grid-cols-[320px,1fr] gap-8">
           {/* Sidebar Filters */}
-          <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden'} lg:block`}>
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto">
+          <div className={`${showFilters ? 'block' : 'hidden'} lg:block`}>
+            <div className="bg-white rounded-xl shadow-brand border border-green-50 p-6 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto no-scrollbar">
               {/* Header */}
               <div className="flex justify-between items-center mb-8">
                 <h3 className="text-xl font-bold text-gray-900">Filters</h3>
                 <button
                   onClick={resetFilters}
-                  className="text-xs font-semibold text-pink-600 hover:text-pink-700 hover:bg-pink-50 px-3 py-1 rounded-lg transition"
+                  className="text-xs font-semibold text-green-700 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-lg transition"
                 >
                   Reset All
                 </button>
@@ -170,7 +333,7 @@ export default function EnhancedProductList() {
               <div className="mb-6 pb-6 border-b">
                 <button
                   onClick={() => toggleFilterSection('category')}
-                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-pink-600 transition"
+                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
                 >
                   <span>Category</span>
                   {expandedFilters.category ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -194,7 +357,7 @@ export default function EnhancedProductList() {
                           onChange={() => handleFilterChange('category', cat.value)}
                           className="cursor-pointer"
                         />
-                        <span className="text-gray-700 group-hover:text-pink-600 transition">{cat.name}</span>
+                        <span className="text-gray-700 group-hover:text-green-700 transition">{cat.name}</span>
                       </label>
                     ))}
                   </div>
@@ -205,7 +368,7 @@ export default function EnhancedProductList() {
               <div className="mb-6 pb-6 border-b">
                 <button
                   onClick={() => toggleFilterSection('availability')}
-                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-pink-600 transition"
+                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
                 >
                   <span>Availability</span>
                   {expandedFilters.availability ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -219,7 +382,7 @@ export default function EnhancedProductList() {
                         onChange={() => handleFilterChange('availability', 'all')}
                         className="cursor-pointer"
                       />
-                      <span className="text-gray-700 group-hover:text-pink-600 transition">All Products</span>
+                      <span className="text-gray-700 group-hover:text-green-700 transition">All Products</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer group">
                       <input
@@ -251,7 +414,7 @@ export default function EnhancedProductList() {
               <div className="mb-6 pb-6 border-b">
                 <button
                   onClick={() => toggleFilterSection('price')}
-                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-pink-600 transition"
+                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
                 >
                   <span>Price Range</span>
                   {expandedFilters.price ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -259,38 +422,25 @@ export default function EnhancedProductList() {
                 {expandedFilters.price && (
                   <div className="space-y-3 ml-2">
                     <div>
-                      <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Min Price</label>
+                      <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Price Up To</label>
                       <input
-                        type="number"
+                        type="range"
                         min="0"
-                        value={filters.tempMinPrice}
-                        onChange={(e) => setFilters({ ...filters, tempMinPrice: parseInt(e.target.value) || 0 })}
-                        className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                        placeholder="₹0"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Max Price</label>
-                      <input
-                        type="number"
                         max="10000"
-                        value={filters.tempMaxPrice}
-                        onChange={(e) => setFilters({ ...filters, tempMaxPrice: parseInt(e.target.value) || 10000 })}
-                        className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                        placeholder="₹10000"
+                        step="50"
+                        value={filters.maxPrice}
+                        onChange={(e) => {
+                          const nextMax = parseInt(e.target.value, 10) || 10000;
+                          handleFilterChange('maxPrice', nextMax);
+                        }}
+                        className="w-full accent-green-600 mt-2"
                       />
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <p className="text-sm font-semibold text-gray-900">
-                        ₹{filters.tempMinPrice} — ₹{filters.tempMaxPrice}
+                        ₹0 — ₹{filters.maxPrice}
                       </p>
                     </div>
-                    <button
-                      onClick={handlePriceApply}
-                      className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-2 rounded-lg font-semibold hover:shadow-lg transition"
-                    >
-                      Apply Price
-                    </button>
                   </div>
                 )}
               </div>
@@ -299,7 +449,7 @@ export default function EnhancedProductList() {
               <div>
                 <button
                   onClick={() => toggleFilterSection('rating')}
-                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-pink-600 transition"
+                  className="flex justify-between items-center w-full mb-3 text-gray-900 font-semibold hover:text-green-700 transition"
                 >
                   <span>Rating</span>
                   {expandedFilters.rating ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
@@ -309,7 +459,7 @@ export default function EnhancedProductList() {
                     <select
                       value={filters.rating}
                       onChange={(e) => handleFilterChange('rating', parseInt(e.target.value))}
-                      className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                      className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     >
                       <option value={0}>All Ratings</option>
                       <option value={5}>★★★★★ (5 stars)</option>
@@ -319,25 +469,54 @@ export default function EnhancedProductList() {
                   </div>
                 )}
               </div>
+
+            </div>
+
+            {/* Promotion Block (outside filter container) */}
+            <div className="mt-5 rounded-2xl p-4 bg-gradient-to-br from-green-700 via-green-600 to-emerald-600 text-white shadow-lg">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-green-100">Special Promotion</p>
+              <h4 className="text-lg font-bold mt-1">Healthy Makhana Deals</h4>
+              <p className="text-sm text-green-50 mt-2 leading-relaxed">
+                Save more on combo packs and bulk orders. Get premium Mithila-origin makhana with direct dispatch and quality assurance.
+              </p>
+              <div className="mt-4 space-y-2 text-xs text-green-50">
+                <p>Up to 30% off on selected bundles</p>
+                <p>Free guidance for category-wise restocking</p>
+                <p>Fast support on WhatsApp for order queries</p>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <Link
+                  to="/products"
+                  className="text-center rounded-lg bg-white text-green-700 font-semibold py-2 text-xs hover:bg-green-50 transition"
+                >
+                  View Offers
+                </Link>
+                <Link
+                  to="/contact"
+                  className="text-center rounded-lg border border-white/60 text-white font-semibold py-2 text-xs hover:bg-white/10 transition"
+                >
+                  Contact Sales
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Products Section */}
-          <div className="lg:col-span-4">
+          <div>
             {/* Top Bar - View Controls */}
-            <div className="bg-white rounded-xl shadow-lg p-4 mb-6 sticky top-24 z-20">
+            <div className="bg-white rounded-xl shadow-brand border border-green-50 p-4 mb-6 sticky top-24 z-20">
               <div className="flex flex-wrap gap-4 items-center justify-between">
                 {/* Left: Filter Toggle + Product Count */}
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="lg:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
+                    className="lg:hidden flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:shadow-lg transition"
                   >
                     <Filter size={18} />
                     Filters
                   </button>
                   <p className="text-sm text-gray-600 font-semibold">
-                    {data?.products?.length || 0} of {data?.total || 0} products
+                    {paginatedProducts.length} of {totalFiltered} products
                   </p>
                 </div>
 
@@ -347,7 +526,7 @@ export default function EnhancedProductList() {
                   <select
                     value={filters.sort}
                     onChange={(e) => handleFilterChange('sort', e.target.value)}
-                    className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white font-medium text-gray-700"
+                    className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white font-medium text-gray-700"
                   >
                     <option value="featured">Featured</option>
                     <option value="best-selling">Best Selling</option>
@@ -368,8 +547,8 @@ export default function EnhancedProductList() {
                       onClick={() => setViewMode('grid')}
                       className={`p-2 rounded transition ${
                         viewMode === 'grid'
-                          ? 'bg-white text-pink-600 shadow-md'
-                          : 'text-gray-600 hover:text-pink-600'
+                          ? 'bg-white text-green-700 shadow-md'
+                          : 'text-gray-600 hover:text-green-700'
                       }`}
                       title="Grid View"
                     >
@@ -379,8 +558,8 @@ export default function EnhancedProductList() {
                       onClick={() => setViewMode('list')}
                       className={`p-2 rounded transition ${
                         viewMode === 'list'
-                          ? 'bg-white text-pink-600 shadow-md'
-                          : 'text-gray-600 hover:text-pink-600'
+                          ? 'bg-white text-green-700 shadow-md'
+                          : 'text-gray-600 hover:text-green-700'
                       }`}
                       title="List View"
                     >
@@ -391,7 +570,7 @@ export default function EnhancedProductList() {
                   <select
                     value={filters.limit}
                     onChange={(e) => handleFilterChange('limit', parseInt(e.target.value))}
-                    className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent bg-white font-medium text-gray-700 text-sm"
+                    className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white font-medium text-gray-700 text-sm"
                   >
                     <option value={6}>6 per page</option>
                     <option value={12}>12 per page</option>
@@ -405,16 +584,16 @@ export default function EnhancedProductList() {
             {/* Products Grid/List */}
             {isLoading ? (
               <div className="flex justify-center py-16">
-                <div className="animate-spin rounded-full h-16 w-16 border-4 border-pink-200 border-t-pink-600"></div>
+                <div className="animate-spin rounded-full h-16 w-16 border-4 border-green-100 border-t-green-700"></div>
               </div>
-            ) : data?.products?.length === 0 ? (
-              <div className="bg-white rounded-xl shadow-lg p-16 text-center">
+            ) : paginatedProducts.length === 0 ? (
+              <div className="bg-white rounded-xl shadow-brand border border-green-50 p-16 text-center">
                 <ShoppingCart size={48} className="mx-auto text-gray-400 mb-4" />
                 <p className="text-xl font-semibold text-gray-600 mb-2">No products found</p>
                 <p className="text-gray-500 mb-6">Try adjusting your filters or search criteria</p>
                 <button
                   onClick={resetFilters}
-                  className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition"
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition"
                 >
                   Reset Filters
                 </button>
@@ -424,45 +603,37 @@ export default function EnhancedProductList() {
                 {/* Products Grid */}
                 {viewMode === 'grid' ? (
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {data?.products?.map((product) => (
+                    {paginatedProducts.map((product) => (
                       <ProductCard
-                        key={product._id}
+                        key={product._id || product.productId || product.id}
                         product={product}
-                        viewMode={viewMode}
-                        onQuickView={setQuickViewProduct}
-                        onAddToCart={(product) => handleAddToCart(null, product)}
-                        onAddToWishlist={handleAddToWishlist}
-                        isInWishlist={isInWishlist}
+                        onOpenDetails={openProductDetail}
                       />
                     ))}
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {data?.products?.map((product) => (
+                    {paginatedProducts.map((product) => (
                       <ProductCard
-                        key={product._id}
+                        key={product._id || product.productId || product.id}
                         product={product}
-                        viewMode={viewMode}
-                        onQuickView={setQuickViewProduct}
-                        onAddToCart={(product) => handleAddToCart(null, product)}
-                        onAddToWishlist={handleAddToWishlist}
-                        isInWishlist={isInWishlist}
+                        onOpenDetails={openProductDetail}
                       />
                     ))}
                   </div>
                 )}
 
                 {/* Pagination */}
-                {data?.pagination?.pages > 1 && (
+                {totalPages > 1 && (
                   <div className="flex justify-center gap-2 mt-12 mb-8">
-                    {[...Array(data.pagination.pages)].map((_, i) => (
+                    {[...Array(totalPages)].map((_, i) => (
                       <button
                         key={i + 1}
                         onClick={() => handleFilterChange('page', i + 1)}
                         className={`px-4 py-2 rounded-lg font-semibold transition ${
-                          filters.page === i + 1
-                            ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg'
-                            : 'bg-white text-gray-700 border hover:border-pink-500 hover:text-pink-600'
+                          currentPage === i + 1
+                            ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg'
+                            : 'bg-white text-gray-700 border hover:border-green-600 hover:text-green-700'
                         }`}
                       >
                         {i + 1}
@@ -476,15 +647,6 @@ export default function EnhancedProductList() {
         </div>
       </div>
 
-      {/* Quick View Modal */}
-      {quickViewProduct && (
-        <ProductQuickView
-          product={quickViewProduct}
-          onClose={() => setQuickViewProduct(null)}
-          isInWishlist={isInWishlist(quickViewProduct._id)}
-          onAddToWishlist={handleAddToWishlist}
-        />
-      )}
     </div>
   );
 }
