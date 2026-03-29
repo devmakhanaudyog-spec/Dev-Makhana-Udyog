@@ -132,6 +132,24 @@ export default function OrderBulk() {
   }, [user]);
 
   useEffect(() => {
+    const draft = loadBulkOrderDraft();
+    if (!draft) return;
+
+    if (draft.form) {
+      setForm((prev) => ({ ...prev, ...draft.form }));
+    }
+
+    const selections = draft.selections || {};
+    setBulkTypeMode(selections.bulkTypeMode || 'single');
+    setSelectedCategory(selections.selectedCategory || '');
+    setSelectedType(selections.selectedType || '');
+    setSelectedTypesMulti(Array.isArray(selections.selectedTypesMulti) ? selections.selectedTypesMulti : []);
+    setPackagingMode(selections.packagingMode || 'single');
+    setSelectedPackaging(selections.selectedPackaging || '');
+    setSelectedPackagingsMulti(Array.isArray(selections.selectedPackagingsMulti) ? selections.selectedPackagingsMulti : []);
+  }, []);
+
+  useEffect(() => {
     let isMounted = true;
 
     const loadMakhanaTypes = async () => {

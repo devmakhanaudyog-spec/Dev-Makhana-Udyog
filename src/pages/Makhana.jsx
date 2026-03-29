@@ -213,7 +213,7 @@ export default function Makhana() {
       .filter((item) => item.category === selectedCategory)
       .map((item) => item.type);
     setSelectedTypesMulti(selectedInCategory);
-  }, [form.sampleRequestType, selectedCategory]);
+  }, [form.sampleRequestType, selectedCategory, selectedSamples]);
 
   useEffect(() => {
     if (form.sampleRequestType !== 'single' || !selectedCategory || !selectedType) return;
@@ -258,7 +258,7 @@ export default function Makhana() {
       const lineAmount = Number((unitPrice * (qty / 1000)).toFixed(2));
       return { ...item, unitPrice, lineAmount };
     }));
-  }, [productPriceLookup]);
+  }, [productPriceLookup, selectedSamples.length]);
 
   const scrollToForm = () => {
     if (formRef.current) {
@@ -301,54 +301,6 @@ export default function Makhana() {
   };
 
   const sampleCategories = Object.keys(sampleTypeCatalog);
-
-  const addSampleType = () => {
-    if (!selectedCategory) {
-      setError('Please select a category first.');
-      return;
-    }
-
-    const typesToAdd = selectedType
-        ? [selectedType]
-        : [];
-
-    if (typesToAdd.length === 0) {
-      setError('Please select a Makhana type.');
-      return;
-    }
-
-    const qty = Number(selectedQty) || 0;
-    if (qty < 1 || qty > 100) {
-      setError('Sample quantity per type can be max 100g.');
-      return;
-    }
-
-    const nextEntries = [];
-    for (const type of typesToAdd) {
-      const normalizedType = normalizeName(type);
-      const unitPrice = Number(productPriceLookup[normalizedType]?.unitPrice) || 0;
-      if (unitPrice <= 0) {
-        setError(`Selected Makhana type price is unavailable: ${type}`);
-        return;
-      }
-      const lineAmount = Number((unitPrice * (qty / 1000)).toFixed(2));
-      nextEntries.push({ category: selectedCategory, type, quantityG: qty, unitPrice, lineAmount });
-    }
-
-    setError(null);
-
-    if (form.sampleRequestType !== 'single') {
-      return;
-    }
-
-    if (form.sampleRequestType === 'single') {
-      setSelectedSamples([nextEntries[0]]);
-      return;
-    }
-
-    setSelectedType('');
-    setSelectedQty(100);
-  };
 
   const removeSampleType = (index) => {
     setSelectedSamples((prev) => prev.filter((_, i) => i !== index));
