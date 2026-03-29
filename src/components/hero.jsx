@@ -578,9 +578,9 @@ function Testimonials(){
     },
     { 
       id: 3, 
-      name: "Vinay Kumar", 
-      role: "Retail Store Owner", 
-      company: "Dev Makhana udyog, Bihar",
+      name: "Sunil K.", 
+      role: "Retailer", 
+      company: "Healthy Bites, Delhi",
       text: "Perfect for my store! Can order in retail packs or wholesale. Great quality and my customers keep coming back." 
     },
     { 

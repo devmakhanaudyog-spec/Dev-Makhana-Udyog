@@ -245,7 +245,7 @@ export default function WhatIsMakhanaPost() {
       title="What is Makhana? Complete Guide to Fox Nuts (Lotus Seeds) 2026"
       excerpt="Everything you need to know about makhana (fox nuts). Learn what it is, how it's made, nutritional benefits, types, uses, and why Mithila makhana is the best. Complete beginner's guide."
       content={<WhatIsMakhanaArticle />}
-      author="Rajesh Kumar, Food Scientist"
+      author="Team"
       date="2026-02-06"
       category="Education"
       tags={[

@@ -102,7 +102,7 @@ export default function GIMakhanaPost() {
       title="Why the GI Tag on Mithila Makhana is More Than Just a Label"
       excerpt="Discover why the GI tag is more than a label - it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila."
       content={<GIMakhanaArticle />}
-      author="Dev Makhana Udyog Team"
+      author="Team"
       date="2026-01-10"
       category="Education"
       tags={[

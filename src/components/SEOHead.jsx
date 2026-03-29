@@ -52,7 +52,7 @@ export default function SEOHead({
           "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "Customer Service",
-            "email": "support@devmakhana.com"
+            "email": "devmakhanaudyog@gmail.com"
           }
         })}
       </script>

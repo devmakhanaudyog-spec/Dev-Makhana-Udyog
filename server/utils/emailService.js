@@ -306,7 +306,7 @@ Dev Makhana Udyog Team
 const sendContactEmail = async (contact) => {
   try {
     const transporter = createTransporter();
-    const receiver = process.env.CONTACT_RECEIVER || process.env.EMAIL_USER || 'support@devmakhanaudyog.com';
+    const receiver = process.env.CONTACT_RECEIVER || process.env.EMAIL_USER || 'devmakhanaudyog@gmail.com';
 
     const mailOptions = {
       from: getFromAddress(),

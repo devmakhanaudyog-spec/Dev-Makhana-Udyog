@@ -118,7 +118,7 @@ export default function HealthBenefitsPost() {
       title="10 Amazing Health Benefits of Makhana (Fox Nuts) - 2026 Guide"
       excerpt="Discover the incredible health benefits of makhana, from weight loss to heart health. Learn why this superfood should be in your daily diet and how it can transform your wellness journey."
       content={<HealthBenefitsArticle />}
-      author="Dr. Priya Sharma, Nutritionist"
+      author="Team"
       date="2026-02-08"
       category="Health & Nutrition"
       tags={[

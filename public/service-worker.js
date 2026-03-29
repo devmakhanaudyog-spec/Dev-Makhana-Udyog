@@ -1,11 +1,14 @@
 // public/service-worker.js - Service Worker for offline support and caching
 /* eslint-disable no-restricted-globals */
-const CACHE_NAME = 'dev-mkahna-udyog-v1';
+const CACHE_NAME = 'dev-mkahna-udyog-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/favicon.ico',
+  '/devmakhanalogo.png',
+  '/logo192.png',
+  '/logo512.png',
 ];
 
 // Install event

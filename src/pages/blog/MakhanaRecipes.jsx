@@ -195,7 +195,7 @@ export default function MakhanaRecipesPost() {
       title="7 Delicious Makhana Recipes - Easy & Healthy Fox Nut Dishes 2026"
       excerpt="Transform your makhana into amazing dishes! From roasted snacks to creamy kheer, discover 7 easy recipes with step-by-step instructions. Perfect for healthy eating and weight loss."
       content={<MakhanaRecipesArticle />}
-      author="Chef Anjali Mehta"
+      author="Team"
       date="2026-02-07"
       category="Recipes"
       tags={[

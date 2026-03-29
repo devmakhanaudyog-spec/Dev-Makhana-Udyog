@@ -8,7 +8,7 @@ const blogPosts = [
     id: 1,
     title: "10 Amazing Health Benefits of Makhana (Fox Nuts) - 2026 Guide",
     excerpt: "Discover the incredible health benefits of makhana, from weight loss to heart health. Learn why this superfood should be in your daily diet.",
-    author: "Dr. Priya Sharma, Nutritionist",
+    author: "Team",
     date: "2026-02-08",
     category: "Health & Nutrition",
     slug: "health-benefits-of-makhana",
@@ -20,7 +20,7 @@ const blogPosts = [
     id: 2,
     title: "7 Delicious Makhana Recipes - Easy & Healthy Fox Nut Dishes 2026",
     excerpt: "Transform your makhana into amazing dishes! From roasted snacks to creamy kheer, discover 7 easy recipes with step-by-step instructions.",
-    author: "Chef Anjali Mehta",
+    author: "Team",
     date: "2026-02-07",
     category: "Recipes",
     slug: "makhana-recipes",
@@ -32,7 +32,7 @@ const blogPosts = [
     id: 3,
     title: "What is Makhana? Complete Guide to Fox Nuts (Lotus Seeds) 2026",
     excerpt: "Everything you need to know about makhana. Learn what it is, how it's made, nutritional benefits, types, uses, and why Mithila makhana is the best.",
-    author: "Rajesh Kumar, Food Scientist",
+    author: "Team",
     date: "2026-02-06",
     category: "Education",
     slug: "what-is-makhana",
@@ -44,7 +44,7 @@ const blogPosts = [
     id: 4,
     title: "Makhana for Weight Loss: Complete Guide + 7-Day Diet Plan (2026)",
     excerpt: "Can makhana help you lose weight? YES! Discover how to use fox nuts for effective weight loss, best recipes, meal plans, and expert tips.",
-    author: "Nutritionist Neha Agarwal",
+    author: "Team",
     date: "2026-02-05",
     category: "Weight Loss",
     slug: "makhana-for-weight-loss",
@@ -56,7 +56,7 @@ const blogPosts = [
     id: 5,
     title: "Why the GI Tag on Mithila Makhana is More Than Just a Label",
     excerpt: "Discover why the GI tag is more than a label - it's a promise of ancient tradition, world-class quality, and the authentic taste of Mithila.",
-    author: "Dev Makhana Udyog Team",
+    author: "Team",
     date: "2026-01-10",
     category: "Education",
     slug: "why-gi-mithila-makhana",
@@ -68,7 +68,7 @@ const blogPosts = [
     id: 6,
     title: "Makhana: The Clean-Label Super Snack - A Personal Promise",
     excerpt: "Discover the plant-based powerhouse that's high in protein, low GI, and ready to take on any flavor you can imagine.",
-    author: "Dev Makhana Udyog Team",
+    author: "Team",
     date: "2026-01-20",
     category: "Health & Nutrition",
     slug: "healthy-snacking",
@@ -209,7 +209,7 @@ export default function BlogIndex() {
                     </div>
                     <div className="flex items-center">
                       <User className="w-4 h-4 mr-1" />
-                      {post.author.split(',')[0]}
+                      {post.author}
                     </div>
                   </div>
 

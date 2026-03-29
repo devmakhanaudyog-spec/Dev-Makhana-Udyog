@@ -370,7 +370,7 @@ export default function MakhanaForWeightLossPost() {
       title="Makhana for Weight Loss: Complete Guide + 7-Day Diet Plan (2026)"
       excerpt="Can makhana help you lose weight? YES! Discover how to use fox nuts for effective weight loss, best recipes, meal plans, and expert tips. Lose 2-3 kg per month naturally!"
       content={<WeightLossArticle />}
-      author="Nutritionist Neha Agarwal"
+      author="Team"
       date="2026-02-05"
       category="Weight Loss"
       tags={[

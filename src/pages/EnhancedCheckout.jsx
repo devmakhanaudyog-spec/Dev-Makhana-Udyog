@@ -7,9 +7,8 @@ import { useSettings } from '../context/SettingsContext';
 import toast from 'react-hot-toast';
 import axios from '../utils/api.js';
 import { formatINR } from '../utils/currency';
-import { AlertCircle, CreditCard, Wallet, ShoppingBag, MapPin, Plus, Check, ArrowLeft } from 'lucide-react';
+import { AlertCircle, CreditCard, ShoppingBag, MapPin, Plus, Check, ArrowLeft } from 'lucide-react';
 import RazorpayPayment from '../components/RazorpayPayment';
-import StripePayment from '../components/StripePayment';
 
 
 export default function EnhancedCheckout() {
@@ -112,7 +111,6 @@ export default function EnhancedCheckout() {
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentGateway, setPaymentGateway] = useState(null);
 
   const gstPercent = Number(settings?.taxPercentage ?? 18);
   const specialDiscountPercent = Number(settings?.specialDiscountPercentage ?? 0);
@@ -340,18 +338,7 @@ export default function EnhancedCheckout() {
 
     try {
       // Razorpay Payment
-      if (formData.paymentMethod === 'Razorpay') {
-        setPaymentGateway('razorpay');
-        setShowPaymentModal(true);
-      }
-      // Stripe Payment
-      else if (formData.paymentMethod === 'Stripe') {
-        setPaymentGateway('stripe');
-        setShowPaymentModal(true);
-      }
-      else {
-        toast.error('Please select a valid payment method');
-      }
+      setShowPaymentModal(true);
     } catch (error) {
       toast.error(error.response?.data?.error || 'Failed to place order');
     } finally {
@@ -371,8 +358,34 @@ export default function EnhancedCheckout() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-soft py-12 px-4 overflow-x-hidden">
-      <div className="max-w-full sm:max-w-4xl mx-auto overflow-x-hidden">
+    <div className="min-h-screen bg-brand-soft py-12 px-4 overflow-x-hidden relative">
+      {/* Repeating Centered Watermark Pattern - 45 Degree Tilt */}
+      <div className="fixed inset-0 pointer-events-none opacity-15 z-0">
+        {Array(12).fill(0).map((_, idx) => (
+          <div key={idx} className="absolute flex flex-col items-center justify-center pointer-events-none" style={{
+            left: `${(idx % 3) * 33.33}%`,
+            top: `${Math.floor(idx / 3) * 25}%`,
+            width: '33.33%',
+            height: '25%',
+            transform: 'translate(-50%, -50%) rotate(-45deg)',
+            marginLeft: '16.66%',
+            marginTop: '12.5%'
+          }}>
+            <img src="/devmakhanalogo.png" alt="watermark" className="w-48 h-48 mx-auto opacity-100 rounded-full" />
+          </div>
+        ))}
+      </div>
+
+      <div className="max-w-full sm:max-w-4xl mx-auto overflow-x-hidden relative z-10">
+        {/* Header with Logo */}
+        <div className="flex items-center gap-4 mb-8">
+          <img src="/devmakhanalogo.png" alt="Dev Makhana Udyog" className="h-16 w-16 rounded-full shadow-md" />
+          <div>
+            <h1 className="text-3xl font-bold">Secure Checkout</h1>
+            <p className="text-sm text-gray-600">Dev Makhana Udyog - Premium Quality</p>
+          </div>
+        </div>
+
         <button
           onClick={() => navigate('/cart')}
           className="flex items-center gap-3 px-6 py-3 bg-white border-2 border-green-600 text-green-600 rounded-lg font-semibold transition-all duration-300 hover:bg-green-600 hover:text-white shadow-md hover:shadow-lg mb-8"
@@ -380,9 +393,8 @@ export default function EnhancedCheckout() {
           <ArrowLeft size={22} />
           Back to Cart
         </button>
-        <h1 className="text-3xl font-bold mb-8">Secure Checkout</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 overflow-x-hidden">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 overflow-x-hidden relative z-10">
           {/* Checkout Form */}
           <form onSubmit={handleSubmit} className="md:col-span-2 space-y-6 overflow-x-hidden">
             {/* Shipping Address */}
@@ -640,83 +652,32 @@ export default function EnhancedCheckout() {
               )}
             </div>
 
-            {/* Payment Method */}
+            {/* Payment Method - Razorpay Only */}
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="flex items-center gap-2 mb-5">
                 <CreditCard className="text-green-700" size={24} />
                 <h2 className="text-xl font-bold text-gray-800">Payment Method</h2>
               </div>
               
-              <div className="space-y-3">
-                <label className={`relative flex items-start p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
-                  formData.paymentMethod === 'Razorpay' 
-                    ? 'border-green-500 bg-green-50 shadow-md' 
-                    : 'border-gray-200 hover:border-green-200 hover:shadow-sm'
-                }`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="Razorpay"
-                    checked={formData.paymentMethod === 'Razorpay'}
-                    onChange={handleChange}
-                    className="mt-1 mr-4 w-5 h-5 text-green-700 focus:ring-green-500"
-                  />
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg">
-                      <CreditCard className="text-green-700" size={24} />
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-gray-800 text-lg">Razorpay</span>
-                      <p className="text-sm text-gray-600 mt-0.5 break-words">UPI, Cards, Wallets & NetBanking</p>
-                      <div className="flex gap-2 mt-2">
-                        <span className="pill-brand">🇮🇳 India</span>
-                        <span className="pill-brand">UPI supported</span>
-                      </div>
+              <div className="p-5 border-2 border-green-500 bg-green-50 rounded-xl">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-gradient-to-br from-green-50 to-emerald-100 rounded-lg">
+                    <CreditCard className="text-green-700" size={28} />
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-semibold text-gray-800 text-lg">Razorpay</span>
+                    <p className="text-sm text-gray-600 mt-0.5 break-words">UPI, Cards, Wallets & NetBanking</p>
+                    <div className="flex gap-2 mt-2">
+                      <span className="pill-brand">🇮🇳 India</span>
+                      <span className="pill-brand">UPI supported</span>
                     </div>
                   </div>
-                  {formData.paymentMethod === 'Razorpay' && (
-                    <div className="absolute top-4 right-4">
-                      <svg className="w-6 h-6 text-green-700" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                </label>
-
-                <label className={`relative flex items-start p-5 border-2 rounded-xl cursor-pointer transition-all duration-200 ${
-                  formData.paymentMethod === 'Stripe' 
-                    ? 'border-green-500 bg-green-50 shadow-md' 
-                    : 'border-gray-200 hover:border-green-200 hover:shadow-sm'
-                }`}>
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="Stripe"
-                    checked={formData.paymentMethod === 'Stripe'}
-                    onChange={handleChange}
-                    className="mt-1 mr-4 w-5 h-5 text-green-700 focus:ring-green-500"
-                  />
-                  <div className="flex items-center gap-4 flex-1">
-                    <div className="p-3 bg-gradient-to-br from-green-50 to-lime-100 rounded-lg">
-                      <Wallet className="text-green-700" size={24} />
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-gray-800 text-lg">Stripe</span>
-                      <p className="text-sm text-gray-600 mt-0.5">Visa, Mastercard, Amex & more</p>
-                      <div className="flex gap-2 mt-2">
-                        <span className="pill-brand">🌍 Global</span>
-                        <span className="pill-brand">Secure</span>
-                      </div>
-                    </div>
+                  <div className="flex-shrink-0">
+                    <svg className="w-6 h-6 text-green-700" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
                   </div>
-                  {formData.paymentMethod === 'Stripe' && (
-                    <div className="absolute top-4 right-4">
-                      <svg className="w-6 h-6 text-green-700" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                  )}
-                </label>
+                </div>
               </div>
             </div>
 
@@ -838,19 +799,11 @@ export default function EnhancedCheckout() {
               </button>
 
               <div className="flex items-center gap-3 mb-6">
-                {paymentGateway === 'razorpay' ? (
-                  <div className="p-3 bg-green-100 rounded-xl">
-                    <CreditCard className="text-green-700" size={28} />
-                  </div>
-                ) : (
-                  <div className="p-3 bg-green-100 rounded-xl">
-                    <Wallet className="text-green-700" size={28} />
-                  </div>
-                )}
+                <div className="p-3 bg-green-100 rounded-xl">
+                  <CreditCard className="text-green-700" size={28} />
+                </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    {paymentGateway === 'razorpay' ? 'Razorpay Payment' : 'Secure Card Payment'}
-                  </h2>
+                  <h2 className="text-2xl font-bold text-gray-900">Razorpay Payment</h2>
                   <p className="text-sm text-gray-500">Complete your purchase securely</p>
                 </div>
               </div>
@@ -864,32 +817,17 @@ export default function EnhancedCheckout() {
                 </div>
               </div>
 
-              {paymentGateway === 'razorpay' && (
-                <RazorpayPayment
-                  amount={finalTotal}
-                  onSuccess={handlePaymentSuccess}
-                  onFailure={handlePaymentFailure}
-                  userData={{
-                    name: formData.name,
-                    email: formData.email,
-                    phone: formData.phone
-                  }}
-                  orderId={`order_${Date.now()}`}
-                />
-              )}
-
-              {paymentGateway === 'stripe' && (
-                <StripePayment
-                  amount={finalTotal}
-                  onSuccess={handlePaymentSuccess}
-                  onFailure={handlePaymentFailure}
-                  userData={{
-                    name: formData.name,
-                    email: formData.email,
-                    phone: formData.phone
-                  }}
-                />
-              )}
+              <RazorpayPayment
+                amount={finalTotal}
+                onSuccess={handlePaymentSuccess}
+                onFailure={handlePaymentFailure}
+                userData={{
+                  name: formData.name,
+                  email: formData.email,
+                  phone: formData.phone
+                }}
+                orderId={`order_${Date.now()}`}
+              />
             </div>
           </div>
         )}

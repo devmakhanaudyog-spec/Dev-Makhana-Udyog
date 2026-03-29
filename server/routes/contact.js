@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
-const { sendContactEmail } = require('../utils/emailService');
 
-// Submit contact form
+// Submit contact form - saves message to database for admin portal
 router.post('/submit', async (req, res) => {
   try {
     const { name, email, phone, subject, message } = req.body;
@@ -23,15 +22,8 @@ router.post('/submit', async (req, res) => {
       status: 'new'
     });
 
-    try {
-      await sendContactEmail(contact);
-    } catch (emailError) {
-      console.error('Contact email send failed:', emailError);
-      return res.status(500).json({ error: 'Message saved but email delivery failed. Please try again later.' });
-    }
-
     res.status(201).json({
-      message: 'Your message has been received. We will respond soon!',
+      message: 'Your message has been received. Our team will review it shortly!',
       contact
     });
   } catch (error) {

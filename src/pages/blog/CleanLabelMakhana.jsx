@@ -142,7 +142,7 @@ export default function CleanLabelMakhanaPost() {
       title="Makhana: The Clean-Label Super Snack - A Personal Promise from Dev Makhana Udyog"
       excerpt="Discover the plant-based powerhouse that's high in protein, low GI, and ready to take on any flavor you can imagine."
       content={<CleanLabelArticle />}
-      author="Dev Makhana Udyog Team"
+      author="Team"
       date="2026-01-20"
       category="Health & Nutrition"
       tags={[
