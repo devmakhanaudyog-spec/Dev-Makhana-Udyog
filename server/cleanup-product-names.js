@@ -26,17 +26,18 @@ async function cleanupProductNames() {
       return;
     }
 
-    // Step 1: Remove weight suffixes from product names
-    console.log('STEP 1: Removing weight suffixes from product names');
+    // Step 1: Remove weight suffixes and variant packaging from product names
+    console.log('STEP 1: Removing weight suffixes and variant packaging from product names');
     console.log('-'.repeat(60));
 
-    const weightRegex = /\s*\(\d+\.?\d*\s*(?:g|kg|gm|kilogram|gram)\)?/gi;
+    // Remove patterns like (225g), x 6), x 12), etc.
+    const cleanupRegex = /\s*(?:\(?\d+\.?\d*\s*(?:g|kg|gm|kilogram|gram)\)?|\s*x\s*\d+\)?)/gi;
     const updatedProducts = [];
     let removedCount = 0;
 
     for (const product of allProducts) {
       const originalName = product.name;
-      const cleanedName = product.name.replace(weightRegex, '').trim();
+      const cleanedName = product.name.replace(cleanupRegex, '').trim();
 
       if (originalName !== cleanedName) {
         updatedProducts.push({
@@ -63,23 +64,21 @@ async function cleanupProductNames() {
       }
     }
 
-    // Step 2: Find and handle duplicate names
+    // Step 2: Find and handle duplicate names among ALL active products
     console.log('\n\nSTEP 2: Finding and handling duplicate product names');
     console.log('-'.repeat(60));
 
+    const allActiveProducts = await Product.find({ active: true }).sort({ createdAt: 1 });
     const nameMap = {};
     const duplicates = [];
 
-    // Group products by cleaned name
-    for (const product of updatedProducts) {
-      const cleanedName = product.cleanedName;
+    // Group all active products by cleaned name
+    for (const product of allActiveProducts) {
+      const cleanedName = product.name.replace(cleanupRegex, '').trim();
       if (!nameMap[cleanedName]) {
         nameMap[cleanedName] = [];
       }
-      nameMap[cleanedName].push({
-        id: product.productId,
-        originalName: product.originalName
-      });
+      nameMap[cleanedName].push(product);
     }
 
     // Identify duplicates
@@ -88,7 +87,10 @@ async function cleanupProductNames() {
         duplicates.push({
           name: cleanedName,
           count: products.length,
-          products: products
+          products: products.map(p => ({
+            id: p._id,
+            originalName: p.name
+          }))
         });
       }
     }
@@ -149,8 +151,8 @@ async function cleanupProductNames() {
     console.log('\n\n' + '='.repeat(60));
     console.log('CLEANUP SUMMARY');
     console.log('='.repeat(60));
-    console.log(`📝 Weight suffixes removed: ${removedCount}`);
-    console.log(`🔄 Named updated to remove weight: ${bulkOps.filter(op => op.updateOne).length}`);
+    console.log(`📝 Weight suffixes & variant patterns removed: ${removedCount}`);
+    console.log(`🔄 Names updated to remove suffixes/patterns: ${bulkOps.filter(op => op.updateOne).length}`);
     console.log(`❌ Duplicate products deactivated: ${toRemoveIds.length}`);
     console.log(`\n⚠️  Deactivated Products (Safe to delete later if needed):`);
     toRemoveIds.forEach((id, idx) => {

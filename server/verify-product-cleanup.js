@@ -26,18 +26,18 @@ async function verifyCleanup() {
     console.log(`❌ Inactive/Deactivated Products: ${inactiveProducts.length}`);
     console.log(`📦 Total Products: ${activeProducts.length + inactiveProducts.length}`);
 
-    // Check for weight suffixes in active products
-    const weightRegex = /\s*\(\d+\.?\d*\s*(?:g|kg|gm|kilogram|gram)\)?/gi;
-    const productsWithWeights = activeProducts.filter(p => weightRegex.test(p.name));
+    // Check for weight suffixes and variant packaging in active products
+    const cleanupRegex = /\s*(?:\(?\d+\.?\d*\s*(?:g|kg|gm|kilogram|gram)\)?|\s*x\s*\d+\)?)/gi;
+    const productsWithPatterns = activeProducts.filter(p => cleanupRegex.test(p.name));
 
-    console.log(`\n🔍 WEIGHT SUFFIX CHECK`);
+    console.log(`\n🔍 WEIGHT SUFFIX AND VARIANT PACKAGING CHECK`);
     console.log('-'.repeat(70));
-    console.log(`✅ Products with weight suffixes: ${productsWithWeights.length}`);
-    if (productsWithWeights.length === 0) {
-      console.log('✨ No weight suffixes found! All product names are clean.');
+    console.log(`✅ Products with suffixes/patterns: ${productsWithPatterns.length}`);
+    if (productsWithPatterns.length === 0) {
+      console.log('✨ No suffixes or variant patterns found! All product names are clean.');
     } else {
-      console.log('⚠️  Found products with weight suffixes:');
-      productsWithWeights.forEach((p, idx) => {
+      console.log('⚠️  Found products with suffixes/patterns:');
+      productsWithPatterns.forEach((p, idx) => {
         console.log(`   ${idx + 1}. "${p.name}"`);
       });
     }
@@ -88,7 +88,7 @@ async function verifyCleanup() {
     console.log('\n\n' + '='.repeat(70));
     console.log('✨ VERIFICATION COMPLETE');
     console.log('='.repeat(70));
-    console.log(`✅ All active products have clean names (no weight suffixes)`);
+    console.log(`✅ All active products have clean names (no weight/variant suffixes)`);
     console.log(`✅ All active product names are unique (no duplicates)`);
     console.log(`✅ ${inactiveProducts.length} duplicate products safely deactivated`);
     console.log('\n');
