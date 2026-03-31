@@ -3,7 +3,7 @@ import { Eye, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-export default function FreeSamplesTab({ freeSamples, loadData }) {
+export default function FreeSamplesTab({ freeSamples, loadData, loadFreeSamplesData }) {
   const [selectedSample, setSelectedSample] = useState(null);
   const [editingSample, setEditingSample] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +22,12 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
     if (!autoRefreshEnabled) return;
     
     const pollInterval = setInterval(() => {
-      loadData();
+      if (typeof loadFreeSamplesData === 'function') loadFreeSamplesData();
+      else loadData();
     }, 15000); // 15 seconds
 
     return () => clearInterval(pollInterval);
-  }, [autoRefreshEnabled, loadData]);
+  }, [autoRefreshEnabled, loadData, loadFreeSamplesData]);
 
   const handleStatusUpdate = useCallback(async (sampleId, newStatus) => {
     if (!newStatus) return;
@@ -34,7 +35,8 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
     try {
       await axios.put(`/api/admin/free-samples/${sampleId}`, { status: newStatus });
       toast.success(`Status updated to ${newStatus}`);
-      loadData();
+      if (typeof loadFreeSamplesData === 'function') await loadFreeSamplesData();
+      else await loadData();
       setEditingSample(null);
     } catch (error) {
       console.error('Status update error:', error);
@@ -42,7 +44,7 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadFreeSamplesData]);
 
   const handleNotesUpdate = useCallback(async (sampleId, adminNotes, chargedAmount) => {
     setIsLoading(true);
@@ -51,7 +53,8 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
       if (typeof chargedAmount === 'number') payload.chargedAmount = chargedAmount;
       await axios.put(`/api/admin/free-samples/${sampleId}`, payload);
       toast.success('Notes updated');
-      loadData();
+      if (typeof loadFreeSamplesData === 'function') await loadFreeSamplesData();
+      else await loadData();
       setEditingSample(null);
     } catch (error) {
       console.error('Notes update error:', error);
@@ -59,7 +62,7 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadFreeSamplesData]);
 
   const handleDeleteSample = useCallback(async (sampleId) => {
     if (!window.confirm('Delete this free sample request permanently?')) return;
@@ -67,14 +70,15 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
     try {
       await axios.delete(`/api/admin/free-samples/${sampleId}`);
       toast.success('Sample request deleted');
-      loadData();
+      if (typeof loadFreeSamplesData === 'function') await loadFreeSamplesData();
+      else await loadData();
     } catch (error) {
       console.error('Delete error:', error);
       toast.error('Failed to delete sample request');
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadFreeSamplesData]);
 
   const baseList = statusFilter === 'all' ? localSamples : localSamples.filter(s => s.status === statusFilter);
   const ql = q.trim().toLowerCase();
@@ -89,7 +93,10 @@ export default function FreeSamplesTab({ freeSamples, loadData }) {
         <h1 className="text-3xl font-bold text-slate-900">Free Sample Requests</h1>
         <div className="flex items-center gap-3 flex-wrap">
           <button
-            onClick={() => loadData()}
+            onClick={() => {
+              if (typeof loadFreeSamplesData === 'function') loadFreeSamplesData();
+              else loadData();
+            }}
             title="Refresh samples"
             className="p-2 hover:bg-slate-100 rounded-lg transition"
           >

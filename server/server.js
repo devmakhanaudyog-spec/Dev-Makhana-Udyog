@@ -110,12 +110,56 @@ app.use('/api', (req, res, next) => {
 
 // Rate limiting (production only)
 if (!isDev) {
-  const limiter = rateLimit({
+  const toPositiveInt = (value, fallback) => {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  };
+
+  const buildLimiter = ({ windowMs, max, message }) => rateLimit({
+    windowMs,
+    max,
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: (req, res) => {
+      const retryAfterHeader = res.getHeader('Retry-After');
+      const retryAfterSeconds = Number.parseInt(retryAfterHeader, 10) || Math.ceil(windowMs / 1000);
+      return res.status(429).json({
+        error: message,
+        code: 'RATE_LIMITED',
+        retryAfterSeconds
+      });
+    }
+  });
+
+  // Public customer API limiter (excluding auth/admin routes)
+  const publicApiLimiter = buildLimiter({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    max: toPositiveInt(process.env.RATE_LIMIT_PUBLIC_MAX, 600),
     message: 'Too many requests from this IP, please try again later.'
   });
-  app.use('/api/', limiter);
+
+  // Keep auth strict for security
+  const authLimiter = buildLimiter({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: toPositiveInt(process.env.RATE_LIMIT_AUTH_MAX, 30),
+    message: 'Too many login/auth attempts. Please wait 15 minutes and retry.'
+  });
+
+  // Higher admin throughput to support frequent portal updates
+  const adminLimiter = buildLimiter({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: toPositiveInt(process.env.RATE_LIMIT_ADMIN_MAX, 250),
+    message: 'Rate limit reached, wait 15 min or retry.'
+  });
+
+  app.use('/api/auth', authLimiter);
+  app.use('/api/admin', adminLimiter);
+  app.use('/api', (req, res, next) => {
+    if (req.originalUrl.startsWith('/api/auth') || req.originalUrl.startsWith('/api/admin')) {
+      return next();
+    }
+    return publicApiLimiter(req, res, next);
+  });
 
   // Stricter rate limiting for checkout and payment endpoints
   const checkoutLimiter = rateLimit({
@@ -171,8 +215,10 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // MongoDB Connection with optimizations for scalability
 mongoose.connect(MONGODB_URI, {
-  maxPoolSize: 100,           // Maximum connection pool size
-  minPoolSize: 10,            // Minimum connections to keep alive
+  maxPoolSize: 150,           // Increased pool for concurrent bursts
+  minPoolSize: 20,            // Keep warm connections for steady traffic
+  maxConnecting: 15,          // Allow more simultaneous connection establishment
+  waitQueueTimeoutMS: 10000,  // Fail fast instead of hanging requests forever
   maxIdleTimeMS: 45000,       // Close idle connections after 45 seconds
   serverSelectionTimeoutMS: 5000, // Timeout for server selection
   socketTimeoutMS: 45000,     // Socket timeout

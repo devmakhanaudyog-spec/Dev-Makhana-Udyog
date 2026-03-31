@@ -3,12 +3,13 @@ import { Trash2 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-export default function ReviewsTab({ reviews, loadData }) {
+export default function ReviewsTab({ reviews, loadData, loadReviewsData }) {
   const handleApprove = async (reviewId) => {
     try {
       await axios.put(`/api/admin/reviews/${reviewId}`, { approved: true });
       toast.success('Review approved');
-      loadData();
+      if (typeof loadReviewsData === 'function') await loadReviewsData();
+      else await loadData();
     } catch (error) {
       toast.error('Failed to approve review');
     }
@@ -19,7 +20,8 @@ export default function ReviewsTab({ reviews, loadData }) {
     try {
       await axios.delete(`/api/admin/reviews/${reviewId}`);
       toast.success('Review deleted');
-      loadData();
+      if (typeof loadReviewsData === 'function') await loadReviewsData();
+      else await loadData();
     } catch (error) {
       toast.error('Failed to delete review');
     }

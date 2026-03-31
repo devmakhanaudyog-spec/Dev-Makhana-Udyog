@@ -3,7 +3,7 @@ import { Plus, Trash2, X } from 'lucide-react';
 import axios from '../../utils/api.js';
 import toast from 'react-hot-toast';
 
-export default function CouponsTab({ coupons, loadData }) {
+export default function CouponsTab({ coupons, loadData, loadCouponsData }) {
   const [showAddForm, setShowAddForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState(null);
@@ -75,7 +75,8 @@ export default function CouponsTab({ coupons, loadData }) {
         active: true
       });
       setShowAddForm(false);
-      loadData();
+      if (typeof loadCouponsData === 'function') await loadCouponsData();
+      else await loadData();
     } catch (error) {
       console.error('Create coupon error:', error);
       toast.error(error.response?.data?.error || 'Failed to create coupon');
@@ -91,7 +92,8 @@ export default function CouponsTab({ coupons, loadData }) {
     try {
       await axios.delete(`/api/coupons/${couponId}`);
       toast.success('Coupon deleted successfully');
-      loadData();
+      if (typeof loadCouponsData === 'function') await loadCouponsData();
+      else await loadData();
     } catch (error) {
       console.error('Delete coupon error:', error);
       toast.error('Failed to delete coupon');
@@ -144,7 +146,8 @@ export default function CouponsTab({ coupons, loadData }) {
       toast.success('Coupon updated');
       setEditingCoupon(null);
       setEditForm(null);
-      loadData();
+      if (typeof loadCouponsData === 'function') await loadCouponsData();
+      else await loadData();
     } catch (error) {
       console.error('Update coupon error:', error);
       toast.error(error.response?.data?.error || 'Failed to update coupon');

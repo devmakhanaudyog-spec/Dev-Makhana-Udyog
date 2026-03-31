@@ -40,6 +40,77 @@ export default function AdminDashboard() {
   const [reviews, setReviews] = useState([]);
   const [products, setProducts] = useState([]);
 
+  const loadOrdersData = useCallback(async () => {
+    try {
+      const ordersRes = await axios.get('/api/admin/orders').catch(() => ({ data: { orders: [] } }));
+      setOrders(ordersRes.data.orders || []);
+    } catch (error) {
+      console.error('Orders load error:', error);
+      setOrders([]);
+    }
+  }, []);
+
+  const loadMessagesData = useCallback(async () => {
+    try {
+      const messagesRes = await axios.get('/api/admin/messages').catch(() => ({ data: { messages: [] } }));
+      setMessages(messagesRes.data.messages || []);
+    } catch (error) {
+      console.error('Messages load error:', error);
+      setMessages([]);
+    }
+  }, []);
+
+  const loadCouponsData = useCallback(async () => {
+    try {
+      const couponsRes = await axios.get('/api/admin/coupons').catch(() => ({ data: [] }));
+      setCoupons(couponsRes.data || []);
+    } catch (error) {
+      console.error('Coupons load error:', error);
+      setCoupons([]);
+    }
+  }, []);
+
+  const loadFreeSamplesData = useCallback(async () => {
+    try {
+      const samplesRes = await axios.get('/api/admin/free-samples').catch(() => ({ data: { samples: [] } }));
+      setFreeSamples(samplesRes.data.samples || []);
+    } catch (error) {
+      console.error('Free samples load error:', error);
+      setFreeSamples([]);
+    }
+  }, []);
+
+  const loadBulkOrdersData = useCallback(async () => {
+    try {
+      const bulkRes = await axios.get('/api/admin/bulk-orders').catch(() => ({ data: { bulkOrders: [] } }));
+      setBulkOrders(bulkRes.data.bulkOrders || []);
+    } catch (error) {
+      console.error('Bulk orders load error:', error);
+      setBulkOrders([]);
+    }
+  }, []);
+
+  const loadReviewsData = useCallback(async () => {
+    try {
+      const reviewsRes = await axios.get('/api/admin/reviews').catch(() => ({ data: { reviews: [] } }));
+      setReviews(reviewsRes.data.reviews || []);
+    } catch (error) {
+      console.error('Reviews load error:', error);
+      setReviews([]);
+    }
+  }, []);
+
+  // Lightweight reload for product operations to avoid hammering all admin endpoints
+  const loadProductsData = useCallback(async () => {
+    try {
+      const productsRes = await axios.get('/api/admin/products').catch(() => ({ data: [] }));
+      setProducts(productsRes.data || []);
+    } catch (error) {
+      console.error('Products load error:', error);
+      setProducts([]);
+    }
+  }, []);
+
   // Load dashboard data
   const loadDashboardData = useCallback(async () => {
     try {
@@ -178,15 +249,15 @@ export default function AdminDashboard() {
 
             {/* Tab Content */}
             {activeTab === 'overview' && <OverviewTab overview={overview} />}
-            {activeTab === 'orders' && <OrdersTab orders={orders} loadData={loadDashboardData} />}
-            {activeTab === 'bulkOrders' && <BulkOrdersTab bulkOrders={bulkOrders} loadData={loadDashboardData} />}
-            {activeTab === 'freeSamples' && <FreeSamplesTab freeSamples={freeSamples} loadData={loadDashboardData} />}
-            {activeTab === 'products' && <ProductsTab products={products} loadData={loadDashboardData} />}
-            {activeTab === 'messages' && <MessagesTab messages={messages} loadData={loadDashboardData} />}
+            {activeTab === 'orders' && <OrdersTab orders={orders} loadData={loadDashboardData} loadOrdersData={loadOrdersData} />}
+            {activeTab === 'bulkOrders' && <BulkOrdersTab bulkOrders={bulkOrders} loadData={loadDashboardData} loadBulkOrdersData={loadBulkOrdersData} />}
+            {activeTab === 'freeSamples' && <FreeSamplesTab freeSamples={freeSamples} loadData={loadDashboardData} loadFreeSamplesData={loadFreeSamplesData} />}
+            {activeTab === 'products' && <ProductsTab products={products} loadData={loadDashboardData} loadProductsData={loadProductsData} />}
+            {activeTab === 'messages' && <MessagesTab messages={messages} loadData={loadDashboardData} loadMessagesData={loadMessagesData} />}
             {activeTab === 'newsletter' && <NewsletterTab subscribers={subscribers} />}
             {activeTab === 'users' && <UsersTab users={users} />}
-            {activeTab === 'reviews' && <ReviewsTab reviews={reviews} loadData={loadDashboardData} />}
-            {activeTab === 'coupons' && <CouponsTab coupons={coupons} loadData={loadDashboardData} />}
+            {activeTab === 'reviews' && <ReviewsTab reviews={reviews} loadData={loadDashboardData} loadReviewsData={loadReviewsData} />}
+            {activeTab === 'coupons' && <CouponsTab coupons={coupons} loadData={loadDashboardData} loadCouponsData={loadCouponsData} />}
             {activeTab === 'analytics' && <AnalyticsTab overview={overview} orders={orders} />}
             {activeTab === 'settings' && (
               <SettingsTab

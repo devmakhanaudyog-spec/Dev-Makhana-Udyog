@@ -35,7 +35,7 @@ const parsePackagingSizes = (sizeString) => {
 };
 
 
-export default function BulkOrdersTab({ bulkOrders, loadData }) {
+export default function BulkOrdersTab({ bulkOrders, loadData, loadBulkOrdersData }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,11 +54,12 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
     if (!autoRefreshEnabled) return;
     
     const pollInterval = setInterval(() => {
-      loadData();
+      if (typeof loadBulkOrdersData === 'function') loadBulkOrdersData();
+      else loadData();
     }, 15000); // 15 seconds
 
     return () => clearInterval(pollInterval);
-  }, [autoRefreshEnabled, loadData]);
+  }, [autoRefreshEnabled, loadData, loadBulkOrdersData]);
 
   const handleStatusUpdate = useCallback(async (orderId, newStatus) => {
     if (!newStatus) return;
@@ -66,7 +67,8 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
     try {
       await axios.put(`/api/admin/bulk-orders/${orderId}`, { status: newStatus });
       toast.success(`Status updated to ${newStatus}`);
-      loadData();
+      if (typeof loadBulkOrdersData === 'function') await loadBulkOrdersData();
+      else await loadData();
       setEditingOrder(null);
     } catch (error) {
       console.error('Status update error:', error);
@@ -74,14 +76,15 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadBulkOrdersData]);
 
   const handleQuoteUpdate = useCallback(async (orderId, quotedPrice, adminNotes) => {
     setIsLoading(true);
     try {
       await axios.put(`/api/admin/bulk-orders/${orderId}`, { quotedPrice, adminNotes });
       toast.success('Quote and notes updated');
-      loadData();
+      if (typeof loadBulkOrdersData === 'function') await loadBulkOrdersData();
+      else await loadData();
       setEditingOrder(null);
     } catch (error) {
       console.error('Quote update error:', error);
@@ -89,7 +92,7 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadBulkOrdersData]);
 
   const handleDeleteOrder = useCallback(async (orderId) => {
     if (!window.confirm('Delete this bulk order request permanently?')) return;
@@ -97,14 +100,15 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
     try {
       await axios.delete(`/api/admin/bulk-orders/${orderId}`);
       toast.success('Bulk order deleted');
-      loadData();
+      if (typeof loadBulkOrdersData === 'function') await loadBulkOrdersData();
+      else await loadData();
     } catch (error) {
       console.error('Delete error:', error);
       toast.error('Failed to delete bulk order');
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadBulkOrdersData]);
 
   const baseList = statusFilter === 'all' ? localBulkOrders : localBulkOrders.filter(o => o.status === statusFilter);
   const ql = q.trim().toLowerCase();
@@ -127,7 +131,10 @@ export default function BulkOrdersTab({ bulkOrders, loadData }) {
         <h1 className="text-3xl font-bold text-slate-900">Bulk Orders Management</h1>
         <div className="flex items-center gap-3 flex-wrap">
           <button
-            onClick={() => loadData()}
+            onClick={() => {
+              if (typeof loadBulkOrdersData === 'function') loadBulkOrdersData();
+              else loadData();
+            }}
             title="Refresh bulk orders"
             className="p-2 hover:bg-slate-100 rounded-lg transition"
           >

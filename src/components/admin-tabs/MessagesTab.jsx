@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-export default function MessagesTab({ messages, loadData }) {
+export default function MessagesTab({ messages, loadData, loadMessagesData }) {
   const [selected, setSelected] = useState(null);
   const [q, setQ] = useState('');
   const ql = q.trim().toLowerCase();
@@ -9,7 +9,8 @@ export default function MessagesTab({ messages, loadData }) {
     if (!window.confirm('Delete this message?')) return;
     try {
       await axios.delete(`/api/admin/messages/${msgId}`);
-      if (typeof loadData === 'function') loadData();
+      if (typeof loadMessagesData === 'function') loadMessagesData();
+      else if (typeof loadData === 'function') loadData();
     } catch (err) {
       alert('Delete failed');
     }

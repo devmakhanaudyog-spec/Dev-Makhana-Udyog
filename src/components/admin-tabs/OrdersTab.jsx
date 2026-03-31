@@ -3,7 +3,7 @@ import { Eye, Trash2, Edit2, X, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-export default function OrdersTab({ orders, loadData }) {
+export default function OrdersTab({ orders, loadData, loadOrdersData }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [editingOrder, setEditingOrder] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -22,11 +22,12 @@ export default function OrdersTab({ orders, loadData }) {
     if (!autoRefreshEnabled) return;
     
     const pollInterval = setInterval(() => {
-      loadData();
+      if (typeof loadOrdersData === 'function') loadOrdersData();
+      else loadData();
     }, 15000); // 15 seconds
 
     return () => clearInterval(pollInterval);
-  }, [autoRefreshEnabled, loadData]);
+  }, [autoRefreshEnabled, loadData, loadOrdersData]);
 
   // Listen for real-time cancellation events from customer side
   useEffect(() => {
@@ -48,7 +49,8 @@ export default function OrdersTab({ orders, loadData }) {
     try {
       await axios.put(`/api/admin/orders/${orderId}`, { status: newStatus });
       toast.success(`Order status updated to ${newStatus}`);
-      loadData();
+      if (typeof loadOrdersData === 'function') await loadOrdersData();
+      else await loadData();
       setEditingOrder(null);
     } catch (error) {
       console.error('Status update error:', error);
@@ -64,14 +66,15 @@ export default function OrdersTab({ orders, loadData }) {
     try {
       await axios.delete(`/api/admin/orders/${orderId}`);
       toast.success('Order deleted successfully');
-      loadData();
+      if (typeof loadOrdersData === 'function') await loadOrdersData();
+      else await loadData();
     } catch (error) {
       console.error('Delete error:', error);
       toast.error(error.response?.data?.error || 'Failed to delete order');
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadOrdersData]);
 
   const baseList = statusFilter === 'all' ? localOrders : localOrders.filter(o => o.status === statusFilter);
   const ql = q.trim().toLowerCase();
@@ -88,7 +91,10 @@ export default function OrdersTab({ orders, loadData }) {
         <h1 className="text-3xl font-bold text-slate-900">Orders Management</h1>
         <div className="flex items-center gap-3 flex-wrap">
           <button
-            onClick={() => loadData()}
+            onClick={() => {
+              if (typeof loadOrdersData === 'function') loadOrdersData();
+              else loadData();
+            }}
             title="Refresh orders"
             className="p-2 hover:bg-slate-100 rounded-lg transition"
           >

@@ -5,7 +5,7 @@ import { Edit2, Trash2, Plus, ToggleLeft, ToggleRight, X } from 'lucide-react';
 import axios from '../../utils/api.js';
 import toast from 'react-hot-toast';
 
-export default function ProductsTab({ products, loadData }) {
+export default function ProductsTab({ products, loadData, loadProductsData }) {
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ price: 0, originalPrice: 0, discount: 0, stock: 0, moq: '', active: true });
   const [addOpen, setAddOpen] = useState(false);
@@ -61,9 +61,13 @@ export default function ProductsTab({ products, loadData }) {
       });
       toast.success('Product details updated');
       setEditingId(null);
-      loadData();
+      await (typeof loadProductsData === 'function' ? loadProductsData() : loadData());
     } catch (error) {
-      toast.error('Failed to update product details');
+      if (error.response?.status === 429) {
+        toast.error('Rate limit reached, wait 15 min or retry.');
+      } else {
+        toast.error('Failed to update product details');
+      }
     }
   };
 
@@ -76,9 +80,13 @@ export default function ProductsTab({ products, loadData }) {
       });
       toast.success('Product image updated');
       setEditingId(null);
-      loadData();
+      await (typeof loadProductsData === 'function' ? loadProductsData() : loadData());
     } catch (error) {
-      toast.error('Failed to update product image');
+      if (error.response?.status === 429) {
+        toast.error('Rate limit reached, wait 15 min or retry.');
+      } else {
+        toast.error('Failed to update product image');
+      }
     }
   };
 
@@ -106,9 +114,11 @@ export default function ProductsTab({ products, loadData }) {
         name: '', productId: '', price: '', originalPrice: '', description: '', category: 'Makhana',
         grade: '', popRate: '', moisture: '', packaging: '', use: '', moq: '', stock: 0, mainImage: '', images: '', active: true
       });
-      loadData();
+      await (typeof loadProductsData === 'function' ? loadProductsData() : loadData());
     } catch (error) {
-      const msg = error.response?.data?.error || 'Failed to add product';
+      const msg = error.response?.status === 429
+        ? 'Rate limit reached, wait 15 min or retry.'
+        : (error.response?.data?.error || 'Failed to add product');
       toast.error(msg);
     }
   };
@@ -118,9 +128,13 @@ export default function ProductsTab({ products, loadData }) {
     try {
       await axios.delete(`/api/admin/products/${productId}`);
       toast.success('Product deleted');
-      loadData();
+      await (typeof loadProductsData === 'function' ? loadProductsData() : loadData());
     } catch (error) {
-      toast.error('Failed to delete product');
+      if (error.response?.status === 429) {
+        toast.error('Rate limit reached, wait 15 min or retry.');
+      } else {
+        toast.error('Failed to delete product');
+      }
     }
   };
 

@@ -22,6 +22,18 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
+    const status = error.response?.status;
+    const reqUrl = error.config?.url || '';
+    const isAdminOrAuthRequest = reqUrl.includes('/api/admin') || reqUrl.includes('/api/auth');
+
+    if (status === 429 && isAdminOrAuthRequest) {
+      const originalData = error.response?.data || {};
+      error.response.data = {
+        ...originalData,
+        error: 'Rate limit reached, wait 15 min or retry.'
+      };
+    }
+
     if (isDev) {
       console.error('API Error:', error.response?.status, error.response?.data || error.message);
     }
