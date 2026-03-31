@@ -58,7 +58,7 @@ export default function OrdersTab({ orders, loadData, loadOrdersData }) {
     } finally {
       setIsLoading(false);
     }
-  }, [loadData]);
+  }, [loadData, loadOrdersData]);
 
   const handleDeleteOrder = useCallback(async (orderId) => {
     if (!window.confirm('Delete this order permanently? This action cannot be undone.')) return;
